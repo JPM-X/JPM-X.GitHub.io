@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>VR Maze Challenge: How I Did It - Maker Blog</title>
+	<meta name="description" content="VR Maze Challenge I created.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#d25469">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#d25469">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#d25469">
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  
+<header class="main_header">
+  <a href="/" class="logo">Maker Blog</a>
+  <nav class="main_menu">
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</header> <!-- End Section Header -->
+
+<main class="post_content">
+  <article class="post">
+    <header>
+      <div class="post_image">
+        <img src=/assets/img/PostImageVRMaze.png alt="VR Maze Challenge: How I Did It">
+      </div>
+      <div class="post_description">
+        <p class="post_meta">2018, Feb 19</p>
+        <h1 class="post_title">VR Maze Challenge: How I Did It</h1>
+      </div>
+    </header> <!-- End Header -->
+
+    <div class="entry_content">
+      <h1 id="vr-maze-challenge-how-i-did-it"><strong>VR Maze Challenge: How I Did It</strong></h1>
+<p>VR Maze Challenge is meant to provide unique virtual reality maze experience. Each level presents a unique maze with a different challenge. The prototype consists of two levels, Maze 1 and Maze 2.</p>
+
+<p>Maze 1 is designed from the terrain itself. Lighting provides the player a way to navigate the maze, bluer being closer to the exit. Monster NPCs roam the maze and will send the player back to the beginning of Maze 1.</p>
+
+<p>Maze 2 was imported from Rhino 3D providing a more manufactured look and feel. Maze 2 is composed of two parts. The maze the player navigates and the map which is far below the maze. The maze has a transparent floor so the player can look down to navigate the maze. Additionally, the player must pick up collectables to open the door of the corresponding color and advance. There are 3 doors blue, red, and yellow with 10 collectables each. Lastly Maze 2 also has Alien NPCs that will send the player back to the previously opened door.</p>
+
+<h2 id="the-mazes"><em>The Mazes</em></h2>
+<p><strong>Maze 1</strong>
+<img src="https://i.imgur.com/ddH1M0Y.png?1" alt="Imgur" /></p>
+
+<p><strong>Terrain</strong><br />
+To generate Maze 1 I used a simple online <a href="http://www.mazegenerator.net">maze generator</a>. This exported the maze into a .png file.
+<img src="https://i.imgur.com/zkeq9eD.png?1" alt="Imgur" /></p>
+
+<p>I then imported the png into my Unity project. I wanted the maze to be built from the mountains. To do this I applied the png as a texture to a blank terrain.<br />
+<img src="https://i.imgur.com/uBtXfmi.png?1" alt="Imgur" />
+This allowed me to create the mountains by simply following the lines of the maze.<br />
+<img src="https://i.imgur.com/V9BlcpT.png?1" alt="Imgur" />
+<strong>Texture &amp; Sky</strong><br />
+I wanted the mountains to appear rocky with a more grass-like walking path. I downloaded a few free textures from the Unity Store and began to try them out. The first texture that is applied is the base texture and covers the entire terrain so I began with the rock texture.<br />
+<img src="https://i.imgur.com/VyxygLm.png?1" alt="Imgur" />
+Next I applied my walking path texture. I painted the texture in and soon had a mountainous maze. Lastly I applied a sky, called a skybox in Unity. I found some in the Unity Store and tried them out, landing on a nice night sky.
+<img src="https://i.imgur.com/ybPyGIU.jpg?1" alt="Imgur" /></p>
+
+<p><strong>Lights</strong><br />
+The last component to the physical maze would be the lights. I used 9 different point lights to shade the maze from red to blue. I aligned one point light then duplicated it 8 times, repositioned them and colored them. Then I increased the intensity a little then increased the rage considerably, bathing the maze in soft, colored light.
+<img src="https://i.imgur.com/ddH1M0Y.png?1" alt="Imgur" /></p>
+
+<p><strong>Maze 2</strong><br />
+<img src="https://i.imgur.com/108QoSl.png?1" alt="Imgur" /></p>
+
+<p><strong>Maze Generator &amp; Rhino</strong><br />
+To create Maze 2 I used a <a href="https://github.com/rjduran/mazegenerator">maze generator from GitHub</a> my professor recommended. I downloaded the Repo and after some experimenting downloaded a maze that was more difficult than the first.<br />
+<img src="https://i.imgur.com/5A3IlfE.png?1" alt="Imgur" />
+This exported a .svg file. I imported that into Adobe Illustrator then saved that as a .ai Illustrator file. This file type could be opened in Rhino3D. I extruded the curves and offset them to give the maze walls thickness.<br />
+<img src="https://i.imgur.com/rHR9Bq8.png?1" alt="Imgur" />
+I saved this file out as a .obj and imported the file into my Unity project.<br />
+<strong>Mesh Colliders</strong><br />
+I scaled and positioned the maze on top of an invisible plane allowing the player to look through the floor to the map maze below. It is important to check convex on the mesh collider of the maze walls or the player could run through them. This simple checkbox was a pain point and took way too long to find.<br />
+<img src="https://i.imgur.com/DFF8kPX.png?1" alt="Imgur" />
+<strong>Walls &amp; Collectable Items</strong><br />
+Next I added in the collectables and corresponding walls. I created three different prefabs for the collectables, blue, red and yellow. Each one was simply a cube set to float above the ground, colored with a shader and scripted to rotate.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Rotate : MonoBehaviour {
+
+	void Update ()
+	{
+		transform.Rotate (new Vector3 (15, 30, 45) * Time.deltaTime);
+	}
+}
+
+</code></pre></div></div>
+
+<p>Each wall is a cube, transformed to be the same shape as the maze walls and colored with the same shader as it’s corresponding collectable. The script that destroys the walls will be covered later.<br />
+<img src="https://i.imgur.com/CN6aCMr.png?1" alt="Imgur" /><br />
+<img src="https://i.imgur.com/IikEaL8.png?1" alt="Imgur" />
+<strong>Lights</strong><br />
+Similar to Maze 1 I created several point lights to give the maze some color and differentiate each section, blue section, red section and yellow section. The maze’s white walls were easily illuminated but I still increased intensity and rage to bathe the entire maze in light.<br />
+<img src="https://i.imgur.com/108QoSl.png?1" alt="Imgur" />
+<strong>Map Layer &amp; Player Location</strong><br />
+Next I created the map layer. I simply duplicated everything and moved it straight down so the player could see most of it from above. To create the player location marker I used a sphere illuminated by a spotlight. A simple script would allow the sphere and light to follow the player on the map layer.<br />
+<img src="https://i.imgur.com/YPTmHMO.png?1" alt="Imgur" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FollowObject : MonoBehaviour {
+
+	public GameObject player;
+	//private GameObject g;
+	public float yOffset = -100f;
+	public float xOffset = 0;
+	public float zOffset = 0;
+
+	// Update is called once per frame
+	void Start()
+	{
+		//g = GameObject.Find("Sphere A");
+		//Debug.Log(g.name);
+	}
+
+	void Update () {
+
+		transform.position = player.transform.position + new Vector3(xOffset,yOffset,zOffset);
+
+	}
+}
+</code></pre></div></div>
+
+<h2 id="the-text"><em>The Text</em></h2>
+
+<p><strong>The Messages</strong><br />
+As with any game, message throughout are needed. I created 11 different messages that do things like introduce the Mazes, tell you if you’re hot or cold, keep score and congratulate you when you finish.
+<img src="https://i.imgur.com/6trL12Z.png?1" alt="Imgur" /></p>
+
+<p><strong>The Canvas</strong><br />
+When I created the first text element Unity also created the Canvas. The Canvas is where all UI components live, including all text. It shows where the text will display in the camera view. To display the text in a traditional game the render mode on the canvas needed to be set to Screenspace-Overlay wich uses the view of the main camera. For a VR game, Screenspace-Camera is the correct setting. This will place the canvas in the view of the VR camera.<br />
+With all my messages on the canvas it looked like a big jumble.<br />
+<img src="https://i.imgur.com/HWy2lKS.png?1" alt="Imgur" />
+I would need to use triggers and scripting to show each message only when a specific event occurs.</p>
+
+<h2 id="the-triggers"><strong>The Triggers</strong></h2>
+
+<p><strong>The Need</strong><br />
+I needed triggers for almost every element of the game; showing messages, playing sounds &amp; music, keeping score and interacting with the NPCs.<br />
+<strong>Trigger Objects</strong><br />
+Each trigger needed a trigger object with a mesh collider that is checked trigger. For showing messages, playing sounds and music I used an empty game object. This created an invisible object that the player can pass through unknowingly but will trigger an event. For keeping score the trigger objects are the collectables and for interacting with the NPCs, I added a capsule collider.<br />
+<strong>The Code</strong><br />
+I am still pretty new at C# but I was able to use examples I found online and after some debugging I had several working scripts.</p>
+
+<p><em>Activate:</em> This script is attached to an empty game object and is used to activate a specific game object on trigger.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Activate : MonoBehaviour {
+
+	public GameObject triggeredObject;
+
+	void Start () {
+		triggeredObject.SetActive (false); //Turns object off on start of scene
+	}
+
+	void OnTriggerEnter (Collider player) {
+			triggeredObject.SetActive (true); //Turns object on when collider is entered
+	}
+}
+</code></pre></div></div>
+
+<p><em>Collect &amp; Count:</em> This script is attached to the player and is used to pick up collectables and keep score.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class CollectCount : MonoBehaviour {
+
+	public Text blueCount; //Set the text object in inspector
+	public Text redCount;
+	public Text yellowCount;
+	public GameObject bluePickUp; //Set the pick up objects in inspector
+	public GameObject yellowPickUp;
+	public GameObject redPickUp;
+	public GameObject blueWall; //Set the walls in inspector
+	public GameObject redWall;
+	public GameObject yellowWall;
+	private int blueInt; //counts the collectables when picked up
+	private int redInt;
+	private int yellowInt;
+	public AudioClip collect; //Set the collect sound in inspector
+    public AudioClip destroy; //Set the wall destory sound in inspector
+	private AudioSource source; //Uses the AudioSource component in inspector
+
+	void Start ()
+	{
+		blueInt = 0; //set counts to 0 when game starts
+		redInt = 0;
+		yellowInt = 0;
+		SetBlueCount (); //Initializes count function
+		SetRedCount ();
+		SetYellowCount ();
+		source = GetComponent&lt;AudioSource&gt; (); Calls AudioSource Component int inspector
+
+	}
+
+
+	void OnTriggerEnter(Collider col)
+	{
+		Debug.Log (col.gameObject.name);
+		if (col.gameObject.tag == "Blue Pick Up") //When game object with tag "Blue Pick Up" is hit by player collider...
+		{
+			col.gameObject.SetActive (false); //set collectable to inactive
+			blueInt = blueInt + 1; //adds 1 to collectable count
+			SetBlueCount (); //Calls count function
+			source.PlayOneShot (collect); //play collect sound once
+		}
+			if (col.gameObject.tag == "Red Pick Up")
+		{
+			col.gameObject.SetActive (false);
+			redInt = redInt + 1;
+			SetRedCount ();
+			source.PlayOneShot (collect);
+		}
+				if (col.gameObject.tag == "Yellow Pick Up")
+		{
+			col.gameObject.SetActive (false);
+			yellowInt = yellowInt + 1;
+			SetYellowCount ();
+			source.PlayOneShot (collect);
+		}
+	}
+
+
+	void SetBlueCount ()
+	{
+		blueCount.text = "Blue Count: " + blueInt.ToString (); //counts collectables and converts to string to be displayed
+		if (blueInt &gt;= 10) //If count is greater than or equal to 10...
+		{
+			blueWall.SetActive(false); //set wall in inactive
+            source.PlayOneShot(destroy); //play destroy sound once
+		}
+	}
+	void SetRedCount ()
+	{
+		redCount.text = "Red Count: " + redInt.ToString ();
+		if (redInt &gt;= 10)
+		{
+			redWall.SetActive(false);
+            source.PlayOneShot(destroy);
+        }
+	}
+	void SetYellowCount ()
+	{
+		yellowCount.text = "Yellow Count: " + yellowInt.ToString ();
+		if (yellowInt &gt;= 10)
+		{
+			yellowWall.SetActive(false);
+            source.PlayOneShot(destroy);
+        }
+	}
+}
+</code></pre></div></div>
+
+<p><em>Play Sound, Start Music, Stop Music:</em> These scrips game me some trouble and in the future I hope to combine them. They are attached to any trigger object that is used to play a sound, start or stop music.
+<em>Play Sound:</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class playSound : MonoBehaviour {
+
+	public AudioClip sound; //Set sound in inspector
+	private AudioSource source; //uses audioSource component
+
+	void Start () {
+		source = GetComponent&lt;AudioSource&gt; (); //sets source variable to use AudioSource conmpnent in inspector
+	}
+
+	void OnTriggerEnter (Collider player)
+	{
+		if (player.gameObject.tag == "Player") { //if player object tagged "Player" hits object collider...
+			source.PlayOneShot (sound); //play sound once
+		}
+	}
+}
+</code></pre></div></div>
+<p><em>Play Music:</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class playMusic: MonoBehaviour {
+
+	private AudioSource m_MyAudioSource; //Uses audio Source in inspector
+
+	void Start()
+	{
+		m_MyAudioSource = GetComponent&lt;AudioSource&gt;();
+	}
+
+	void OnTriggerEnter(Collider other) //when collider is triggered...
+	{
+			m_MyAudioSource.Play(); //play audio set in AudioSource component in inspector
+	}
+}
+</code></pre></div></div>
+<p><em>Stop Music:</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class stopMusic: MonoBehaviour {
+
+	private AudioSource m_MyAudioSource; //Uses audio Source in inspector
+
+	void Start()
+	{
+		m_MyAudioSource = GetComponent&lt;AudioSource&gt;();
+	}
+
+	void OnTriggerEnter(Collider other) //when collider is triggered...
+	{
+		if (other.gameObject.tag == "Player")
+		{
+			m_MyAudioSource.Stop(); //stop audio set in AudioSource component in inspector
+		}
+
+	}
+}
+</code></pre></div></div>
+
+<p><em>Show Score:</em> This script is attached to an empty game object and is used to show the score text only when triggered.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ShowScore : MonoBehaviour
+{
+
+	public GameObject uiObject1; //set text objects in inspector
+	public GameObject uiObject2;
+	public GameObject uiObject3;
+
+	void Start ()
+	{
+		uiObject1.SetActive (false); //on start deactivate text
+		uiObject2.SetActive (false);
+		uiObject3.SetActive (false);
+	}
+	// Update is called once per frame
+	void OnTriggerEnter (Collider player)
+	{
+		if (player.gameObject.tag == "Player") { //when object tagged player enters object collider...
+			uiObject1.SetActive (true); //show text objects
+			uiObject2.SetActive (true);
+			uiObject3.SetActive (true);
+		}
+	}
+}
+</code></pre></div></div>
+
+<p><em>Show UI:</em> This script is attached to an empty game object and is used to only show text when triggered, it then destroys the empty game object so it cannot be triggered again.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ShowUI : MonoBehaviour {
+
+	public GameObject uiObject; //text to be triggered. Set in inspector
+	void Start()
+	{
+		uiObject.SetActive(false); //disable text on start
+	}
+
+	void OnTriggerEnter (Collider player)
+	{
+		if (player.gameObject.tag == "Player") //when object tagged "Player" enters object collider...
+		{
+			uiObject.SetActive(true); //Show text
+			StartCoroutine("WaitForSec"); //starts "WaitForSec" routine
+		}
+	}
+	IEnumerator WaitForSec()
+	{
+		yield return new WaitForSeconds(5); //wait for 5 seconds
+		Destroy(uiObject); //destroy text object
+		Destroy(gameObject); //destory trigger object
+	}
+}
+</code></pre></div></div>
+<h2 id="the-npcs"><strong>The NPCs</strong></h2>
+<p>For each maze I wanted a different NPC. Monsters seemed ideal for the first maze and aliens seemed to work well for the second. I found both in the store.<br />
+<img src="https://i.imgur.com/yKNB9lU.png?1" alt="Imgur" />
+<img src="https://i.imgur.com/7wIdRnu.png?1" alt="Imgur" />
+<strong>The Needs</strong><br />
+I needed all my NPC’s to patrol the maze they are on and if they catch the player, send them back to a specific location. <br />
+<strong>The Code</strong>
+Most of the code was included in the prefabs that downloaded from the store but I still needed a couple scripts.</p>
+
+<p><strong>NPC Patrol:</strong> This script is attached to the NPCs and allows then to patrol a series of points that is set in the inspector.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class npcPatrol : MonoBehaviour {
+
+	public Transform[] points;
+	private int destPoint = 0;
+	private NavMeshAgent agent;
+
+
+	void Start () {
+		agent = GetComponent&lt;NavMeshAgent&gt;();
+
+		// Disabling auto-braking allows for continuous movement
+		// between points (ie, the agent doesn't slow down as it
+		// approaches a destination point).
+		agent.autoBraking = false;
+
+		GotoNextPoint();
+	}
+
+
+	void GotoNextPoint() {
+		// Returns if no points have been set up
+		if (points.Length == 0)
+			return;
+
+		// Set the agent to go to the currently selected destination.
+		agent.destination = points[destPoint].position;
+
+		// Choose the next point in the array as the destination,
+		// cycling to the start if necessary.
+		destPoint = (destPoint + 1) % points.Length;
+	}
+
+
+	void Update () {
+		// Choose the next destination point when the agent gets
+		// close to the current one.
+		if (!agent.pathPending &amp;&amp; agent.remainingDistance &lt; 0.5f)
+			GotoNextPoint();
+	}
+}
+</code></pre></div></div>
+
+<p><strong>Caught:</strong> This script is also attached to the NPCs and uses a trigger command to send the player to a certain position when caught.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Caught : MonoBehaviour {
+
+	public GameObject player; //player object
+	public float x; //x position value
+	public float y; //y position value
+	public float z; //z position value
+	public AudioClip caught; //caught sound
+	private AudioSource source; //audio source
+
+	void Start () {
+		source = GetComponent&lt;AudioSource&gt; (); //Calls the audio source component in the inspector
+	}
+
+	void OnTriggerEnter (Collider player) {
+		if (player.gameObject.tag == "Player")
+		{
+			player.transform.position = new Vector3(x, y, z); //Changes player position when player enters collider of NPC. Set position in Inspector
+			print(transform.position.x); //shows transformed position in console
+			source.PlayOneShot (caught); //Plays sound once when caught
+		}
+	}
+}
+</code></pre></div></div>
+
+<h2 id="conclusion"><strong>Conclusion</strong></h2>
+<p>with all elements in place I have a working maze game.<br />
+<img src="https://i.imgur.com/aID9RpU.png?1" alt="Imgur" />
+Next I would like to add additional maze levels and figure out how to build onto a playable platform.</p>
+
+    </div>
+    
+    <div class="post_wrapper">
+      <footer class="post_footer cf">
+        <div class="post_share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=VR Maze Challenge: How I Did It&url=http://localhost:4000/VR-Maze-Challenge-How-I-Did-It/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/VR-Maze-Challenge-How-I-Did-It/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/VR-Maze-Challenge-How-I-Did-It/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+        </div>
+        <div class="post_tag">
+          <span>Tags:</span>
+          
+          <a href="/tags#VR" class="tag">VR</a>
+          
+          <a href="/tags#Virtual" class="tag">Virtual</a>
+          
+          <a href="/tags#Reality" class="tag">Reality</a>
+          
+          <a href="/tags#Maze" class="tag">Maze</a>
+          
+          <a href="/tags#Game" class="tag">Game</a>
+          
+        </div>
+      </footer>
+    </div>
+  </article> <!-- End Section Post -->
+
+  <section class="author cf">
+    <div class="post_wrapper">
+      <div class="author_image">
+        <img src="/assets/img/Headshot.jpg" alt="Author face">
+      </div>
+      <div class="author_info">
+        <h2 class="author_title">Jim Murphy</h2>
+        <p class="author_subtitle">Michigan born and raised. Colorado for grad school at CU-Boulder.</p>
+        <div class="author_social">
+          
+          <span class="author_email"><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:jamu6792@colorado.edu">jamu6792@colorado.edu</a></span>
+          
+          
+          
+          <span class="author_phone"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+496-169-65-57">(496)-169-6557</a></span>
+          
+
+          
+          <span class="author_website"><i class="fa fa-link" aria-hidden="true"></i> <a href="https://jimmurphy.studio" target="_blank">https://jimmurphy.studio</a></span>
+                      
+        </div>
+      </div>
+    </div>
+  </section> <!-- End Section Author -->
+
+  <section class="recent_box">
+    <div class="post_wrapper">
+      <h2 class="recent_title">Recent post</h2>
+      <div class="recent_list">
+        
+          
+            <a href="/stressMap/" class="recent_item" style="background-image: url( /assets/img/PostImagestressMap.jpg )"><span>stressMap a Node.js App</span></a>
+          
+        
+          
+            <a href="/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRPuzzle.png )"><span>Effugium Escape Room VR Puzzle: How I Did It</span></a>
+          
+        
+          
+            <a href="/VR-Maze-Challenge-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRMaze.png )"><span>VR Maze Challenge: How I Did It</span></a>
+          
+        
+          
+            <a href="/Smarter-Cat-Toy-Part-2/" class="recent_item" style="background-image: url( /assets/img/PostImageSmarterCatToy.PNG )"><span>Smarter Cat Toy: Part 2</span></a>
+          
+        
+          
+            <a href="/Assignment-8-Alexa,-Talk-To-Me/" class="recent_item" style="background-image: url( /assets/img/PostImageEcho.jpg )"><span>Assignment 8: Alexa, Talk To Me</span></a>
+          
+        
+          
+            <a href="/Creativ-Coding-Shop-Clock/" class="recent_item" style="background-image: url( /assets/img/PostImageShopClock.png )"><span>Creative Coding: Shop Clock</span></a>
+          
+        
+      </div>
+    </div>
+  </section> <!-- End Section Recent Box -->
+  
+  
+<section class="comment_area">
+  <div class="comment_wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-murphy.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Section Comment Area -->
+  
+</main> <!-- End Section Post Content -->
+
+
+<footer class="main_footer">
+  <div class="wrapper">
+    
+<ul class="social_footer">
+  
+  <li><a href="#" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a></li>      
+  
+  
+  <li><a href="https://twitter.com/wasgunnabut" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.instagram.com/wasgunnabut/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.facebook.com/wasgunnabut" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+  
+</ul>
+    <div class="copyright">
+      <p>&copy; 2018 All rights reserved. Design by <a href="https://artemsheludko.github.io" target="_blank">Artem Sheludko</a></p>
+    </div>
+  </div>
+</footer> <!-- End Section Footer -->
+
+
+  
+<div class="top" title="Top"><i class="fa fa-chevron-up" aria-hidden="true"></i></div> <!-- End Top Scroll -->
+  
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/assets/js/jquery.vide.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- End Javascript -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+</body>
+</html>

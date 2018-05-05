@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>stressMap a Node.js App - Maker Blog</title>
+	<meta name="description" content="Node.js app that shows the stress levels in the room.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#d25469">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#d25469">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#d25469">
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  
+<header class="main_header">
+  <a href="/" class="logo">Maker Blog</a>
+  <nav class="main_menu">
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</header> <!-- End Section Header -->
+
+<main class="post_content">
+  <article class="post">
+    <header>
+      <div class="post_image">
+        <img src=/assets/img/PostImagestressMap.jpg alt="stressMap a Node.js App">
+      </div>
+      <div class="post_description">
+        <p class="post_meta">2018, Apr 18</p>
+        <h1 class="post_title">stressMap a Node.js App</h1>
+      </div>
+    </header> <!-- End Header -->
+
+    <div class="entry_content">
+      <h1 id="stressmap-a-nodejs-app"><strong>stressMap a Node.js App</strong></h1>
+<p>Graduate school can be very stressful so for our node.js app assignment some classmates and I decided to build a stress map. Two buttons one red for stressed and one blue for not stressed when pressed create a visualization on a webpage that represented the cumulative stress of the people in the program.</p>
+
+<p>Four of us worked on this project to accomplish the steps needed</p>
+
+<h1 id="how-to-make-a-node-app"><em>How to Make a Node App</em></h1>
+
+<h2 id="the-hardware"><em>The Hardware</em></h2>
+
+<ul>
+  <li><a href="https://www.raspberrypi.org">Raspberry Pi 3</a> - The Raspberry Pi will act as our server. It will run the app and communicate with the browser.</li>
+  <li><a href="https://www.arduino.cc">Arduino Uno</a> - We used an Arduino Uno to drive our buttons. The Arduino has more inputs and outputs than the Pi, making it ideal to drive our buttons.</li>
+</ul>
+
+<p>Below is a sketch on how we set up our hardware.</p>
+
+<p><img src="https://i.imgur.com/uoktyfx.png?1" alt="Imgur" /></p>
+
+<h2 id="frameworks--libraries"><em>Frameworks &amp; Libraries</em></h2>
+
+<p><a href="http://mattisola.me">Matt Isola</a> and I worked on building the app.</p>
+
+<ul>
+  <li><a href="https://nodejs.org/en/">Node.js</a> - Creates a server from which the app can run.</li>
+  <li><a href="https://expressjs.com">Express.js</a> - We used it to create the website.</li>
+  <li><a href="http://johnny-five.io">Johnny-Five</a> - Allows for communication between the Raspberry Pi and Arduino.</li>
+  <li><a href="https://socket.io">Web Sockets (Sockets.io)</a> - Allows for communication between the client (browser) and the server. Also allows interaction from multiple browsers simultaneously.</li>
+</ul>
+
+<p>You can see all of our code <a href="https://github.com/wasgunnabut/stressMap">here</a>.</p>
+
+<p>The App is comprised of several parts.</p>
+<ul>
+  <li>An <a href="https://github.com/wasgunnabut/stressMap/blob/master/app.js">App.js</a> file that consists of the Johnny-Five and Web Sockets code.</li>
+  <li>Johnny-Five allows for communication between the Pi and the Arduino. When a button is pressed Johnny-Five relays that information back to the Pi and vice versa.</li>
+  <li>Web Sockets allows for communication between the browser and the Pi and allows for multiple users to be logged in and for their actions are seen across all users.<br />
+ Currently, we do not allow for browser side interactivity so Web Sockets simply let’s the browser know when a button has been pressed.</li>
+  <li>Express was used to create our webpage. We used Express to create a pug template. This allows us to easily update the web content in the future. It also allows us to have clean URL’s. Currently, we are not using Express to it’s full extent but wanted to get it set up for future iterations.</li>
+</ul>
+
+<p>This diagram is a visual representation of how it all fits together.</p>
+
+<p><img src="https://i.imgur.com/FoeDVd1.jpg?1" alt="Imgur" /></p>
+
+<h1 id="p5js-sketch-the-visualization"><em>p5.js Sketch: The Visualization</em></h1>
+<p>The visualization of the button input was developed by <a href="https://meredithleedesigns.blog/visualizing-moods-in-the-digital-world/">Meredith Fong</a> and <a href="https://sarahsafranski.wordpress.com/2018/04/19/enchanted-object/">Sara Safranski</a> using <a href="https://p5js.org">p5.js</a>, a javascript library that allows for <a href="https://processing.org">Processing</a> like sketches to be deployed on the web.</p>
+
+<p>This captivating sketch does an amazing job capturing the levels of stress in a visually stunning way. For more information on how they did it, visit their sites above.</p>
+
+<h2 id="integrating-the-sketch"><em>Integrating the Sketch</em></h2>
+<p>The only addition Matt and I needed to make to the sketch was to include some Web Sockets code. This connected the sketch to the Pi and through Johnny-Five, connected the sketch to the physical buttons. The result is when you push a button, the sketch responds. See the end result below.</p>
+
+<h1 id="the-result"><em>The Result</em></h1>
+
+<iframe src="https://player.vimeo.com/video/265508682" width="640" height="360" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/265508682">stressMap</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<h1 id="next-steps"><em>Next Steps</em></h1>
+<ul>
+  <li>We would like to add interactivity on the sites</li>
+  <li>Move the hardware to a more permanent build</li>
+  <li>Deploy the App to a server</li>
+  <li>Deploy app to a Magic Mirror platform</li>
+</ul>
+
+    </div>
+    
+    <div class="post_wrapper">
+      <footer class="post_footer cf">
+        <div class="post_share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=stressMap a Node.js App&url=http://localhost:4000/stressMap/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/stressMap/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/stressMap/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+        </div>
+        <div class="post_tag">
+          <span>Tags:</span>
+          
+          <a href="/tags#node.js" class="tag">node.js</a>
+          
+          <a href="/tags#express" class="tag">express</a>
+          
+          <a href="/tags#web sockets" class="tag">web sockets</a>
+          
+          <a href="/tags#stress" class="tag">stress</a>
+          
+          <a href="/tags#johnny five" class="tag">johnny five</a>
+          
+        </div>
+      </footer>
+    </div>
+  </article> <!-- End Section Post -->
+
+  <section class="author cf">
+    <div class="post_wrapper">
+      <div class="author_image">
+        <img src="/assets/img/Headshot.jpg" alt="Author face">
+      </div>
+      <div class="author_info">
+        <h2 class="author_title">Jim Murphy</h2>
+        <p class="author_subtitle">Michigan born and raised. Colorado for grad school at CU-Boulder.</p>
+        <div class="author_social">
+          
+          <span class="author_email"><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:jamu6792@colorado.edu">jamu6792@colorado.edu</a></span>
+          
+          
+          
+          <span class="author_phone"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+496-169-65-57">(496)-169-6557</a></span>
+          
+
+          
+          <span class="author_website"><i class="fa fa-link" aria-hidden="true"></i> <a href="https://jimmurphy.studio" target="_blank">https://jimmurphy.studio</a></span>
+                      
+        </div>
+      </div>
+    </div>
+  </section> <!-- End Section Author -->
+
+  <section class="recent_box">
+    <div class="post_wrapper">
+      <h2 class="recent_title">Recent post</h2>
+      <div class="recent_list">
+        
+          
+            <a href="/stressMap/" class="recent_item" style="background-image: url( /assets/img/PostImagestressMap.jpg )"><span>stressMap a Node.js App</span></a>
+          
+        
+          
+            <a href="/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRPuzzle.png )"><span>Effugium Escape Room VR Puzzle: How I Did It</span></a>
+          
+        
+          
+            <a href="/VR-Maze-Challenge-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRMaze.png )"><span>VR Maze Challenge: How I Did It</span></a>
+          
+        
+          
+            <a href="/Smarter-Cat-Toy-Part-2/" class="recent_item" style="background-image: url( /assets/img/PostImageSmarterCatToy.PNG )"><span>Smarter Cat Toy: Part 2</span></a>
+          
+        
+          
+            <a href="/Assignment-8-Alexa,-Talk-To-Me/" class="recent_item" style="background-image: url( /assets/img/PostImageEcho.jpg )"><span>Assignment 8: Alexa, Talk To Me</span></a>
+          
+        
+          
+            <a href="/Creativ-Coding-Shop-Clock/" class="recent_item" style="background-image: url( /assets/img/PostImageShopClock.png )"><span>Creative Coding: Shop Clock</span></a>
+          
+        
+      </div>
+    </div>
+  </section> <!-- End Section Recent Box -->
+  
+  
+<section class="comment_area">
+  <div class="comment_wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-murphy.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Section Comment Area -->
+  
+</main> <!-- End Section Post Content -->
+
+
+<footer class="main_footer">
+  <div class="wrapper">
+    
+<ul class="social_footer">
+  
+  <li><a href="#" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a></li>      
+  
+  
+  <li><a href="https://twitter.com/wasgunnabut" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.instagram.com/wasgunnabut/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.facebook.com/wasgunnabut" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+  
+</ul>
+    <div class="copyright">
+      <p>&copy; 2018 All rights reserved. Design by <a href="https://artemsheludko.github.io" target="_blank">Artem Sheludko</a></p>
+    </div>
+  </div>
+</footer> <!-- End Section Footer -->
+
+
+  
+<div class="top" title="Top"><i class="fa fa-chevron-up" aria-hidden="true"></i></div> <!-- End Top Scroll -->
+  
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/assets/js/jquery.vide.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- End Javascript -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+</body>
+</html>

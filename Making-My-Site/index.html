@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Making My First Site - Maker Blog</title>
+	<meta name="description" content="My journey into making this site using Markdown & Jekyll.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#d25469">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#d25469">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#d25469">
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  
+<header class="main_header">
+  <a href="/" class="logo">Maker Blog</a>
+  <nav class="main_menu">
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</header> <!-- End Section Header -->
+
+<main class="post_content">
+  <article class="post">
+    <header>
+      <div class="post_image">
+        <img src=/assets/img/PostImageMakingSite.png alt="Making My First Site">
+      </div>
+      <div class="post_description">
+        <p class="post_meta">2017, Sep 27</p>
+        <h1 class="post_title">Making My First Site</h1>
+      </div>
+    </header> <!-- End Header -->
+
+    <div class="entry_content">
+      <h1 id="making-my-first-site-this-one"><strong>Making My First Site (This One)</strong></h1>
+
+<h2 id="this-was-a-crash-course-into-how-to-code-with-markdown-then-use-a-static-site-generator-and-theme-to-build-the-code-and-then-how-to-get-it-online-i-went-through-a-couple-key-stages-to-get-here">This was a crash course into how to code with Markdown then use a static site generator and theme to build the code and then how to get it online. I went through a couple key stages to get here.</h2>
+
+<ul>
+  <li>
+    <h3 id="installing-jekyll"><strong><em>Installing Jekyll</em></strong></h3>
+  </li>
+  <li>
+    <h4 id="updating-ruby"><strong>Updating Ruby</strong></h4>
+  </li>
+  <li>
+    <h4 id="updating-rubygems"><strong>Updating RubyGems</strong></h4>
+  </li>
+  <li>
+    <h3 id="using-jekyll"><strong><em>Using Jekyll</em></strong></h3>
+  </li>
+  <li>
+    <h4 id="generating-default-jekyll-site"><strong>Generating default Jekyll Site</strong></h4>
+  </li>
+  <li>
+    <h4 id="getting-my-post-into-default-site"><strong>Getting my post into Default Site</strong></h4>
+  </li>
+  <li>
+    <h3 id="applying-a-theme"><strong><em>Applying a theme</em></strong></h3>
+  </li>
+  <li>
+    <h4 id="generate-theme-site"><strong>Generate theme site</strong></h4>
+  </li>
+  <li>
+    <h4 id="customize-theme"><strong>Customize theme</strong></h4>
+  </li>
+  <li>
+    <h3 id="boom-its-beautiful"><strong><em>Boom! It’s beautiful!</em></strong></h3>
+  </li>
+  <li>
+    <h3 id="upload-to-domain"><strong><em>Upload to domain</em></strong></h3>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="installing-jekyll-1"><strong><em>Installing Jekyll</em></strong></h3>
+<p>First, what is Jekyll. Jekyll is a static site generator that will take .md posts, a theme and generate the html and css necessary to launch. Jekyll required several things to install:</p>
+
+<ul>
+  <li>Ruby 2.0 or higher</li>
+  <li>RubyGems</li>
+  <li>GCC &amp; Make</li>
+</ul>
+
+<p>(Image of Jekyll install reqs)</p>
+
+<p><img src="https://i.imgur.com/jfqSNGL.png?1" alt="Imgur" /></p>
+
+<p>I started with Ruby:</p>
+
+<h4 id="ruby"><strong>Ruby</strong></h4>
+
+<p>Jekyll required Ruby 2.1 or higher. My Ruby was at 2.0 so I needed to update…
+So, I went to Ruby’s site to figure out how to update for mac.</p>
+
+<p>I visited the install page.</p>
+
+<p><img src="https://i.imgur.com/X8SfK8m.png?1" alt="Imgur" /></p>
+
+<p>They say use Homebrew for Mac OS X so off to their site…</p>
+
+<p><img src="https://i.imgur.com/KnkBUBu.png?1" alt="Imgur" /></p>
+
+<p>Clear and easy documentation.</p>
+
+<p>Install Homebrew….</p>
+
+<p>![<a href="https://i.imgur.com/NJZ7OdP.png?1">Imgur</a></p>
+
+<p>Now back to Ruby to update…</p>
+
+<p><img src="https://i.imgur.com/aN1xl65.png?1" alt="Imgur" /></p>
+
+<p><strong>Boom!</strong> Ruby updated to version 2.4.2!</p>
+
+<p><img src="https://i.imgur.com/4uh7c7B.png?1" alt="Imgur" /></p>
+
+<h4 id="rubygems"><strong>RubyGems</strong></h4>
+
+<p>Now to check the RubyGems…</p>
+
+<p><img src="https://i.imgur.com/c9q6hyV.png?1" alt="Imgur" /></p>
+
+<p>Initially had a minor hang up until I learned about Sudo…</p>
+
+<p>Looks like I’m all good!</p>
+
+<p><img src="https://i.imgur.com/UKk8ywP.png?1" alt="Imgur" /></p>
+
+<h4 id="what-i-learned"><strong><em>What I learned</em></strong></h4>
+<ul>
+  <li>What package managers are and how to use them in terminal.</li>
+  <li>How and when to use the <code class="highlighter-rouge">sudo</code> command.</li>
+  <li>
+    <h2 id="how-and-what-to-google-to-learn-about-any-fixes-or-workarounds-needed">How and what to google to learn about any fixes or workarounds needed.</h2>
+  </li>
+</ul>
+
+<h3 id="using-jekyll-1"><strong><em>Using Jekyll</em></strong></h3>
+<p>Now that Jekyll is installed, I need to figure out how to generate a site with it. I found a <a href="https://webdesign.tutsplus.com/tutorials/how-to-set-up-a-jekyll-theme--cms-26332">nice tutorial</a> that walked be through setting up a default site and then how to apply a tutorial.</p>
+
+<h4 id="generating-default-jekyll-site-1"><strong>Generating Default Jekyll Site</strong></h4>
+
+<p>To see how Jekyll worked I ran the command <code class="highlighter-rouge">jekyll new</code>…</p>
+
+<p><img src="https://i.imgur.com/XpkUdLa.png?1" alt="Imgur" /></p>
+
+<p>The site was created, I changed to that directory and ran the command <code class="highlighter-rouge">jekyll serve</code>…</p>
+
+<p><img src="https://i.imgur.com/zFldYLl.png?1" alt="Imgur" /></p>
+
+<p>I excitedly visited the site…</p>
+
+<p><img src="https://i.imgur.com/X7BlthM.png?1" alt="Imgur" /></p>
+
+<p>Success!</p>
+
+<h4 id="getting-my-post-into-default-site-1"><strong>Getting My Post into Default Site</strong></h4>
+<p>I had a default site, but now what?</p>
+
+<p>I started to explore the contents of the default site…</p>
+
+<p><img src="https://i.imgur.com/ZUpBhUJ.png?1" alt="Imgur" /></p>
+
+<p>I removed some things and observed what they did…</p>
+
+<p><img src="https://i.imgur.com/ZOoGBcr.png?1" alt="Imgur" /></p>
+
+<p>and after some guidance from a teacher and some classmates was able to place my own post in the default site.</p>
+
+<p><img src="https://i.imgur.com/RXoAHOJ.png?1" alt="Imgur" /></p>
+
+<p>Awesome. Now to apply a theme and make it pretty.</p>
+
+<h4 id="what-i-learned-1"><strong><em>What I learned</em></strong></h4>
+<ul>
+  <li>How web pages are generated.</li>
+</ul>
+
+<hr />
+
+<h3 id="applying-a-theme-1"><strong><em>Applying a Theme</em></strong></h3>
+<p>Continuing with the <a href="https://webdesign.tutsplus.com/tutorials/how-to-set-up-a-jekyll-theme--cms-26332">same tutorial</a> I began to investigate themes. A swift google of Jekyll Themes took me to http://jekyllthemes.org. Perfect.</p>
+
+<p>I scrolled through the options and landed on <a href="http://jekyllthemes.org/themes/Bef/">Bef</a>.</p>
+
+<p><img src="https://i.imgur.com/zJGAnX0.png?1" alt="Imgur" /></p>
+
+<p>It was perfect with a large front image and nice graphical organization for the posts. It also was very simple with only two additional pages.</p>
+
+<p>Now how to customize it. Back to following the tutorial…</p>
+
+<p>I downloaded the theme and checked out it’s contents. Very similar to the Jekyll default site but with more stuff.</p>
+
+<p><img src="https://i.imgur.com/Bz3vsrm.jpg?1" alt="Imgur" /></p>
+
+<p>In terminal, I navigate to the Bef theme directory and run <code class="highlighter-rouge">jekyll serve</code> again…</p>
+
+<p><img src="https://i.imgur.com/zFldYLl.png?1" alt="Imgur" /></p>
+
+<p>It ran just like the default site and when I check out the local host page there is the theme…</p>
+
+<p><img src="https://i.imgur.com/vcTXwMd.jpg?1" alt="Imgur" /></p>
+
+<p>Now I get it. I just need to customize the theme.</p>
+
+<h4 id="customize-theme-1"><strong>Customize Theme</strong></h4>
+<p>Continuing to follow the tutorial, I deleted all the default content that came with the theme.</p>
+
+<p><img src="https://i.imgur.com/fQGW3Ys.png?1" alt="Imgur" /></p>
+
+<p>Realized that I deleted too much and put some back.</p>
+
+<p><img src="https://i.imgur.com/m5Um8GK.png?1" alt="Imgur" /></p>
+
+<p>Next I had to modify the _config.yml file.</p>
+
+<p><img src="https://i.imgur.com/G9MZbE2.png?1" alt="Imgur" /></p>
+
+<p>It took a lot of googling to figure out what everything was and trial and error to correctly modify this key file.</p>
+
+<p><img src="https://i.imgur.com/M86mPHb.png?1" alt="Imgur" /></p>
+
+<p>Enter  <code class="highlighter-rouge">jekyll serve</code> success! Site is starting to look more like mine.</p>
+
+<p><img src="https://i.imgur.com/mMfWTj3.png?1" alt="Imgur" /></p>
+
+<p>Next I imported my images and my posts and excitedly hit refresh. But a post is missing…</p>
+
+<p><img src="https://i.imgur.com/laEl4cz.png?1" alt="Imgur" /></p>
+
+<p><strong><em>Sh$t!</em></strong></p>
+
+<p>Google did not help too much but when I examined the other posts I noticed they had syntax at the top that must be what Jekyll read to know where to put it.</p>
+
+<p><img src="https://i.imgur.com/HDeNMT6.png?1" alt="Imgur" /></p>
+
+<p>I added and modified the Syntax to reflect the post. Saved, and once again eagerly hit refresh…</p>
+
+<p><img src="https://i.imgur.com/476M0pV.png?1" alt="Imgur" /></p>
+
+<h4 id="yes"><strong><em>Yes!!</em></strong></h4>
+
+<p>It worked. Now to deploy my site onto my domain. I should just be able to upload the ._site that Jekyll generates right?</p>
+
+<h4 id="what-i-learned-2"><strong><em>What I learned</em></strong></h4>
+<ul>
+  <li>How static generator themes work.</li>
+  <li>How to read a theme layout and modify it.</li>
+  <li>How to edit and customize a config.yml file.</li>
+  <li>
+    <h2 id="improved-ability-to-read-and-edit-html">Improved ability to read and edit html.</h2>
+  </li>
+</ul>
+
+<h3 id="upload-to-domain-1"><strong><em>Upload to Domain</em></strong></h3>
+<p>I had been using <a href="https://filezilla-project.org">Filezilla</a> to transfer initial files to my domain. I dragged the ._site file to the public_html file and watched excitedly as each file uploaded rapidly.</p>
+
+<p><img src="https://i.imgur.com/qBVh2vD.png?1" alt="Imgur" /></p>
+
+<p>I brought up my browser, typed in the domain and…</p>
+
+<p><img src="https://i.imgur.com/nERZfOK.png?1" alt="Imgur" /></p>
+
+<p><strong><em>Double Sh$t!</em></strong></p>
+
+<p>I had no clue why the .css files and images seemed not to be working. I consulted a couple classmates about it and they pointed me in the right direction. The paths in index.html that pointed to the .css files and the image files all shared a common mistake in the path.</p>
+
+<p><img src="https://i.imgur.com/tQr8Lgg.png?1" alt="Imgur" /></p>
+
+<p>After struggling with this problem for a couple hours and getting this close…</p>
+
+<p><img src="https://i.imgur.com/eWNgbJS.png?1" alt="Imgur" /></p>
+
+<p>I asked my professor. He solved it very quickly of course. It was a setting in the config file called baseurl. I had it set to StudioSite and it needed to just be set to /. I made this edit and with bated breath, once more hit <code class="highlighter-rouge">jekyll serve</code>.</p>
+
+<p><img src="https://i.imgur.com/s4ZCmN9.png?1" alt="Imgur" /></p>
+
+<p><img src="https://i.imgur.com/YX0MBDz.png?1" alt="Imgur" /></p>
+
+<p><img src="https://i.imgur.com/1BKvKbS.png?1" alt="Imgur" /></p>
+
+<p><img src="https://i.imgur.com/LKodujU.png?1" alt="Imgur" /></p>
+
+<hr />
+
+<h4 id="blissfully-sweet-success"><em>Blissfully sweet success!</em></h4>
+
+<h4 id="what-i-learned-3"><strong><em>What I learned</em></strong></h4>
+<ul>
+  <li>How to use Filezilla.</li>
+  <li>How to navigate the back-end of my site.</li>
+  <li>The impact of baseurl.</li>
+</ul>
+
+    </div>
+    
+    <div class="post_wrapper">
+      <footer class="post_footer cf">
+        <div class="post_share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=Making My First Site&url=http://localhost:4000/Making-My-Site/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Making-My-Site/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Making-My-Site/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+        </div>
+        <div class="post_tag">
+          <span>Tags:</span>
+          
+          <a href="/tags#web" class="tag">web</a>
+          
+          <a href="/tags#design" class="tag">design</a>
+          
+          <a href="/tags#jekyll" class="tag">jekyll</a>
+          
+          <a href="/tags#markdown" class="tag">markdown</a>
+          
+        </div>
+      </footer>
+    </div>
+  </article> <!-- End Section Post -->
+
+  <section class="author cf">
+    <div class="post_wrapper">
+      <div class="author_image">
+        <img src="/assets/img/Headshot.jpg" alt="Author face">
+      </div>
+      <div class="author_info">
+        <h2 class="author_title">Jim Murphy</h2>
+        <p class="author_subtitle">Michigan born and raised. Colorado for grad school at CU-Boulder.</p>
+        <div class="author_social">
+          
+          <span class="author_email"><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:jamu6792@colorado.edu">jamu6792@colorado.edu</a></span>
+          
+          
+          
+          <span class="author_phone"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+496-169-65-57">(496)-169-6557</a></span>
+          
+
+          
+          <span class="author_website"><i class="fa fa-link" aria-hidden="true"></i> <a href="https://jimmurphy.studio" target="_blank">https://jimmurphy.studio</a></span>
+                      
+        </div>
+      </div>
+    </div>
+  </section> <!-- End Section Author -->
+
+  <section class="recent_box">
+    <div class="post_wrapper">
+      <h2 class="recent_title">Recent post</h2>
+      <div class="recent_list">
+        
+          
+            <a href="/stressMap/" class="recent_item" style="background-image: url( /assets/img/PostImagestressMap.jpg )"><span>stressMap a Node.js App</span></a>
+          
+        
+          
+            <a href="/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRPuzzle.png )"><span>Effugium Escape Room VR Puzzle: How I Did It</span></a>
+          
+        
+          
+            <a href="/VR-Maze-Challenge-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRMaze.png )"><span>VR Maze Challenge: How I Did It</span></a>
+          
+        
+          
+            <a href="/Smarter-Cat-Toy-Part-2/" class="recent_item" style="background-image: url( /assets/img/PostImageSmarterCatToy.PNG )"><span>Smarter Cat Toy: Part 2</span></a>
+          
+        
+          
+            <a href="/Assignment-8-Alexa,-Talk-To-Me/" class="recent_item" style="background-image: url( /assets/img/PostImageEcho.jpg )"><span>Assignment 8: Alexa, Talk To Me</span></a>
+          
+        
+          
+            <a href="/Creativ-Coding-Shop-Clock/" class="recent_item" style="background-image: url( /assets/img/PostImageShopClock.png )"><span>Creative Coding: Shop Clock</span></a>
+          
+        
+      </div>
+    </div>
+  </section> <!-- End Section Recent Box -->
+  
+  
+<section class="comment_area">
+  <div class="comment_wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-murphy.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Section Comment Area -->
+  
+</main> <!-- End Section Post Content -->
+
+
+<footer class="main_footer">
+  <div class="wrapper">
+    
+<ul class="social_footer">
+  
+  <li><a href="#" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a></li>      
+  
+  
+  <li><a href="https://twitter.com/wasgunnabut" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.instagram.com/wasgunnabut/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.facebook.com/wasgunnabut" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+  
+</ul>
+    <div class="copyright">
+      <p>&copy; 2018 All rights reserved. Design by <a href="https://artemsheludko.github.io" target="_blank">Artem Sheludko</a></p>
+    </div>
+  </div>
+</footer> <!-- End Section Footer -->
+
+
+  
+<div class="top" title="Top"><i class="fa fa-chevron-up" aria-hidden="true"></i></div> <!-- End Top Scroll -->
+  
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/assets/js/jquery.vide.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- End Javascript -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+</body>
+</html>

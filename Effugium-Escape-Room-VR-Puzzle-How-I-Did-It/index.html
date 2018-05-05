@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Effugium Escape Room VR Puzzle: How I Did It - Maker Blog</title>
+	<meta name="description" content="The VR puzzle for Effugium.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#d25469">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#d25469">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#d25469">
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  
+<header class="main_header">
+  <a href="/" class="logo">Maker Blog</a>
+  <nav class="main_menu">
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</header> <!-- End Section Header -->
+
+<main class="post_content">
+  <article class="post">
+    <header>
+      <div class="post_image">
+        <img src=/assets/img/PostImageVRPuzzle.png alt="Effugium Escape Room VR Puzzle: How I Did It">
+      </div>
+      <div class="post_description">
+        <p class="post_meta">2018, Mar 17</p>
+        <h1 class="post_title">Effugium Escape Room VR Puzzle: How I Did It</h1>
+      </div>
+    </header> <!-- End Header -->
+
+    <div class="entry_content">
+      <h1 id="effugium-escape-room-vr-puzzle-how-i-did-it"><strong>Effugium Escape Room VR Puzzle: How I Did It</strong></h1>
+<p>In conjunction with two others, I are designing an escape room experience and one of the puzzles lives inside virtual reality. To build this puzzle I used https://www.aframe.io. Aframe is a web framework used for building virtual reality experiences. It is mostly based on html and that is all I have used so far. Javascript can also be used to increase interactivity. This is the second prototype of the escape room and the VR puzzle. I used node live-server to develop.</p>
+
+<p><strong><em>https://wasgunnabut.github.io</em></strong></p>
+
+<h2 id="code-structure"><em>Code Structure</em></h2>
+<p>The code structure is very similar to html. If the webvr app is not being embedded into a webpage the structure of the html is very similar to a traditional webpage. First, declare the html document. Then create a head and add in the Aframe release script so the browser knows to use Aframe. Then create a body and inside the body goes the a-scene tag. This is where all the Aframe html will go. The assets tag is used to preload any assets.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://aframe.io/releases/0.7.0/aframe.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+
+    <span class="nt">&lt;a-scene&gt;</span>
+      <span class="nt">&lt;assets&gt;</span>
+
+      <span class="nt">&lt;/assets&gt;</span>
+    <span class="nt">&lt;/a-scene&gt;</span>
+
+  <span class="nt">&lt;/body&gt;</span>
+</code></pre></div></div>
+<h2 id="a-sky"><em>a-sky</em></h2>
+<p>The puzzle is created using html so it was very simple to learn to use and I didn’t encounter any real struggles. The biggest hurdle I had to overcome was creating and working with 360 degree images, or equirectangular images, to be used for the sky. I tried to make my own using Photoshop but they did not look very good. So I ended up downloading some from Adobe’s stock photo library which worked well.</p>
+
+<p><img src="https://i.imgur.com/oYI7XHR.jpg?1" alt="Imgur" /></p>
+
+<p>The code for the sky is very simple. I preloaded the seamless sky image using the Asset Management System. This is better for performance and ensures the asset is not missing.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;assets&gt;
+  &lt;img id="sky" src="/assets/SeamlessSky.jpeg"&gt;
+&lt;/assets&gt;
+</code></pre></div></div>
+
+<p>Next I create the sky using the <code class="highlighter-rouge">&lt;a-sky&gt;</code> primitive. Aframe provides a wide variety of <a href="https://aframe.io/docs/0.8.0/introduction/html-and-primitives.html">primitives</a> which are just pre-built components. Each primitive has a wide variety of attributes that can be used to modify the primitive. Some common ones are position, scale, radius, color, opacity and rotation.</p>
+
+<p><code class="highlighter-rouge">&lt;a-sky src="#sky"&gt;&lt;/a-sky&gt;</code></p>
+
+<p>I simply use the src attribute to point to the seamless sky asset using it’s id.</p>
+
+<p>This gives me the sky in my scene.</p>
+
+<h2 id="a-plane"><em>a-plane</em></h2>
+<p>Next I needed to create a floor so the player is not suspended in midair. I created a simple floor using the <code class="highlighter-rouge">a-plane</code> primitive. By default the plane appears perpendicular to the floor so the rotation attribute is required to rotate the plane along the X axis. Next I scaled the plane so that it was large enough. Finally, I would need to texture the plane. I created a simple texture in Illustrator.</p>
+
+<p><img src="https://i.imgur.com/zgxUZNx.png?1" alt="Imgur" /></p>
+
+<p>I preloaded it in <code class="highlighter-rouge">&lt;assets&gt;</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;assets&gt;
+  &lt;img id=floor src="/assets/grid.png"&gt;
+  &lt;img id="sky" src="/assets/SeamlessSky.jpeg"&gt;
+&lt;/assets&gt;
+</code></pre></div></div>
+
+<p>and used the id floor with the SRC attribute to create my plane.</p>
+
+<p><code class="highlighter-rouge">&lt;a-plane rotation="-90 0 0" scale="30 30 30" src="#floor"&gt;&lt;/a-plane&gt;</code></p>
+
+<h2 id="the-puzzle"><em>The Puzzle</em></h2>
+<p>The puzzle consists if three shapes that hide a digit. The shapes and digit correspond to a lock that the players need to unlock. To reveal the digit the player must focus the reticle on the shape, causing the shape to fade and the digit to be visible. To make the experience more dynamic, the shapes also moved.  There are three different shapes with digits: a square, circle and triangle.</p>
+
+<p><strong>a-box</strong><br />
+While there is a square primitive, the 2D nature of the primitive made it very difficult to see in the position I wanted it. By using a box the shape is visible from all angles. I needed several attributes with this and the final line of code looked like this.<br />
+<code class="highlighter-rouge">&lt;a-box color="#4d7de9" depth=".1" height="1" width="1" position="-3 2 -3" rotation="0 90 0"&gt;</code><br />
+To animate the motion I used <code class="highlighter-rouge">&lt;a-animation&gt;</code>. This allowed me to create motion and change opacity when the reticle was focused on the shape. To indicate which shape to animate, I simply had to make the animation a child of the desired shape. Each animation does something specific and the attributes allow for controls like duration, direction, and when to begin. I had to create separate animations  All said and done, the code looked like this.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a-box color="#4d7de9" depth=".1" height="1" width="1" position="-3 2 -3" rotation="0 90 0"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="-3 2 -3" to="-3 2 3" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-box&gt;
+</code></pre></div></div>
+<p><strong>a-circle</strong><br />
+Since the circle was visible from the camera location, and since the playres would not be able to move I was able to use the 2D primitive, <code class="highlighter-rouge">a-cirlce</code>. I initially tried to use <code class="highlighter-rouge">a-shere</code> but it was very difficult to hide text behind it. The animations are very similar to what I used for the box.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a-circle position="2.99 5 -1" rotation="0 -90 0" color="#f5f941" radius=".5" metalness="0"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="2.99 5 -1" to="2.99 1 -1" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-circle&gt;
+</code></pre></div></div>
+
+<p><strong>a-triangle</strong><br />
+Like the circle, the triangle was visible from the camera position and the only option to create a 3D triangle is the <code class="highlighter-rouge">&lt;a-tetrahedron&gt;</code>. Like the sphere, this was a struggle to hide text behind. With animation the code looked like this.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a-triangle position="1.5 1 1.49" rotation="0 180 0" color="#f53030"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="1.5 1 1.49" to="-3 1 1.49" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-triangle&gt;  
+</code></pre></div></div>
+
+<p><strong>a-text</strong><br />
+To create the digit I used the <code class="highlighter-rouge">&lt;a-text&gt;</code> primitive. The only attributes I needed were the value and color attributes.
+<code class="highlighter-rouge">&lt;a-text value="value" color="#000000"&lt;/a-text&gt;</code><br />
+Since I wanted the text to move with the shapes I made all the text the child of the corresponding shape. I then added another shape in front of the text and added an opacity animation to that shape. When it was all put together it looked like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a-box color="#4d7de9" depth=".1" height="1" width="1" position="-3 2 -3" rotation="0 90 0"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="-3 2 -3" to="-3 2 3" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+  &lt;a-animation attribute="opacity" begin="mouseenter" from="100" to="0"&gt;&lt;/a-animation&gt;
+  &lt;a-animation attribute="opacity" begin="mouseleave" from="0" to="100"&gt;&lt;/a-animation&gt;
+  &lt;a-text value="N" color="#000000"&lt;/a-text&gt;
+&lt;/a-box&gt;
+&lt;a-box color="#4d7de9" depth=".1" height="1" width="1" position="-3.1 2 -3" rotation="0 90 0"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="-3.1 2 -3" to="-3.1 2 3" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-box&gt;
+
+&lt;a-circle position="3 5 -1" rotation="0 -90 0" color="#f5f941" radius=".5" metalness="0"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="3 5 -1" to="3 1 -1" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+  &lt;a-text value="R" color="#000000"&lt;/a-text&gt;
+&lt;/a-circle&gt;
+&lt;a-circle position="2.99 5 -1" rotation="0 -90 0" color="#f5f941" radius=".5" metalness="0"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="2.99 5 -1" to="2.99 1 -1" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+  &lt;a-animation attribute="opacity" begin="mouseenter" from="100" to="0"&gt;&lt;/a-animation&gt;
+  &lt;a-animation attribute="opacity" begin="mouseleave" from="0" to="100"&gt;&lt;/a-animation&gt;
+&lt;/a-circle&gt;
+
+
+&lt;a-triangle position="1.5 1 1.5" rotation="0 180 0" color="#f53030"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="1.5 1 1.5" to="-3 1 1.5" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+  &lt;a-text value="L" color="#000000"&lt;/a-text&gt;
+&lt;/a-triangle&gt;
+&lt;a-triangle position="1.5 1 1.49" rotation="0 180 0" color="#f53030"&gt;
+  &lt;a-animation attribute="position" dur="3000" from="1.5 1 1.49" to="-3 1 1.49" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+  &lt;a-animation attribute="opacity" begin="mouseenter" from="100" to="0"&gt;&lt;/a-animation&gt;
+  &lt;a-animation attribute="opacity" begin="mouseleave" from="0" to="100"&gt;&lt;/a-animation&gt;
+&lt;/a-triangle&gt;
+</code></pre></div></div>
+
+<h2 id="the-decoy-shapes"><em>The Decoy Shapes</em></h2>
+<p>To make it a little harder to find the correct shapes I added five decoy shapes: <code class="highlighter-rouge">a-cone</code>, <code class="highlighter-rouge">a-decohedron</code>, <code class="highlighter-rouge">a-torus-knowt</code>, <code class="highlighter-rouge">a-tetrahedron</code>, <code class="highlighter-rouge">a-octahedron</code>. Each had a similar animation for position.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a-cone radius-bottom="1" radius-top=".1" position="0 2 -4" color="#d3f947"&gt;
+  &lt;a-animation attribute="position" dur"=2000" from="0 2 -4" to="-3 0 -2" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-cone&gt;
+
+&lt;a-dodecahedron radius=".5" position="0 4 0" color="#fcff6b"&gt;
+  &lt;a-animation attribute="position" dur"=12000" from="0 4 0" to="3 1 2" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-dodecahedron&gt;
+
+&lt;a-torus-knot arc="180" p="1" q="8" radius=".5" radius-tubular="0.05" position="-3 2 4" color="#B84A39"&gt;
+  &lt;a-animation attribute="position" dur"=1000" from="-3 2 4" to="1 2 1" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-torus-knot&gt;
+
+&lt;a-tetrahedron radius=".5" position="-3 1 -2" color="#FF926B"&gt;
+  &lt;a-animation attribute="position" dur"=9000" from="-3 1 -2" to="0 5 -4" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-tetrahedron&gt;
+
+&lt;a-octahedron color="#ff00a8" radius=".5" position="3 5 -4"&gt;
+  &lt;a-animation attribute="position" dur"=17000" from="3 5 -4" to="6 1 -1" direction="alternate" repeat="indefinite"&gt;&lt;/a-animation&gt;
+&lt;/a-octahedron&gt;
+</code></pre></div></div>
+
+<h2 id="the-instructions"><em>The Instructions</em></h2>
+<p>The last part is to create the instructions and have them vanish after a certain amount of time.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a-text value="Look all around you. Examine each shape carefully." position="-2.3 1.5 -3.5" color="#ff1b1b"&gt;
+  &lt;a-animation attribute="opacity" delay="30000" from="100" to="0"&gt;&lt;/a-animation&gt;
+&lt;/a-text&gt;
+</code></pre></div></div>
+
+<h2 id="conclusion"><em>Conclusion</em></h2>
+
+<p>We implemented the puzzle using google cardboard and it worked very well. As we continue to develop the escape room, the puzzle will begin to model the actual room, showing the player the location of a hidden object in the real world. You can access all of the code and assets <a href="https://github.com/wasgunnabut/Aframe">here</a>.</p>
+
+<p><strong>Demo Video</strong></p>
+
+<iframe src="https://player.vimeo.com/video/260591197" width="640" height="360" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/260591197">EscapeRoomPuzzle</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+    </div>
+    
+    <div class="post_wrapper">
+      <footer class="post_footer cf">
+        <div class="post_share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=Effugium Escape Room VR Puzzle: How I Did It&url=http://localhost:4000/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+        </div>
+        <div class="post_tag">
+          <span>Tags:</span>
+          
+          <a href="/tags#Web" class="tag">Web</a>
+          
+          <a href="/tags#development" class="tag">development</a>
+          
+          <a href="/tags#VR" class="tag">VR</a>
+          
+          <a href="/tags#Aframe" class="tag">Aframe</a>
+          
+          <a href="/tags#webvr" class="tag">webvr</a>
+          
+        </div>
+      </footer>
+    </div>
+  </article> <!-- End Section Post -->
+
+  <section class="author cf">
+    <div class="post_wrapper">
+      <div class="author_image">
+        <img src="/assets/img/Headshot.jpg" alt="Author face">
+      </div>
+      <div class="author_info">
+        <h2 class="author_title">Jim Murphy</h2>
+        <p class="author_subtitle">Michigan born and raised. Colorado for grad school at CU-Boulder.</p>
+        <div class="author_social">
+          
+          <span class="author_email"><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:jamu6792@colorado.edu">jamu6792@colorado.edu</a></span>
+          
+          
+          
+          <span class="author_phone"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+496-169-65-57">(496)-169-6557</a></span>
+          
+
+          
+          <span class="author_website"><i class="fa fa-link" aria-hidden="true"></i> <a href="https://jimmurphy.studio" target="_blank">https://jimmurphy.studio</a></span>
+                      
+        </div>
+      </div>
+    </div>
+  </section> <!-- End Section Author -->
+
+  <section class="recent_box">
+    <div class="post_wrapper">
+      <h2 class="recent_title">Recent post</h2>
+      <div class="recent_list">
+        
+          
+            <a href="/stressMap/" class="recent_item" style="background-image: url( /assets/img/PostImagestressMap.jpg )"><span>stressMap a Node.js App</span></a>
+          
+        
+          
+            <a href="/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRPuzzle.png )"><span>Effugium Escape Room VR Puzzle: How I Did It</span></a>
+          
+        
+          
+            <a href="/VR-Maze-Challenge-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRMaze.png )"><span>VR Maze Challenge: How I Did It</span></a>
+          
+        
+          
+            <a href="/Smarter-Cat-Toy-Part-2/" class="recent_item" style="background-image: url( /assets/img/PostImageSmarterCatToy.PNG )"><span>Smarter Cat Toy: Part 2</span></a>
+          
+        
+          
+            <a href="/Assignment-8-Alexa,-Talk-To-Me/" class="recent_item" style="background-image: url( /assets/img/PostImageEcho.jpg )"><span>Assignment 8: Alexa, Talk To Me</span></a>
+          
+        
+          
+            <a href="/Creativ-Coding-Shop-Clock/" class="recent_item" style="background-image: url( /assets/img/PostImageShopClock.png )"><span>Creative Coding: Shop Clock</span></a>
+          
+        
+      </div>
+    </div>
+  </section> <!-- End Section Recent Box -->
+  
+  
+<section class="comment_area">
+  <div class="comment_wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-murphy.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Section Comment Area -->
+  
+</main> <!-- End Section Post Content -->
+
+
+<footer class="main_footer">
+  <div class="wrapper">
+    
+<ul class="social_footer">
+  
+  <li><a href="#" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a></li>      
+  
+  
+  <li><a href="https://twitter.com/wasgunnabut" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.instagram.com/wasgunnabut/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.facebook.com/wasgunnabut" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+  
+</ul>
+    <div class="copyright">
+      <p>&copy; 2018 All rights reserved. Design by <a href="https://artemsheludko.github.io" target="_blank">Artem Sheludko</a></p>
+    </div>
+  </div>
+</footer> <!-- End Section Footer -->
+
+
+  
+<div class="top" title="Top"><i class="fa fa-chevron-up" aria-hidden="true"></i></div> <!-- End Top Scroll -->
+  
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/assets/js/jquery.vide.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- End Javascript -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+</body>
+</html>

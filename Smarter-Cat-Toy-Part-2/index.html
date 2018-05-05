@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Smarter Cat Toy: Part 2 - Maker Blog</title>
+	<meta name="description" content="Final project, Smarter Cat Toy, idea update.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#d25469">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#d25469">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#d25469">
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  
+<header class="main_header">
+  <a href="/" class="logo">Maker Blog</a>
+  <nav class="main_menu">
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</header> <!-- End Section Header -->
+
+<main class="post_content">
+  <article class="post">
+    <header>
+      <div class="post_image">
+        <img src=/assets/img/PostImageSmarterCatToy.PNG alt="Smarter Cat Toy: Part 2">
+      </div>
+      <div class="post_description">
+        <p class="post_meta">2017, Nov 14</p>
+        <h1 class="post_title">Smarter Cat Toy: Part 2</h1>
+      </div>
+    </header> <!-- End Header -->
+
+    <div class="entry_content">
+      <h1 id="smarter-cat-toy-part-2"><strong>Smarter Cat Toy: Part 2</strong></h1>
+<p>I own a cat named Ophelia. She is about 4 years old and I’ve had her since she was 12 weeks. She is my fuzzy companion and it is important to me that she is happy.<br />
+Recently I moved from a house in a neighborhood where she could go outside and play which to a cat is to run, stalk and ultimately kill things, to an apartment in an urban city where she is trapped inside all day, everyday. I can see that she is bored and I want to do everything I can do change that.<br />
+This led me to my idea for a smarter cat toy. An autonomous little robot that behaved, looked, sounded, felt, and maybe even tasted like real prey.</p>
+
+<p>I made this video to help explain why I am so passionate about my pets and why I think their happiness is so important.</p>
+
+<iframe src="https://player.vimeo.com/video/234876527" width="500" height="281" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/234876527">Pets</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<hr />
+
+<h2 id="recap"><em>Recap</em></h2>
+
+<p>In the first post about my <a href="http://jimmurphy.studio/Smarter-Cat-Toy/">Smarter Cat Toy</a> project I talked about using a pressure sensor to manipulate a motor to simulate prey behavior. I also talked about getting a <a href="http://www.sphero.com">Sphero</a> and doing a bit of reverse engineering to see how they worked.</p>
+
+<p>Well, the <a href="http://jimmurphy.studio/EeonTex-Pressure-Fabric-and-Servo-Motor/">pressure sensor</a> bit proved to be kind of difficult, although possible. I struggled to get the motor to respond the way I wanted.</p>
+
+<p>The Sphero route proved much more advantageous. I bought two <a href="http://www.sphero.com/sphero-mini">Spehro Minis</a>. Small little remote controlled robots and Ophelia enjoyed playing with them.</p>
+
+<iframe src="https://player.vimeo.com/video/243190211" width="500" height="281" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/243190211">Ophelia and Sphero</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<p>There were two changes to the Sphero Mini I would need to perform in order to have a working prototype of my cat toy.</p>
+
+<ul>
+  <li>Add a more life-like skin to the Sphero’s current plastic shell.</li>
+  <li>Re-program the Sphero for autonomous movement and behavior akin to that of prey.</li>
+</ul>
+
+<hr />
+
+<h2 id="life-like-skin"><em>Life-Like Skin</em></h2>
+
+<p>The Sphero Mini is currently encased in a hard plastic case that protects the slightly more delicate inner workings.</p>
+
+<p><img src="https://i.imgur.com/6Woa365.jpg?1" alt="Imgur" /></p>
+
+<p>While Ophelia enjoys chasing the Sphero, she does not know what to do with it when she catches it because she cannot sink her claws or teeth into it.</p>
+
+<p>The larger <a href="http://www.sphero.com">Sphero</a> has a variety of different skins that can be applied to it. I don’t see a reason why I can’t do the same to the Mini.</p>
+
+<p><img src="https://i.imgur.com/FGcl2e4.jpg?1" alt="Imgur" /></p>
+
+<p><strong>Choosing A Material</strong><br />
+While I want to make the toy as life-like as possible, I also don’t want Ophelia to be able to tear it apart too easily.</p>
+
+<p>In the four years I have been playing with her I have been able to identify what her favorite toys are and one of them is a leather belt. She loves to chase it and when she catches it, she can really grip it with her claws and chew on it without too much damage to the belt. So, for the prototype I have decided to find some kind of leather to skin the toy with.</p>
+
+<p><strong><em>To Do:</em></strong>
+visit <a href="https://www.reynoldsam.com/denver/">Reynolds Advanced Materials</a> shop to see what kind of leathers or leather-like materials are available. I may then use a laser cutter to cut the design needed out of the material I choose.</p>
+
+<hr />
+
+<h2 id="re-program-sphero-mini"><em>Re-Program Sphero Mini</em></h2>
+
+<p>There are a couple key features the toy will need, autonomy and prey-like behavior. As it comes, the Sphero Mini is strictly remote control. However, with <a href="https://edu.sphero.com/dashboard">Sphero EDU</a> I can begin to design programs for the Sphero.</p>
+
+<p>The programs are done via and app. I can use blocks or code directly in Java.</p>
+
+<p><img src="https://i.imgur.com/fYJODaK.png?1" alt="Imgur" /></p>
+
+<p><img src="https://i.imgur.com/IqQwPH8.png?1" alt="Imgur" /></p>
+
+<p><img src="https://i.imgur.com/Zu5AL69.png?1" alt="Imgur" /></p>
+
+<p>Since I don’t know Java very well, I opted to start with the block builder and exploring with very simple programs.</p>
+
+<p>Here is the first I made:</p>
+
+<p><img src="https://i.imgur.com/RZWEwHS.png?1" alt="Imgur" /></p>
+
+<p>This one has the Sphero roll forward at about half speed for 3 seconds, stop, roll at 45 degree angle for 3 seconds, stop then roll at 315 degree angle for 3 seconds. Additionally, on a collision, it is to shift it’s heading 90 degrees.</p>
+
+<p>The problem was at half speed, the Sphero did not know it had a collision and just continued to try to roll into the wall.</p>
+
+<p>My second program was meant to test the collision logic.</p>
+
+<p><img src="https://i.imgur.com/u10MKCm.png?1" alt="Imgur" /></p>
+
+<p>This program simply had the Sphero roll straight at full speed for 30 seconds. On collision, reverse direction.</p>
+
+<p>This worked really well. Sphero ran right into the wall and immediately came right back to me.</p>
+
+<p><strong>Learning Sphero EDU</strong><br />
+There are a lot of different ways to program the Sphero and some I need to learn. The app is designed for a younger crowd so I don’t anticipate a steep learning curve. Mainly, I need to learn how to apply the different sensors in the Mini like the accelerometer or gyroscope.</p>
+
+<p><img src="https://i.imgur.com/zHEipha.png" alt="Imgur" /></p>
+
+<p><img src="https://i.imgur.com/10oDz6A.png" alt="Imgur" /></p>
+
+<p><img src="https://i.imgur.com/ucSzqfX.png?1" alt="Imgur" /></p>
+
+<p>These are just three of the many options.</p>
+
+<p><strong><em>To Do:</em></strong> Use the videos on the Sphero EDU site to learn how to program the Sphero. I will also need to study how prey behaves then translate that into behavior for the Sphero.</p>
+
+<hr />
+
+<p>As I continue to advance my prototype I will add additional features. It is my hope that future models will be able to mimic the sounds of prey and maybe even the taste.</p>
+
+    </div>
+    
+    <div class="post_wrapper">
+      <footer class="post_footer cf">
+        <div class="post_share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=Smarter Cat Toy: Part 2&url=http://localhost:4000/Smarter-Cat-Toy-Part-2/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Smarter-Cat-Toy-Part-2/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Smarter-Cat-Toy-Part-2/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+        </div>
+        <div class="post_tag">
+          <span>Tags:</span>
+          
+          <a href="/tags#pets" class="tag">pets</a>
+          
+          <a href="/tags#toys" class="tag">toys</a>
+          
+          <a href="/tags#animals" class="tag">animals</a>
+          
+          <a href="/tags#sphero" class="tag">sphero</a>
+          
+          <a href="/tags#java" class="tag">java</a>
+          
+        </div>
+      </footer>
+    </div>
+  </article> <!-- End Section Post -->
+
+  <section class="author cf">
+    <div class="post_wrapper">
+      <div class="author_image">
+        <img src="/assets/img/Headshot.jpg" alt="Author face">
+      </div>
+      <div class="author_info">
+        <h2 class="author_title">Jim Murphy</h2>
+        <p class="author_subtitle">Michigan born and raised. Colorado for grad school at CU-Boulder.</p>
+        <div class="author_social">
+          
+          <span class="author_email"><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:jamu6792@colorado.edu">jamu6792@colorado.edu</a></span>
+          
+          
+          
+          <span class="author_phone"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+496-169-65-57">(496)-169-6557</a></span>
+          
+
+          
+          <span class="author_website"><i class="fa fa-link" aria-hidden="true"></i> <a href="https://jimmurphy.studio" target="_blank">https://jimmurphy.studio</a></span>
+                      
+        </div>
+      </div>
+    </div>
+  </section> <!-- End Section Author -->
+
+  <section class="recent_box">
+    <div class="post_wrapper">
+      <h2 class="recent_title">Recent post</h2>
+      <div class="recent_list">
+        
+          
+            <a href="/stressMap/" class="recent_item" style="background-image: url( /assets/img/PostImagestressMap.jpg )"><span>stressMap a Node.js App</span></a>
+          
+        
+          
+            <a href="/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRPuzzle.png )"><span>Effugium Escape Room VR Puzzle: How I Did It</span></a>
+          
+        
+          
+            <a href="/VR-Maze-Challenge-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRMaze.png )"><span>VR Maze Challenge: How I Did It</span></a>
+          
+        
+          
+            <a href="/Smarter-Cat-Toy-Part-2/" class="recent_item" style="background-image: url( /assets/img/PostImageSmarterCatToy.PNG )"><span>Smarter Cat Toy: Part 2</span></a>
+          
+        
+          
+            <a href="/Assignment-8-Alexa,-Talk-To-Me/" class="recent_item" style="background-image: url( /assets/img/PostImageEcho.jpg )"><span>Assignment 8: Alexa, Talk To Me</span></a>
+          
+        
+          
+            <a href="/Creativ-Coding-Shop-Clock/" class="recent_item" style="background-image: url( /assets/img/PostImageShopClock.png )"><span>Creative Coding: Shop Clock</span></a>
+          
+        
+      </div>
+    </div>
+  </section> <!-- End Section Recent Box -->
+  
+  
+<section class="comment_area">
+  <div class="comment_wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-murphy.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Section Comment Area -->
+  
+</main> <!-- End Section Post Content -->
+
+
+<footer class="main_footer">
+  <div class="wrapper">
+    
+<ul class="social_footer">
+  
+  <li><a href="#" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a></li>      
+  
+  
+  <li><a href="https://twitter.com/wasgunnabut" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.instagram.com/wasgunnabut/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.facebook.com/wasgunnabut" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+  
+</ul>
+    <div class="copyright">
+      <p>&copy; 2018 All rights reserved. Design by <a href="https://artemsheludko.github.io" target="_blank">Artem Sheludko</a></p>
+    </div>
+  </div>
+</footer> <!-- End Section Footer -->
+
+
+  
+<div class="top" title="Top"><i class="fa fa-chevron-up" aria-hidden="true"></i></div> <!-- End Top Scroll -->
+  
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/assets/js/jquery.vide.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- End Javascript -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+</body>
+</html>

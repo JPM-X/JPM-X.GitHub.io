@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Creative Coding: Shop Clock - Maker Blog</title>
+	<meta name="description" content="Shop Clock, the latest assignment in creative coding using Processing.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#d25469">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#d25469">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#d25469">
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  
+<header class="main_header">
+  <a href="/" class="logo">Maker Blog</a>
+  <nav class="main_menu">
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</header> <!-- End Section Header -->
+
+<main class="post_content">
+  <article class="post">
+    <header>
+      <div class="post_image">
+        <img src=/assets/img/PostImageShopClock.png alt="Creative Coding: Shop Clock">
+      </div>
+      <div class="post_description">
+        <p class="post_meta">2017, Nov 09</p>
+        <h1 class="post_title">Creative Coding: Shop Clock</h1>
+      </div>
+    </header> <!-- End Header -->
+
+    <div class="entry_content">
+      <h1 id="creative-coding-shop-clock"><strong>Creative Coding: Shop Clock</strong></h1>
+<p>The latest assignment in my Critical Making class was to use <a href="https://processing.org">Processing</a> to create a clock for our studio room. We were tasked to be creative and think outside the clock. We just needed to represent time in a visual way. I chose to simulate the sun and moon moving across the sky with each hour. This was difficult for me and in the end I kind of cheated. But the result is the same.</p>
+
+<h2 id="clock-v1"><em>Clock V1</em></h2>
+<p>The first version was not so much a clock as it was the background for the clock.</p>
+
+<p><img src="https://i.imgur.com/YClHias.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int s = second();
+int m = minute();
+int h = hour();
+
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage("SunnyAfternoon.jpg");
+  fullScreen();
+  background(135,206,235);
+
+  println(width);
+  println(height);
+}
+
+void draw() {
+  fill(1,166,17);
+  noStroke();
+  arc(720, 900, 1450, 450, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(150,150,200,200);
+
+  stroke(0);
+  line(300,300,350,350);
+  line(350,350,400,300);
+
+  line(500,500,550,550);
+  line(550,550,600,500);
+
+  line(800,100,850,150);
+  line(850,150,900,100);
+
+}
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="clock-v11"><em>Clock V1.1</em></h1>
+<p>This was a superior background with the grass and birds in a better position. I also divided height and width up so that the program would work on different screen sizes.</p>
+
+<p><img src="https://i.imgur.com/C2oR6Ub.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+float m = minute();
+float h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+float x1 = (map(hour(),7,19,7,width));
+float y1 = (map(hour(),7,19,7,height));
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage("SunnyAfternoon.jpg");
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/12;
+
+
+  println(width);
+  println(height);
+}
+
+void draw() {
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*6+10), y+h1*25, x+(w*13+10), y+h1*12, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x1,y1+12,150,150);
+
+  stroke(0);
+  line(300,300,350,350);
+  line(350,350,400,300);
+
+  line(500,500,550,550);
+  line(550,550,600,500);
+
+  line(800,100,850,150);
+  line(850,150,900,100);
+
+}
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="clock-v12"><em>Clock V1.2</em></h2>
+<p>It was slow going trying to get the ellipse that makes up the sun and moon to be in the correct shape and position. I also began to attempt to map hours to position but was quite a ways off.</p>
+
+<p><img src="https://i.imgur.com/t6ViU5k.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>float m = minute();
+float h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+float x1 = (map(hour(),7,19,7,w));
+float y1 = (map(hour(),7,19,7,h));
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage("SunnyAfternoon.jpg");
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/12;
+
+
+  println(width);
+  println(height);
+}
+
+void draw() {
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*6+10), y+h1*25, x+(w*13+10), y+h1*12, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x1,y1+12,w,h*5);
+
+  stroke(0);
+  line(300,300,350,350);
+  line(350,350,400,300);
+
+  line(500,500,550,550);
+  line(550,550,600,500);
+
+  line(800,100,850,150);
+  line(850,150,900,100);
+
+}
+</code></pre></div></div>
+<hr />
+
+<h2 id="clock-v13"><em>Clock V1.3</em></h2>
+<p>Finally, it’s a clock! I decided to opt for a 24 hour clock, something a little different. I still needed add a 0 before the hours and minutes when they are less than 10 so it follows the proper format 00:00. I divided height and width up in 24 segments. This gave me the partitions I needed to position everything. That ellipse though. Someday it’ll be in the right area…Someday.</p>
+
+<p><img src="https://i.imgur.com/gGvRtlY.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int m = minute();
+int h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage("SunnyAfternoon.jpg");
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+}
+
+void draw() {
+
+  //Grass, &amp; sun/moon
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*12, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x+w*4,y+h1*4,w*4,h*10);
+
+  String om = "";
+  if(m&lt;10) om = "0";
+  else om = "";
+
+  //Clock
+  String t = h+":"+om+m;
+  textSize(250);
+
+  text(t,x+w*5,y+h1*8,x+w*15,y+h1*15);
+
+
+}
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="clock-v14"><em>Clock V1.4</em></h2>
+<p>In this version I added a couple additional elements. A new string with some logic that put a 0 in front of minutes if they were less than 10. I changed the size of the arc and added a shadow. I started experimenting with the position of the clock and shadow. I got the ellipse in the right spot but it is hardly a sun or moon shape. That bleeping ellipse.</p>
+
+<p><img src="https://i.imgur.com/0fSOriE.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int m = minute();
+int h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage("SunnyAfternoon.jpg");
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+}
+
+void draw() {
+
+  //Grass, &amp; sun/moon
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x+w*4,y+h1*4,w*4,h*10);
+
+  String om = "";
+  if(m&lt;10) om = "0";
+  else om = "";
+
+  //Clock
+  String t = h+":"+om+m;
+  textSize(250);
+  fill(255,255,255);
+  text(t,x+w*6,y+h1*8,x+w*15,y+h1*15);
+
+//Shadow
+ textSize(250);
+ fill(0);
+ text(t,x+w*10,y+h1*17.5,x+w*15,y+h1*17.5);
+
+}
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="clock-v15"><em>Clock V1.5</em></h2>
+<p>I decided to center the ellipse, text, and shadow as if it was noon or midnight. I began to experiment with if logic, if poorly at first in an attempt to change the color for night time.</p>
+
+<p><img src="https://i.imgur.com/COOGm5m.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int m = minute();
+int h = hour();
+int s = second();
+
+float x;
+float y;
+float h1;
+float w;
+
+
+void setup() {
+  fullScreen();
+  if (h&gt;17 &amp;&amp; h&lt;7) background (48,24,96); //Make background night sky color
+
+  else background(135,206,235);
+  //background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+println (width);
+println (height);
+}
+
+
+
+void draw() {
+
+  //Grass, &amp; sun/moon
+
+  if (h&gt;17 &amp;&amp; h&lt;7) fill (0,75,17); //change arc color for night.
+  else fill(1,166,17);
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+  //if (h&gt;6 &amp;&amp; h&lt;11) fill
+  if (h&gt;17 &amp;&amp; h&lt;7) fill (255,255,255); //turns sun to moon.
+  else fill (249,250,87);
+  ellipse(x+w*12,y+h1*4,w*4,h*16); //need to add if so move sun to left side before noon and right after noon
+
+ String om = "";
+ if(m&lt;10) om = "0";
+ else om = "";
+
+  //Clock
+  String t = h + ":" + om + m;
+  textSize(250);
+  if (h&gt;17 &amp;&amp; h&lt;7) fill (192,192,192); //Changes Clock from white to silver for night
+  else fill(255,255,255);
+  text(t,x+w*7.5,y+h1*8,x+w*15,y+h1*15);
+
+//Shadow
+
+ textSize(250);
+ if (h&gt;17 &amp;&amp; h&lt;7) fill(255,255,255); //changes shadow from black to white
+ else fill(0);
+ text(t,x+w*7.5,y+h1*17.5,x+w*15,y+h1*17.5);
+
+}
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="clock-v16"><em>Clock V1.6</em></h2>
+<p>Whoa, it’s a sphere! All I had to do was set the ellipse’s height and width to constants. Duh. And the text is perfectly centered after learning about the textAlign command. The if logic is also not working, making it night time.</p>
+
+<p><img src="https://i.imgur.com/cx6Xn4A.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>float x;
+float y;
+float h1;
+float w;
+float st;
+
+
+void setup() {
+  fullScreen();
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+
+println (width);
+println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+
+  if ((h&gt;17) || (h&lt;7)) {    //Make background night sky color  
+  background (48,24,96);
+  }
+  else {
+    background(135,206,235);
+  }
+
+
+  //Grass, &amp; sun/moon
+  if ((h&gt;17) || (h&lt;7)) {      //change arc color for night.
+    fill (0,75,17);
+  }       
+  else {
+    fill(1,166,17);
+  }
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+  if ((h&gt;17) || (h&lt;7)) {
+    fill (255,255,255);     //turns sun to moon.
+  }
+  else {
+    fill (249,250,87);
+  }
+
+  ellipse((x+w*1),(y+h1*12),250,250); //need to add if so move sun to left side before noon and right after noon
+  st = st + (w*2);
+ String om = "";
+ if(m&lt;10) {
+   om = "0";
+ }
+ else {
+   om = "";
+ }
+
+  //Clock
+  String t = h + ":" + om + m;
+  textSize(250);
+  if ((h&gt;17) || (h&lt;7)) {
+  fill (192,192,192);
+} //Changes Clock from white to silver for night
+  else {
+    fill(255,255,255);
+  }
+  textAlign(CENTER,CENTER);
+  text(t, x+(w*12), y+(h1*12));
+
+//Shadow
+ textSize(250);
+ textAlign(CENTER,CENTER);
+ fill(0);
+ text(t, x+w*12, y+h1*20);
+
+}
+</code></pre></div></div>
+<hr />
+
+<h2 id="clock-v17"><em>Clock V1.7</em></h2>
+<p>Version 1.7 had a lot of different attempts. With the help of a classmate, I was able to get the ellipse to rotate around the screen from the middle in the correct direction an mapped to seconds. But for the life of me I could not figure out how to set the intervals the ellipse moved, nor could I figure out how to reset to the left ‘horizon’ every 12 hours. I spent hours trying to figure this out but eventually I opted to try a different route. Specifically, I decided to use If logic to move the ellipse depending on the hour. It didn’t exactly work out at first. I did get a 0 in front of hours though.</p>
+
+<p><img src="https://i.imgur.com/o6YfcX2.png?1" alt="Imgur" /></p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+float x;
+float y;
+float h1; //height
+float w;
+//float x1;
+//float y1;
+
+
+void setup() {
+  fullScreen();
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+
+
+  println (width);
+  println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+
+  if ((h&gt;17) || (h&lt;7)) {    //Make background night sky color  
+    background (48, 24, 96);
+  } else {
+    background(135, 206, 235);
+  }
+
+
+  //Grass, &amp; sun/moon
+  if ((h&gt;17) || (h&lt;7)) {      //change arc color for night.
+    fill (0, 75, 17);
+  } else {
+    fill(1, 166, 17);
+  }
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+
+
+  //Sun/Moon &amp; rotation
+  //float x1;
+  //float y1;
+  //float x1 = map(second(), 15, 45, PI, 0)+PI;
+  //float y1 = map(second(), 15, 45, PI, 0)+PI;
+
+  //x1 = cos(s)*(w*12)+width/2-PI;
+  //y1 = sin(s)*(h1*12)+(h1*12)-PI;
+
+  if ((h&gt;17) || (h&lt;7)) {
+    fill (255, 255, 255);     //turns sun to moon.
+  } else {
+    fill (249, 250, 87);
+  }
+  if ((h&gt;6) || (h&lt;12)) {
+    ellipse (x+w*6, y+h1*6, 250, 250);
+  }
+  if ((h&gt;19) || (h&lt;24)) {
+    ellipse (x+w*6, y+h1*6, 250, 250);
+  }
+  //if ((h&gt;11) || (h&lt;13)) {
+  //  ellipse (x+w*12, y+h1*4, 250, 250);
+ // }
+  //if ((h&gt;=0) || (h&lt;4)) {
+ //   ellipse (x+w*12, y+h1*4, 250, 250);
+ // }
+  if ((h&gt;15) || (h&lt;120)) {
+    ellipse (x+w*18, y+h1*6, 250, 250);
+  }
+  if ((h&gt;3) || (h&lt;7)) {
+    ellipse (x+w*18, y+h1*6, 250, 250);
+  } else {
+    ellipse (x+w*12, y+h1*4, 250, 250);
+  }
+
+
+  // Adds a 0 to minutes &amp; hours when less than 10.
+  String om = "";
+  if (m&lt;10) {
+    om = "0";
+  } else {
+    om = "";
+  }
+
+  String oh = "";
+  if (h&lt;10) {
+    oh = "0";
+  } else {
+    oh = "";
+  }
+
+  //Clock
+  String t = oh + h + ":" + om + m;
+  textSize(250);
+  if ((h&gt;17) || (h&lt;7)) {
+    fill (192, 192, 192);
+  } //Changes Clock from white to silver for night
+  else {
+    fill(255, 255, 255);
+  }
+  textAlign(CENTER, CENTER);
+  text(t, x+(w*12), y+(h1*12));
+
+  //Shadow
+  textSize(250);
+  textAlign(CENTER, CENTER);
+  fill(0);
+  text(t, x+w*12, y+h1*20);
+}
+</code></pre></div></div>
+
+<p>–</p>
+
+<h2 id="clock-v18"><em>Clock V1.8</em></h2>
+<p>In the previous version I was just drawing a new ellipse. In this version I used If and Translate to move the ellipse. I did it for just three parts of the day and night. It all worked but was too simple. I wanted the sun and moon to move every hour.</p>
+
+<p><img src="https://i.imgur.com/6ijLPWy.png?1" alt="Imgur" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+float x;
+float y;
+float h1; //height
+float w;
+//float x1;
+//float y1;
+
+
+void setup() {
+  fullScreen();
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+  println (width);
+  println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+
+  if ((h&gt;17) || (h&lt;7)) {    //Make background night sky color  
+    background (48, 24, 96);
+  } else {
+    background(135, 206, 235);
+  }
+  // Adds a 0 to minutes &amp; hours when less than 10.
+  String om = "";
+  if (m&lt;10) {
+    om = "0";
+  } else {
+    om = "";
+  }
+  String oh = "";
+  if (h&lt;10) {
+    oh = "0";
+  } else {
+    oh = "";
+  }
+
+  //Clock
+  String t = oh + h + ":" + om + m;
+  textSize(250);
+  if ((h&gt;17) || (h&lt;7)) {    //Changes Clock from white to silver for night
+    fill (192, 192, 192);
+  }
+  else {
+    fill(255, 255, 255);
+  }
+  textAlign(CENTER, CENTER);
+  text(t, x+(w*12), y+(h1*12));
+
+//Grass
+  if ((h&gt;17) || (h&lt;7)) {      //change arc color for night.
+    fill (0, 75, 17);
+  } else {
+    fill(1, 166, 17);
+  }
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+
+  //Shadow
+  textSize(250);
+  textAlign(CENTER, CENTER);
+    if ((h&gt;6) &amp;&amp; (h&lt;12) || (h&gt;19 &amp;&amp; h&lt;24)) {
+    translate (x+w*8, y+0);
+  }
+  if ((h&gt;3) &amp;&amp; (h&lt;7) || (h&gt;15) &amp;&amp; (h&lt;20)) {
+    translate (x-w*8, y+0);
+  }
+  fill(0);
+  text(t, x+w*12, y+h1*20);
+
+
+  //Sun/Moon &amp; rotation
+  //float x1;
+  //float y1;
+  //float x1 = map(second(), 15, 45, TWO_PI, 0)+PI;
+  //float y1 = map(second(), 15, 45, TWO_PI, 0)+PI;
+
+  //x1 = cos(s)*(w*12)+width/2-PI;
+  //y1 = sin(s)*(h1*12)+(h1*12)-PI;
+
+  if ((h&gt;17) || (h&lt;7)) {
+    fill (255, 255, 255);     //turns sun to moon.
+  } else {
+    fill (249, 250, 87);
+  }
+  // ellipse (x+w*12, y+h1*4, 250, 250);
+  // ellipse (x+w*20, y+h1*8, 250, 250);
+  if ((h&gt;11) || (h&lt;16) &amp;&amp; (h&gt;=0 || h&lt;4)) {
+    translate (x+w*8, y-h1*4);
+  }
+  if ((h&gt;3) || (h&lt;7) &amp;&amp; (h&gt;15) || (h&lt;20)) {
+    translate (CENTER, y+0);
+  }
+
+  ellipse (x+w*4, y+h1*8, 250, 250);
+}
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="clock-v19final-version"><em>Clock V1.9:Final Version</em></h2>
+<p>Lots of additions in the final version. First and foremost, I added an If and Translate for every hour so the sun and moon moved every hour. I increased the size of the ellipse and text and I have the clock some color, mapped to seconds so the user had an idea of how far they were into the minute.</p>
+
+<p><img src="https://i.imgur.com/Eds0pb9.png?1" alt="Imgur" /></p>
+
+<p><strong>Color change:</strong></p>
+
+<iframe src="https://player.vimeo.com/video/242024702" width="500" height="281" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/242024702">Clock Color Changes</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<p>Here is the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+float x;
+float y;
+float h1; //height
+float w;
+int xPos=200;
+int yPos=200;
+int xPos1=200;
+int yPos1=200;
+int storedMinute;
+int minute;
+
+
+
+void setup() {
+  fullScreen();
+  frameRate(30);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+
+  println (width);
+  println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+  minute = minute();
+
+
+
+
+  if ((h&gt;17) || (h&lt;7)) {    //Make background night sky color  
+    background (48, 24, 96);
+  } else {
+    background(135, 206, 235);
+  }
+  // Adds a 0 to minutes &amp; hours when less than 10.
+  String om = "";
+  if (m&lt;10) {
+    om = "0";
+  } else {
+    om = "";
+  }
+  String oh = "";
+  if (h&lt;10) {
+    oh = "0";
+  } else {
+    oh = "";
+  }
+
+  //Clock
+  float val = map(second(), 0, 60, 0, 127.5);
+  float val1 = map(second(), 0, 60, 127.5, 255);
+  String t = oh + h + ":" + om + m;
+  textSize(300);
+  textAlign(CENTER, CENTER);
+  if (storedMinute != minute()) {
+    fill(0);
+  }
+  if ((h&gt;7) || (h&lt;19)) {
+    fill(0, val1, 0);
+  }
+  fill(0, val, 0);
+
+  text(t, x+(w*12), y+(h1*12));
+
+  //Grass
+  if ((h&gt;7) || (h&lt;19)) {
+    fill(1, 170, 17);
+  }                        //change arc color for night.
+  fill (0, 75, 17);
+
+
+
+  noStroke();
+  arc(x+(w*12+100), y+h1*25, x+(w*40), y+h1*18, PI, 2*PI);
+
+
+  //Shadow
+  textSize(300);
+  textAlign(CENTER, CENTER);
+  fill(0, 0, 0, 50);
+  pushMatrix();
+  if ((h==8) || (h==20)) {
+    translate (x+w*.9, y+0);
+  }
+  if ((h==9) || (h==21)) {
+    translate (x-w*1.9, y+0);
+  }
+  if ((h==10) || (h==22)) {
+    translate (x-w*3.9, y+0);
+  }
+  if ((h==11) || (h==23)) {
+    translate (x-w*5.9, y+0);
+  }
+  if ((h==12) || (h==0)) {
+    translate (x-w*7.9, y+0);
+  }
+  if ((h==13) || (h==1)) {
+    translate (x-w*9.9, y+0);
+  }
+  if ((h==14) || (h==2)) {
+    translate (x-w*11.9, y+0);
+  }
+  if ((h==15) || (h==3)) {
+    translate (x-w*13.9, y+0);
+  }
+  if ((h==16) || (h==4)) {
+    translate (x-w*15.9, y+0);
+  }
+  if ((h==17) || (h==5)) {
+    translate (x-w*17.9, y+0);
+  }
+  if ((h==18) || (h==6)) {
+    translate (x-w*19.9, y+0);
+  }
+  text(t, x+w*19.9, y+h1*20);
+  popMatrix();
+
+  // Sun/Moon
+  if ((h&gt;17) || (h&lt;7)) {
+    fill (255, 255, 255);     //turns sun to moon.
+  } else {
+    fill (249, 250, 87);
+  }
+
+  noStroke();
+  pushMatrix();
+  if ((h==8) || (h==20)) {
+    translate (x+w*3, y-h1*2);
+  }
+  if ((h==9) || (h==21)) {
+    translate (x+w*5, y-h1*4);
+  }
+  if ((h==10) || (h==22)) {
+    translate (x+w*7, y-h1*6);
+  }
+  if ((h==11) || (h==23)) {
+    translate (x+w*9, y-h1*8);
+  }
+  if ((h==12) || (h==0)) {
+    translate (x+w*12, y-h1*9);
+  }
+  if ((h==13) || (h==1)) {
+    translate (x+w*15, y-h1*8);
+  }
+  if ((h==14) || (h==2)) {
+    translate (x+w*17, y-h1*6);
+  }
+  if ((h==15) || (h==3)) {
+    translate (x+w*19, y-h1*4);
+  }
+  if ((h==16) || (h==4)) {
+    translate (x+w*21, y-h1*2);
+  }
+  if ((h==17) || (h==5)) {
+    translate (x+w*22, y-h1*1);
+  }
+  if ((h==18) || (h==6)) {
+    translate (x+w*23, y+0);
+  }
+  ellipse (x, y+h1*12, 350, 350);
+  popMatrix();
+
+  storedMinute = minute;
+}
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="summary"><em>Summary</em></h2>
+<p>As I mentioned, this assignment was difficult. The amount of trigonometry required made my brain steam a bit. Drawing some things out was very helpful.</p>
+
+<p><img src="https://i.imgur.com/XeYpWAU.jpg?2" alt="Imgur" />
+<img src="https://i.imgur.com/70iReuz.jpg?2" alt="Imgur" /></p>
+
+<p>With some help from my professor, I learned how to use sin &amp; cos, how to use radians, and how to map time to radians. Being able to directly apply the math to something visual helps me learn it much faster than how it was abstractly taught in school.</p>
+
+<p>Some additions to the clock, I would like to use a greater color range in the clock fill and add some more elements to the background. But for now I am very happy with a clock that works and does what I want.</p>
+
+<p><strong><a href="https://github.com/wasgunnabut/ShopClock">GitHub Repo</a></strong></p>
+
+    </div>
+    
+    <div class="post_wrapper">
+      <footer class="post_footer cf">
+        <div class="post_share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=Creative Coding: Shop Clock&url=http://localhost:4000/Creativ-Coding-Shop-Clock/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Creativ-Coding-Shop-Clock/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Creativ-Coding-Shop-Clock/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+        </div>
+        <div class="post_tag">
+          <span>Tags:</span>
+          
+          <a href="/tags#Shop" class="tag">Shop</a>
+          
+          <a href="/tags#Clock" class="tag">Clock</a>
+          
+          <a href="/tags#Creative" class="tag">Creative</a>
+          
+          <a href="/tags#Coding" class="tag">Coding</a>
+          
+          <a href="/tags#Processing" class="tag">Processing</a>
+          
+        </div>
+      </footer>
+    </div>
+  </article> <!-- End Section Post -->
+
+  <section class="author cf">
+    <div class="post_wrapper">
+      <div class="author_image">
+        <img src="/assets/img/Headshot.jpg" alt="Author face">
+      </div>
+      <div class="author_info">
+        <h2 class="author_title">Jim Murphy</h2>
+        <p class="author_subtitle">Michigan born and raised. Colorado for grad school at CU-Boulder.</p>
+        <div class="author_social">
+          
+          <span class="author_email"><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:jamu6792@colorado.edu">jamu6792@colorado.edu</a></span>
+          
+          
+          
+          <span class="author_phone"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+496-169-65-57">(496)-169-6557</a></span>
+          
+
+          
+          <span class="author_website"><i class="fa fa-link" aria-hidden="true"></i> <a href="https://jimmurphy.studio" target="_blank">https://jimmurphy.studio</a></span>
+                      
+        </div>
+      </div>
+    </div>
+  </section> <!-- End Section Author -->
+
+  <section class="recent_box">
+    <div class="post_wrapper">
+      <h2 class="recent_title">Recent post</h2>
+      <div class="recent_list">
+        
+          
+            <a href="/stressMap/" class="recent_item" style="background-image: url( /assets/img/PostImagestressMap.jpg )"><span>stressMap a Node.js App</span></a>
+          
+        
+          
+            <a href="/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRPuzzle.png )"><span>Effugium Escape Room VR Puzzle: How I Did It</span></a>
+          
+        
+          
+            <a href="/VR-Maze-Challenge-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRMaze.png )"><span>VR Maze Challenge: How I Did It</span></a>
+          
+        
+          
+            <a href="/Smarter-Cat-Toy-Part-2/" class="recent_item" style="background-image: url( /assets/img/PostImageSmarterCatToy.PNG )"><span>Smarter Cat Toy: Part 2</span></a>
+          
+        
+          
+            <a href="/Assignment-8-Alexa,-Talk-To-Me/" class="recent_item" style="background-image: url( /assets/img/PostImageEcho.jpg )"><span>Assignment 8: Alexa, Talk To Me</span></a>
+          
+        
+          
+            <a href="/Creativ-Coding-Shop-Clock/" class="recent_item" style="background-image: url( /assets/img/PostImageShopClock.png )"><span>Creative Coding: Shop Clock</span></a>
+          
+        
+      </div>
+    </div>
+  </section> <!-- End Section Recent Box -->
+  
+  
+<section class="comment_area">
+  <div class="comment_wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-murphy.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Section Comment Area -->
+  
+</main> <!-- End Section Post Content -->
+
+
+<footer class="main_footer">
+  <div class="wrapper">
+    
+<ul class="social_footer">
+  
+  <li><a href="#" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a></li>      
+  
+  
+  <li><a href="https://twitter.com/wasgunnabut" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.instagram.com/wasgunnabut/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.facebook.com/wasgunnabut" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+  
+</ul>
+    <div class="copyright">
+      <p>&copy; 2018 All rights reserved. Design by <a href="https://artemsheludko.github.io" target="_blank">Artem Sheludko</a></p>
+    </div>
+  </div>
+</footer> <!-- End Section Footer -->
+
+
+  
+<div class="top" title="Top"><i class="fa fa-chevron-up" aria-hidden="true"></i></div> <!-- End Top Scroll -->
+  
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/assets/js/jquery.vide.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- End Javascript -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+</body>
+</html>

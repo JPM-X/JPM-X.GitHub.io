@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>EeonTex Pressure Fabric and Servo Motor - Maker Blog</title>
+	<meta name="description" content="Using EeonTex Pressure Fabric to manipulate a servo motor.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#d25469">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#d25469">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#d25469">
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  
+<header class="main_header">
+  <a href="/" class="logo">Maker Blog</a>
+  <nav class="main_menu">
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</header> <!-- End Section Header -->
+
+<main class="post_content">
+  <article class="post">
+    <header>
+      <div class="post_image">
+        <img src=/assets/img/PostImageFabric.JPG alt="EeonTex Pressure Fabric and Servo Motor">
+      </div>
+      <div class="post_description">
+        <p class="post_meta">2017, Oct 12</p>
+        <h1 class="post_title">EeonTex Pressure Fabric and Servo Motor</h1>
+      </div>
+    </header> <!-- End Header -->
+
+    <div class="entry_content">
+      <h1 id="eeontex-pressure-fabric-and-servo-motor"><strong>EeonTex Pressure Fabric and Servo Motor</strong></h1>
+<p>Learning how to use the EeonTex Pressure Fabric was a significant challenge for me. I am relatively new to the world of electronics and this fabric is a very new piece of technology so there is very little documentation or tutorials online. I was able to use a variety of documentation for standard pressure sensors to cobble together a working circuit and code.</p>
+
+<p>My ultimate goal would be to use the fabric to control the behavior of a servo motor. The purpose is to find the best way to create behavior for my <a href="http://jimmurphy.studio/Smarter-Cat-Toy/">Smart Cat Toy</a>.</p>
+
+<hr />
+
+<h2 id="lighting-an-led"><em>Lighting an LED</em></h2>
+<p>As I mentioned, this was a big struggle for me. The fabric is not like any other sensor and there was not a lot of examples using the fabric online.</p>
+
+<p>My first success came when I was able to simply light up an LED by simply completing the circuit with the fabric. The harder I pressed the brighter the LED.</p>
+
+<iframe src="https://player.vimeo.com/video/238166863" width="500" height="281" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/238166863">LightingOneLED</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<p>Watching this work I realized that the fabric just acts as a resistor. The harder I squeeze, the less resistance and the more current.</p>
+
+<p>I was still stumped on the next step. How do I go from a simple circuit that requires no code to controlling the behavior of a servo motor with different pressures.</p>
+
+<hr />
+
+<h2 id="analogreadserial"><em>AnalogReadSerial</em></h2>
+
+<p>I consulted my professor and he suggested that I try to dial in the different values in the Serial Monitor so that I would know what values to use when programming for the motor. He recommended I just use the AnalogReadSerial sketch that comes in the Examples in the <a href="https://www.arduino.cc/en/Main/Software">Arduino IDE</a>.</p>
+
+<p><img src="https://i.imgur.com/PFKuGYl.png?1" alt="Imgur" /></p>
+
+<p>Using this I should be able to see the analog values, 0-1023, that corresponds to the pressure applied to the fabric.</p>
+
+<p>Here is the circuit I set up for this:</p>
+
+<p><img src="https://i.imgur.com/3nGaE6s.jpg?1" alt="Imgur" /></p>
+
+<p>I wasn’t sure how to interpret the readings as they seemed to be up and down. At first I tried just full contact or no contact, trying to see which was 1023 and which was 0.</p>
+
+<p>Then I tried putting the fabric between the two pennies to see what pressure correlated to which analog value on the serial monitor. The results were difficult to dial in.</p>
+
+<iframe src="https://player.vimeo.com/video/238167920" width="500" height="207" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/238167920">Analog Serial Read EeonTex Fabric</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<p>Success…sort of. It is clear when there is full contact (1023) and no contact (0). Then I placed the fabric between the pennies to test the different pressures and different values. The fabric is very sensitive and with just my fingers and a couple pennies I could not be delicate enough to get distinct readings but good enough to move on.</p>
+
+<hr />
+
+<h2 id="lighting-two-leds"><em>Lighting Two LEDs</em></h2>
+<p>While the readings from the serial monitor were a bit erratic, I was able to discern two distinct readings; greater than 1000 and less than 1000. The new problem was the code.</p>
+
+<p>As there was no code written specifically for the fabric, I had to start with code that was written for a more standard pressure sensor <a href="https://www.sparkfun.com/products/11207">like this</a>.</p>
+
+<p>After a lot of googling I found a piece of code that got me started.</p>
+
+<p><strong><a href="http://www.instructables.com">Instructables.com</a></strong></p>
+
+<p>They have been an amazing resource for me in this project. In this instance I found an instrucable labeled <a href="http://www.instructables.com/id/LED-Pressure-Game/">LED Pressure Game Arduino</a>. Not only did it have step by step instructions for the circuit with a nice diagram with the code ready to copy and paste but it broke down the code piece by piece explaining what it did. This allowed me to modify their code to suit my needs.</p>
+
+<p>I examined their code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const int yellow1 = 10;
+const int yellow2 = 9;
+const int green1 = 6;
+const int green2 = 5;
+const int blue = 3;
+const int FSR = 0; // FSR connected to analog pin 0
+int level = 0; // variable for the level of force applied to the FSR
+void setup() // run once to setup
+{
+pinMode (red, OUTPUT); // LED set as output
+pinMode (yellow1, OUTPUT);
+pinMode (yellow2, OUTPUT);
+pinMode (green1, OUTPUT);
+pinMode (green2, OUTPUT);
+pinMode (blue, OUTPUT);
+}
+void loop() // repeated routine
+{
+int level = analogRead(FSR);
+//next, light up the LEDS according to pressure
+if (level &lt;200) {
+analogWrite (red, level);
+}
+if (level &gt;200) {
+analogWrite (yellow1, level);
+}
+if (level &gt;400) {
+analogWrite (yellow2, level);
+}
+if (level &gt;600 ) {
+analogWrite (green1, level);
+}
+if (level &gt;700) {
+analogWrite (green2, level);
+}
+if (level &gt;800) {
+analogWrite (blue, level);
+}
+//Next tell it to turn off all lights if level = 0
+if(level == 0) {
+digitalWrite (red, LOW);
+digitalWrite (yellow1, LOW);
+digitalWrite (yellow2 ,LOW);
+digitalWrite (green1, LOW);
+digitalWrite (green2, LOW);
+digitalWrite (blue, LOW);
+}
+//tell it to flash LEDS if pressure is greater than 800
+if (level &gt; 800) {
+digitalWrite (red, HIGH);
+digitalWrite (yellow1, HIGH);
+digitalWrite (yellow2 ,HIGH);
+digitalWrite (green1, HIGH);
+digitalWrite (green2, HIGH);
+digitalWrite (blue, HIGH);
+delay(100);
+digitalWrite (red, LOW);
+digitalWrite (yellow1, LOW);
+digitalWrite (yellow2 ,LOW);
+digitalWrite (green1, LOW);
+digitalWrite (green2, LOW);
+digitalWrite (blue, LOW);
+delay(100);
+}
+}
+</code></pre></div></div>
+<p>It was just a matter of whittling it down to just what I needed and modifying some of the variables. When I was done, my code ended up looking like this;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const int green = 13;
+const int white = 12;
+const int Fabric = 0;
+int level = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode (green, OUTPUT);
+  pinMode (white, OUTPUT);
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int level = analogRead(Fabric);
+  Serial.println(level);
+  delay(1000);
+
+if (level &gt;1000)
+  {
+    analogWrite (green, level);
+    digitalWrite (white, LOW);
+  }
+if (level &lt;1000)
+  {
+    analogWrite (white, level);
+    digitalWrite (green, LOW);
+  }
+
+  if(level == 0)
+  {
+    digitalWrite (green, LOW);
+    digitalWrite (white, LOW);
+  }
+
+
+}
+</code></pre></div></div>
+
+<p>This did the trick.</p>
+
+<p><a href="https://github.com/wasgunnabut/ArduinoCode/blob/master/PressureCode/PressureCode1.ino">Github Link to code</a></p>
+
+<iframe src="https://player.vimeo.com/video/238168268" width="500" height="281" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/238168268">Green &amp; White LEDs by Pressure</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<p>Now I was ready to start experimenting with the servo motor.</p>
+
+<hr />
+
+<h2 id="using-the-servo-motor"><em>Using the Servo Motor</em></h2>
+<p>So, based on my code above and the information and code I found on <a href="https://www.arduino.cc/en/reference/servo">Arduino’s site</a>, and another great <a href="http://www.instructables.com/id/Arduino-Servo-Motors/">Instructables page</a> respectively, I cobbled together this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;Servo.h&gt;;
+int servoPin = 12;
+Servo Servo1;
+const int Fabric = 0;
+int level = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  Servo1.attach(servoPin);
+  Serial.begin(2000000);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int level = analogRead(Fabric);
+  Serial.println(level);
+  delay(1000);
+
+if (level &gt;1000)
+  {
+    Servo1.write(90);
+  }
+if (level &lt;1000)
+  {
+    Servo1.write(180);
+  }
+
+  if(level == 0)
+  {
+    Servo1.write(0);
+  }
+
+
+}
+</code></pre></div></div>
+<p><a href="https://github.com/wasgunnabut/ArduinoCode/blob/master/PressureServo/PressureServo.ino">Github Link to code</a></p>
+
+<p>So I hooked up the motor to my existing pressure circuit but realized I did not need the bread board so to reduce noise, everything went directly into the Uno.</p>
+
+<p><img src="https://i.imgur.com/C8dALCz.jpg?1" alt="Imgur" /></p>
+
+<p>plugged everything into the computer and held my breath.</p>
+
+<iframe src="https://player.vimeo.com/video/238169004" width="500" height="203" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+<p><a href="https://vimeo.com/238169004">Servo Motor with EeonTex Fabric</a> from <a href="https://vimeo.com/wasgunnabut324">Jim Murphy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+<p>So…I think it seems to be working? As of now I do not know why the serial monitor seems to stop working after a few cycles.</p>
+
+<p>One suggestion I found online recommended increasing the baud rate, which is why mine is set to two million rather than the standard 9600. This helped get a few more cycles but it stills stopped working.</p>
+
+<p>Another suggested the power required by the servo was overloading the board. I tried loading the program to the board and running it off a 9V battery but it did not yield different results.</p>
+
+<hr />
+
+<h2 id="next-steps"><em>Next Steps</em></h2>
+<p>So for now I’m pretty stumped. I don’t know why the serial monitor stops, nor am I certain how to get more than two levels of pressure and how to make them stable enough with the fabric. However, I do have some places to start for each problem.</p>
+
+<p><strong>Serial Monitor</strong></p>
+<ul>
+  <li>Better Equipment: While unlikely, it is possible that I have a faulty servo motor. To rectify this problem, I purchased a new one to ensure proper functionality.</li>
+  <li>Ask My Prof: When all else fails…</li>
+  <li>Maybe something wrong with my code?</li>
+</ul>
+
+<p><strong>Stable &amp; More Pressure Levels</strong></p>
+<ul>
+  <li>Create my own button out of the fabric.</li>
+  <li>Once again, an amazing <a href="http://www.instructables.com/id/Flexible-Fabric-Pressure-Sensor/">Instructable Page</a>.</li>
+  <li>Try this with a different kind of pressure sensor.</li>
+  <li><a href="https://www.sparkfun.com/products/11207">This one.</a></li>
+</ul>
+
+<p><br /> &lt;/br&gt;
+ <strong>I will continue to update this post as I explore each option and any new options.</strong></p>
+
+    </div>
+    
+    <div class="post_wrapper">
+      <footer class="post_footer cf">
+        <div class="post_share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=EeonTex Pressure Fabric and Servo Motor&url=http://localhost:4000/EeonTex-Pressure-Fabric-and-Servo-Motor/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/EeonTex-Pressure-Fabric-and-Servo-Motor/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/EeonTex-Pressure-Fabric-and-Servo-Motor/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+        </div>
+        <div class="post_tag">
+          <span>Tags:</span>
+          
+          <a href="/tags#Arduino" class="tag">Arduino</a>
+          
+          <a href="/tags#EeonTex" class="tag">EeonTex</a>
+          
+          <a href="/tags#Pressure" class="tag">Pressure</a>
+          
+          <a href="/tags#Fabric" class="tag">Fabric</a>
+          
+          <a href="/tags#Servo" class="tag">Servo</a>
+          
+          <a href="/tags#Motor" class="tag">Motor</a>
+          
+        </div>
+      </footer>
+    </div>
+  </article> <!-- End Section Post -->
+
+  <section class="author cf">
+    <div class="post_wrapper">
+      <div class="author_image">
+        <img src="/assets/img/Headshot.jpg" alt="Author face">
+      </div>
+      <div class="author_info">
+        <h2 class="author_title">Jim Murphy</h2>
+        <p class="author_subtitle">Michigan born and raised. Colorado for grad school at CU-Boulder.</p>
+        <div class="author_social">
+          
+          <span class="author_email"><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:jamu6792@colorado.edu">jamu6792@colorado.edu</a></span>
+          
+          
+          
+          <span class="author_phone"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+496-169-65-57">(496)-169-6557</a></span>
+          
+
+          
+          <span class="author_website"><i class="fa fa-link" aria-hidden="true"></i> <a href="https://jimmurphy.studio" target="_blank">https://jimmurphy.studio</a></span>
+                      
+        </div>
+      </div>
+    </div>
+  </section> <!-- End Section Author -->
+
+  <section class="recent_box">
+    <div class="post_wrapper">
+      <h2 class="recent_title">Recent post</h2>
+      <div class="recent_list">
+        
+          
+            <a href="/stressMap/" class="recent_item" style="background-image: url( /assets/img/PostImagestressMap.jpg )"><span>stressMap a Node.js App</span></a>
+          
+        
+          
+            <a href="/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRPuzzle.png )"><span>Effugium Escape Room VR Puzzle: How I Did It</span></a>
+          
+        
+          
+            <a href="/VR-Maze-Challenge-How-I-Did-It/" class="recent_item" style="background-image: url( /assets/img/PostImageVRMaze.png )"><span>VR Maze Challenge: How I Did It</span></a>
+          
+        
+          
+            <a href="/Smarter-Cat-Toy-Part-2/" class="recent_item" style="background-image: url( /assets/img/PostImageSmarterCatToy.PNG )"><span>Smarter Cat Toy: Part 2</span></a>
+          
+        
+          
+            <a href="/Assignment-8-Alexa,-Talk-To-Me/" class="recent_item" style="background-image: url( /assets/img/PostImageEcho.jpg )"><span>Assignment 8: Alexa, Talk To Me</span></a>
+          
+        
+          
+            <a href="/Creativ-Coding-Shop-Clock/" class="recent_item" style="background-image: url( /assets/img/PostImageShopClock.png )"><span>Creative Coding: Shop Clock</span></a>
+          
+        
+      </div>
+    </div>
+  </section> <!-- End Section Recent Box -->
+  
+  
+<section class="comment_area">
+  <div class="comment_wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-murphy.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Section Comment Area -->
+  
+</main> <!-- End Section Post Content -->
+
+
+<footer class="main_footer">
+  <div class="wrapper">
+    
+<ul class="social_footer">
+  
+  <li><a href="#" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a></li>      
+  
+  
+  <li><a href="https://twitter.com/wasgunnabut" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.instagram.com/wasgunnabut/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="#" target="_blank"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+  
+  
+  <li><a href="https://www.facebook.com/wasgunnabut" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+  
+</ul>
+    <div class="copyright">
+      <p>&copy; 2018 All rights reserved. Design by <a href="https://artemsheludko.github.io" target="_blank">Artem Sheludko</a></p>
+    </div>
+  </div>
+</footer> <!-- End Section Footer -->
+
+
+  
+<div class="top" title="Top"><i class="fa fa-chevron-up" aria-hidden="true"></i></div> <!-- End Top Scroll -->
+  
+<script src="/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/assets/js/jquery.vide.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<!-- End Javascript -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+</body>
+</html>

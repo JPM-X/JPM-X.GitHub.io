@@ -1,0 +1,2151 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-04-24T17:56:10-06:00</updated><id>http://localhost:4000/</id><title type="html">Maker Blog</title><subtitle>My maker blog profiling all the work I will be doing in the CMCI Studio program at University of Colorado-Boulder.
+</subtitle><entry><title type="html">stressMap a Node.js App</title><link href="http://localhost:4000/stressMap/" rel="alternate" type="text/html" title="stressMap a Node.js App" /><published>2018-04-18T01:08:00-06:00</published><updated>2018-04-18T01:08:00-06:00</updated><id>http://localhost:4000/stressMap</id><content type="html" xml:base="http://localhost:4000/stressMap/">&lt;h1 id=&quot;stressmap-a-nodejs-app&quot;&gt;&lt;strong&gt;stressMap a Node.js App&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;Graduate school can be very stressful so for our node.js app assignment some classmates and I decided to build a stress map. Two buttons one red for stressed and one blue for not stressed when pressed create a visualization on a webpage that represented the cumulative stress of the people in the program.&lt;/p&gt;
+
+&lt;p&gt;Four of us worked on this project to accomplish the steps needed&lt;/p&gt;
+
+&lt;h1 id=&quot;how-to-make-a-node-app&quot;&gt;&lt;em&gt;How to Make a Node App&lt;/em&gt;&lt;/h1&gt;
+
+&lt;h2 id=&quot;the-hardware&quot;&gt;&lt;em&gt;The Hardware&lt;/em&gt;&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.raspberrypi.org&quot;&gt;Raspberry Pi 3&lt;/a&gt; - The Raspberry Pi will act as our server. It will run the app and communicate with the browser.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.arduino.cc&quot;&gt;Arduino Uno&lt;/a&gt; - We used an Arduino Uno to drive our buttons. The Arduino has more inputs and outputs than the Pi, making it ideal to drive our buttons.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Below is a sketch on how we set up our hardware.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/uoktyfx.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;frameworks--libraries&quot;&gt;&lt;em&gt;Frameworks &amp;amp; Libraries&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mattisola.me&quot;&gt;Matt Isola&lt;/a&gt; and I worked on building the app.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://nodejs.org/en/&quot;&gt;Node.js&lt;/a&gt; - Creates a server from which the app can run.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://expressjs.com&quot;&gt;Express.js&lt;/a&gt; - We used it to create the website.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://johnny-five.io&quot;&gt;Johnny-Five&lt;/a&gt; - Allows for communication between the Raspberry Pi and Arduino.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://socket.io&quot;&gt;Web Sockets (Sockets.io)&lt;/a&gt; - Allows for communication between the client (browser) and the server. Also allows interaction from multiple browsers simultaneously.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can see all of our code &lt;a href=&quot;https://github.com/wasgunnabut/stressMap&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The App is comprised of several parts.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;An &lt;a href=&quot;https://github.com/wasgunnabut/stressMap/blob/master/app.js&quot;&gt;App.js&lt;/a&gt; file that consists of the Johnny-Five and Web Sockets code.&lt;/li&gt;
+  &lt;li&gt;Johnny-Five allows for communication between the Pi and the Arduino. When a button is pressed Johnny-Five relays that information back to the Pi and vice versa.&lt;/li&gt;
+  &lt;li&gt;Web Sockets allows for communication between the browser and the Pi and allows for multiple users to be logged in and for their actions are seen across all users.&lt;br /&gt;
+ Currently, we do not allow for browser side interactivity so Web Sockets simply let’s the browser know when a button has been pressed.&lt;/li&gt;
+  &lt;li&gt;Express was used to create our webpage. We used Express to create a pug template. This allows us to easily update the web content in the future. It also allows us to have clean URL’s. Currently, we are not using Express to it’s full extent but wanted to get it set up for future iterations.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This diagram is a visual representation of how it all fits together.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/FoeDVd1.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;p5js-sketch-the-visualization&quot;&gt;&lt;em&gt;p5.js Sketch: The Visualization&lt;/em&gt;&lt;/h1&gt;
+&lt;p&gt;The visualization of the button input was developed by &lt;a href=&quot;https://meredithleedesigns.blog/visualizing-moods-in-the-digital-world/&quot;&gt;Meredith Fong&lt;/a&gt; and &lt;a href=&quot;https://sarahsafranski.wordpress.com/2018/04/19/enchanted-object/&quot;&gt;Sara Safranski&lt;/a&gt; using &lt;a href=&quot;https://p5js.org&quot;&gt;p5.js&lt;/a&gt;, a javascript library that allows for &lt;a href=&quot;https://processing.org&quot;&gt;Processing&lt;/a&gt; like sketches to be deployed on the web.&lt;/p&gt;
+
+&lt;p&gt;This captivating sketch does an amazing job capturing the levels of stress in a visually stunning way. For more information on how they did it, visit their sites above.&lt;/p&gt;
+
+&lt;h2 id=&quot;integrating-the-sketch&quot;&gt;&lt;em&gt;Integrating the Sketch&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;The only addition Matt and I needed to make to the sketch was to include some Web Sockets code. This connected the sketch to the Pi and through Johnny-Five, connected the sketch to the physical buttons. The result is when you push a button, the sketch responds. See the end result below.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-result&quot;&gt;&lt;em&gt;The Result&lt;/em&gt;&lt;/h1&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/265508682&quot; width=&quot;640&quot; height=&quot;360&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/265508682&quot;&gt;stressMap&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;next-steps&quot;&gt;&lt;em&gt;Next Steps&lt;/em&gt;&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;We would like to add interactivity on the sites&lt;/li&gt;
+  &lt;li&gt;Move the hardware to a more permanent build&lt;/li&gt;
+  &lt;li&gt;Deploy the App to a server&lt;/li&gt;
+  &lt;li&gt;Deploy app to a Magic Mirror platform&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="node.js" /><category term="express" /><category term="web sockets" /><category term="stress" /><category term="johnny five" /><summary type="html">stressMap a Node.js App Graduate school can be very stressful so for our node.js app assignment some classmates and I decided to build a stress map. Two buttons one red for stressed and one blue for not stressed when pressed create a visualization on a webpage that represented the cumulative stress of the people in the program.</summary></entry><entry><title type="html">Effugium Escape Room VR Puzzle: How I Did It</title><link href="http://localhost:4000/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/" rel="alternate" type="text/html" title="Effugium Escape Room VR Puzzle: How I Did It" /><published>2018-03-17T03:55:00-06:00</published><updated>2018-03-17T03:55:00-06:00</updated><id>http://localhost:4000/Effugium-Escape-Room-VR-Puzzle:-How-I-Did-It</id><content type="html" xml:base="http://localhost:4000/Effugium-Escape-Room-VR-Puzzle-How-I-Did-It/">&lt;h1 id=&quot;effugium-escape-room-vr-puzzle-how-i-did-it&quot;&gt;&lt;strong&gt;Effugium Escape Room VR Puzzle: How I Did It&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;In conjunction with two others, I are designing an escape room experience and one of the puzzles lives inside virtual reality. To build this puzzle I used https://www.aframe.io. Aframe is a web framework used for building virtual reality experiences. It is mostly based on html and that is all I have used so far. Javascript can also be used to increase interactivity. This is the second prototype of the escape room and the VR puzzle. I used node live-server to develop.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;https://wasgunnabut.github.io&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;code-structure&quot;&gt;&lt;em&gt;Code Structure&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;The code structure is very similar to html. If the webvr app is not being embedded into a webpage the structure of the html is very similar to a traditional webpage. First, declare the html document. Then create a head and add in the Aframe release script so the browser knows to use Aframe. Then create a body and inside the body goes the a-scene tag. This is where all the Aframe html will go. The assets tag is used to preload any assets.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://aframe.io/releases/0.7.0/aframe.min.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;a-scene&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;assets&amp;gt;&lt;/span&gt;
+
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/assets&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/a-scene&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;a-sky&quot;&gt;&lt;em&gt;a-sky&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;The puzzle is created using html so it was very simple to learn to use and I didn’t encounter any real struggles. The biggest hurdle I had to overcome was creating and working with 360 degree images, or equirectangular images, to be used for the sky. I tried to make my own using Photoshop but they did not look very good. So I ended up downloading some from Adobe’s stock photo library which worked well.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/oYI7XHR.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The code for the sky is very simple. I preloaded the seamless sky image using the Asset Management System. This is better for performance and ensures the asset is not missing.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;assets&amp;gt;
+  &amp;lt;img id=&quot;sky&quot; src=&quot;/assets/SeamlessSky.jpeg&quot;&amp;gt;
+&amp;lt;/assets&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next I create the sky using the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-sky&amp;gt;&lt;/code&gt; primitive. Aframe provides a wide variety of &lt;a href=&quot;https://aframe.io/docs/0.8.0/introduction/html-and-primitives.html&quot;&gt;primitives&lt;/a&gt; which are just pre-built components. Each primitive has a wide variety of attributes that can be used to modify the primitive. Some common ones are position, scale, radius, color, opacity and rotation.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-sky src=&quot;#sky&quot;&amp;gt;&amp;lt;/a-sky&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I simply use the src attribute to point to the seamless sky asset using it’s id.&lt;/p&gt;
+
+&lt;p&gt;This gives me the sky in my scene.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-plane&quot;&gt;&lt;em&gt;a-plane&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Next I needed to create a floor so the player is not suspended in midair. I created a simple floor using the &lt;code class=&quot;highlighter-rouge&quot;&gt;a-plane&lt;/code&gt; primitive. By default the plane appears perpendicular to the floor so the rotation attribute is required to rotate the plane along the X axis. Next I scaled the plane so that it was large enough. Finally, I would need to texture the plane. I created a simple texture in Illustrator.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/zgxUZNx.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I preloaded it in &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;assets&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;assets&amp;gt;
+  &amp;lt;img id=floor src=&quot;/assets/grid.png&quot;&amp;gt;
+  &amp;lt;img id=&quot;sky&quot; src=&quot;/assets/SeamlessSky.jpeg&quot;&amp;gt;
+&amp;lt;/assets&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and used the id floor with the SRC attribute to create my plane.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-plane rotation=&quot;-90 0 0&quot; scale=&quot;30 30 30&quot; src=&quot;#floor&quot;&amp;gt;&amp;lt;/a-plane&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-puzzle&quot;&gt;&lt;em&gt;The Puzzle&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;The puzzle consists if three shapes that hide a digit. The shapes and digit correspond to a lock that the players need to unlock. To reveal the digit the player must focus the reticle on the shape, causing the shape to fade and the digit to be visible. To make the experience more dynamic, the shapes also moved.  There are three different shapes with digits: a square, circle and triangle.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;a-box&lt;/strong&gt;&lt;br /&gt;
+While there is a square primitive, the 2D nature of the primitive made it very difficult to see in the position I wanted it. By using a box the shape is visible from all angles. I needed several attributes with this and the final line of code looked like this.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-box color=&quot;#4d7de9&quot; depth=&quot;.1&quot; height=&quot;1&quot; width=&quot;1&quot; position=&quot;-3 2 -3&quot; rotation=&quot;0 90 0&quot;&amp;gt;&lt;/code&gt;&lt;br /&gt;
+To animate the motion I used &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-animation&amp;gt;&lt;/code&gt;. This allowed me to create motion and change opacity when the reticle was focused on the shape. To indicate which shape to animate, I simply had to make the animation a child of the desired shape. Each animation does something specific and the attributes allow for controls like duration, direction, and when to begin. I had to create separate animations  All said and done, the code looked like this.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a-box color=&quot;#4d7de9&quot; depth=&quot;.1&quot; height=&quot;1&quot; width=&quot;1&quot; position=&quot;-3 2 -3&quot; rotation=&quot;0 90 0&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;-3 2 -3&quot; to=&quot;-3 2 3&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-box&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;a-circle&lt;/strong&gt;&lt;br /&gt;
+Since the circle was visible from the camera location, and since the playres would not be able to move I was able to use the 2D primitive, &lt;code class=&quot;highlighter-rouge&quot;&gt;a-cirlce&lt;/code&gt;. I initially tried to use &lt;code class=&quot;highlighter-rouge&quot;&gt;a-shere&lt;/code&gt; but it was very difficult to hide text behind it. The animations are very similar to what I used for the box.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a-circle position=&quot;2.99 5 -1&quot; rotation=&quot;0 -90 0&quot; color=&quot;#f5f941&quot; radius=&quot;.5&quot; metalness=&quot;0&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;2.99 5 -1&quot; to=&quot;2.99 1 -1&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-circle&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;a-triangle&lt;/strong&gt;&lt;br /&gt;
+Like the circle, the triangle was visible from the camera position and the only option to create a 3D triangle is the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-tetrahedron&amp;gt;&lt;/code&gt;. Like the sphere, this was a struggle to hide text behind. With animation the code looked like this.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a-triangle position=&quot;1.5 1 1.49&quot; rotation=&quot;0 180 0&quot; color=&quot;#f53030&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;1.5 1 1.49&quot; to=&quot;-3 1 1.49&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-triangle&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;a-text&lt;/strong&gt;&lt;br /&gt;
+To create the digit I used the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-text&amp;gt;&lt;/code&gt; primitive. The only attributes I needed were the value and color attributes.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a-text value=&quot;value&quot; color=&quot;#000000&quot;&amp;lt;/a-text&amp;gt;&lt;/code&gt;&lt;br /&gt;
+Since I wanted the text to move with the shapes I made all the text the child of the corresponding shape. I then added another shape in front of the text and added an opacity animation to that shape. When it was all put together it looked like this:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a-box color=&quot;#4d7de9&quot; depth=&quot;.1&quot; height=&quot;1&quot; width=&quot;1&quot; position=&quot;-3 2 -3&quot; rotation=&quot;0 90 0&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;-3 2 -3&quot; to=&quot;-3 2 3&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-animation attribute=&quot;opacity&quot; begin=&quot;mouseenter&quot; from=&quot;100&quot; to=&quot;0&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-animation attribute=&quot;opacity&quot; begin=&quot;mouseleave&quot; from=&quot;0&quot; to=&quot;100&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-text value=&quot;N&quot; color=&quot;#000000&quot;&amp;lt;/a-text&amp;gt;
+&amp;lt;/a-box&amp;gt;
+&amp;lt;a-box color=&quot;#4d7de9&quot; depth=&quot;.1&quot; height=&quot;1&quot; width=&quot;1&quot; position=&quot;-3.1 2 -3&quot; rotation=&quot;0 90 0&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;-3.1 2 -3&quot; to=&quot;-3.1 2 3&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-box&amp;gt;
+
+&amp;lt;a-circle position=&quot;3 5 -1&quot; rotation=&quot;0 -90 0&quot; color=&quot;#f5f941&quot; radius=&quot;.5&quot; metalness=&quot;0&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;3 5 -1&quot; to=&quot;3 1 -1&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-text value=&quot;R&quot; color=&quot;#000000&quot;&amp;lt;/a-text&amp;gt;
+&amp;lt;/a-circle&amp;gt;
+&amp;lt;a-circle position=&quot;2.99 5 -1&quot; rotation=&quot;0 -90 0&quot; color=&quot;#f5f941&quot; radius=&quot;.5&quot; metalness=&quot;0&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;2.99 5 -1&quot; to=&quot;2.99 1 -1&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-animation attribute=&quot;opacity&quot; begin=&quot;mouseenter&quot; from=&quot;100&quot; to=&quot;0&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-animation attribute=&quot;opacity&quot; begin=&quot;mouseleave&quot; from=&quot;0&quot; to=&quot;100&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-circle&amp;gt;
+
+
+&amp;lt;a-triangle position=&quot;1.5 1 1.5&quot; rotation=&quot;0 180 0&quot; color=&quot;#f53030&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;1.5 1 1.5&quot; to=&quot;-3 1 1.5&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-text value=&quot;L&quot; color=&quot;#000000&quot;&amp;lt;/a-text&amp;gt;
+&amp;lt;/a-triangle&amp;gt;
+&amp;lt;a-triangle position=&quot;1.5 1 1.49&quot; rotation=&quot;0 180 0&quot; color=&quot;#f53030&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur=&quot;3000&quot; from=&quot;1.5 1 1.49&quot; to=&quot;-3 1 1.49&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-animation attribute=&quot;opacity&quot; begin=&quot;mouseenter&quot; from=&quot;100&quot; to=&quot;0&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+  &amp;lt;a-animation attribute=&quot;opacity&quot; begin=&quot;mouseleave&quot; from=&quot;0&quot; to=&quot;100&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-triangle&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;the-decoy-shapes&quot;&gt;&lt;em&gt;The Decoy Shapes&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;To make it a little harder to find the correct shapes I added five decoy shapes: &lt;code class=&quot;highlighter-rouge&quot;&gt;a-cone&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;a-decohedron&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;a-torus-knowt&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;a-tetrahedron&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;a-octahedron&lt;/code&gt;. Each had a similar animation for position.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a-cone radius-bottom=&quot;1&quot; radius-top=&quot;.1&quot; position=&quot;0 2 -4&quot; color=&quot;#d3f947&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur&quot;=2000&quot; from=&quot;0 2 -4&quot; to=&quot;-3 0 -2&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-cone&amp;gt;
+
+&amp;lt;a-dodecahedron radius=&quot;.5&quot; position=&quot;0 4 0&quot; color=&quot;#fcff6b&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur&quot;=12000&quot; from=&quot;0 4 0&quot; to=&quot;3 1 2&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-dodecahedron&amp;gt;
+
+&amp;lt;a-torus-knot arc=&quot;180&quot; p=&quot;1&quot; q=&quot;8&quot; radius=&quot;.5&quot; radius-tubular=&quot;0.05&quot; position=&quot;-3 2 4&quot; color=&quot;#B84A39&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur&quot;=1000&quot; from=&quot;-3 2 4&quot; to=&quot;1 2 1&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-torus-knot&amp;gt;
+
+&amp;lt;a-tetrahedron radius=&quot;.5&quot; position=&quot;-3 1 -2&quot; color=&quot;#FF926B&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur&quot;=9000&quot; from=&quot;-3 1 -2&quot; to=&quot;0 5 -4&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-tetrahedron&amp;gt;
+
+&amp;lt;a-octahedron color=&quot;#ff00a8&quot; radius=&quot;.5&quot; position=&quot;3 5 -4&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;position&quot; dur&quot;=17000&quot; from=&quot;3 5 -4&quot; to=&quot;6 1 -1&quot; direction=&quot;alternate&quot; repeat=&quot;indefinite&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-octahedron&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;the-instructions&quot;&gt;&lt;em&gt;The Instructions&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;The last part is to create the instructions and have them vanish after a certain amount of time.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a-text value=&quot;Look all around you. Examine each shape carefully.&quot; position=&quot;-2.3 1.5 -3.5&quot; color=&quot;#ff1b1b&quot;&amp;gt;
+  &amp;lt;a-animation attribute=&quot;opacity&quot; delay=&quot;30000&quot; from=&quot;100&quot; to=&quot;0&quot;&amp;gt;&amp;lt;/a-animation&amp;gt;
+&amp;lt;/a-text&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;&lt;em&gt;Conclusion&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;We implemented the puzzle using google cardboard and it worked very well. As we continue to develop the escape room, the puzzle will begin to model the actual room, showing the player the location of a hidden object in the real world. You can access all of the code and assets &lt;a href=&quot;https://github.com/wasgunnabut/Aframe&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Demo Video&lt;/strong&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/260591197&quot; width=&quot;640&quot; height=&quot;360&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/260591197&quot;&gt;EscapeRoomPuzzle&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="Web" /><category term="development" /><category term="VR" /><category term="Aframe" /><category term="webvr" /><summary type="html">Effugium Escape Room VR Puzzle: How I Did It In conjunction with two others, I are designing an escape room experience and one of the puzzles lives inside virtual reality. To build this puzzle I used https://www.aframe.io. Aframe is a web framework used for building virtual reality experiences. It is mostly based on html and that is all I have used so far. Javascript can also be used to increase interactivity. This is the second prototype of the escape room and the VR puzzle. I used node live-server to develop.</summary></entry><entry><title type="html">VR Maze Challenge: How I Did It</title><link href="http://localhost:4000/VR-Maze-Challenge-How-I-Did-It/" rel="alternate" type="text/html" title="VR Maze Challenge: How I Did It" /><published>2018-02-19T02:55:00-07:00</published><updated>2018-02-19T02:55:00-07:00</updated><id>http://localhost:4000/VR-Maze-Challenge:-How-I-Did-It</id><content type="html" xml:base="http://localhost:4000/VR-Maze-Challenge-How-I-Did-It/">&lt;h1 id=&quot;vr-maze-challenge-how-i-did-it&quot;&gt;&lt;strong&gt;VR Maze Challenge: How I Did It&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;VR Maze Challenge is meant to provide unique virtual reality maze experience. Each level presents a unique maze with a different challenge. The prototype consists of two levels, Maze 1 and Maze 2.&lt;/p&gt;
+
+&lt;p&gt;Maze 1 is designed from the terrain itself. Lighting provides the player a way to navigate the maze, bluer being closer to the exit. Monster NPCs roam the maze and will send the player back to the beginning of Maze 1.&lt;/p&gt;
+
+&lt;p&gt;Maze 2 was imported from Rhino 3D providing a more manufactured look and feel. Maze 2 is composed of two parts. The maze the player navigates and the map which is far below the maze. The maze has a transparent floor so the player can look down to navigate the maze. Additionally, the player must pick up collectables to open the door of the corresponding color and advance. There are 3 doors blue, red, and yellow with 10 collectables each. Lastly Maze 2 also has Alien NPCs that will send the player back to the previously opened door.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-mazes&quot;&gt;&lt;em&gt;The Mazes&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Maze 1&lt;/strong&gt;
+&lt;img src=&quot;https://i.imgur.com/ddH1M0Y.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Terrain&lt;/strong&gt;&lt;br /&gt;
+To generate Maze 1 I used a simple online &lt;a href=&quot;http://www.mazegenerator.net&quot;&gt;maze generator&lt;/a&gt;. This exported the maze into a .png file.
+&lt;img src=&quot;https://i.imgur.com/zkeq9eD.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I then imported the png into my Unity project. I wanted the maze to be built from the mountains. To do this I applied the png as a texture to a blank terrain.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/uBtXfmi.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+This allowed me to create the mountains by simply following the lines of the maze.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/V9BlcpT.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;strong&gt;Texture &amp;amp; Sky&lt;/strong&gt;&lt;br /&gt;
+I wanted the mountains to appear rocky with a more grass-like walking path. I downloaded a few free textures from the Unity Store and began to try them out. The first texture that is applied is the base texture and covers the entire terrain so I began with the rock texture.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/VyxygLm.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+Next I applied my walking path texture. I painted the texture in and soon had a mountainous maze. Lastly I applied a sky, called a skybox in Unity. I found some in the Unity Store and tried them out, landing on a nice night sky.
+&lt;img src=&quot;https://i.imgur.com/ybPyGIU.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Lights&lt;/strong&gt;&lt;br /&gt;
+The last component to the physical maze would be the lights. I used 9 different point lights to shade the maze from red to blue. I aligned one point light then duplicated it 8 times, repositioned them and colored them. Then I increased the intensity a little then increased the rage considerably, bathing the maze in soft, colored light.
+&lt;img src=&quot;https://i.imgur.com/ddH1M0Y.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Maze 2&lt;/strong&gt;&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/108QoSl.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Maze Generator &amp;amp; Rhino&lt;/strong&gt;&lt;br /&gt;
+To create Maze 2 I used a &lt;a href=&quot;https://github.com/rjduran/mazegenerator&quot;&gt;maze generator from GitHub&lt;/a&gt; my professor recommended. I downloaded the Repo and after some experimenting downloaded a maze that was more difficult than the first.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/5A3IlfE.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+This exported a .svg file. I imported that into Adobe Illustrator then saved that as a .ai Illustrator file. This file type could be opened in Rhino3D. I extruded the curves and offset them to give the maze walls thickness.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/rHR9Bq8.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+I saved this file out as a .obj and imported the file into my Unity project.&lt;br /&gt;
+&lt;strong&gt;Mesh Colliders&lt;/strong&gt;&lt;br /&gt;
+I scaled and positioned the maze on top of an invisible plane allowing the player to look through the floor to the map maze below. It is important to check convex on the mesh collider of the maze walls or the player could run through them. This simple checkbox was a pain point and took way too long to find.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/DFF8kPX.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;strong&gt;Walls &amp;amp; Collectable Items&lt;/strong&gt;&lt;br /&gt;
+Next I added in the collectables and corresponding walls. I created three different prefabs for the collectables, blue, red and yellow. Each one was simply a cube set to float above the ground, colored with a shader and scripted to rotate.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Rotate : MonoBehaviour {
+
+	void Update ()
+	{
+		transform.Rotate (new Vector3 (15, 30, 45) * Time.deltaTime);
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Each wall is a cube, transformed to be the same shape as the maze walls and colored with the same shader as it’s corresponding collectable. The script that destroys the walls will be covered later.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/CN6aCMr.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/IikEaL8.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;strong&gt;Lights&lt;/strong&gt;&lt;br /&gt;
+Similar to Maze 1 I created several point lights to give the maze some color and differentiate each section, blue section, red section and yellow section. The maze’s white walls were easily illuminated but I still increased intensity and rage to bathe the entire maze in light.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/108QoSl.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;strong&gt;Map Layer &amp;amp; Player Location&lt;/strong&gt;&lt;br /&gt;
+Next I created the map layer. I simply duplicated everything and moved it straight down so the player could see most of it from above. To create the player location marker I used a sphere illuminated by a spotlight. A simple script would allow the sphere and light to follow the player on the map layer.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/YPTmHMO.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FollowObject : MonoBehaviour {
+
+	public GameObject player;
+	//private GameObject g;
+	public float yOffset = -100f;
+	public float xOffset = 0;
+	public float zOffset = 0;
+
+	// Update is called once per frame
+	void Start()
+	{
+		//g = GameObject.Find(&quot;Sphere A&quot;);
+		//Debug.Log(g.name);
+	}
+
+	void Update () {
+
+		transform.position = player.transform.position + new Vector3(xOffset,yOffset,zOffset);
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;the-text&quot;&gt;&lt;em&gt;The Text&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;The Messages&lt;/strong&gt;&lt;br /&gt;
+As with any game, message throughout are needed. I created 11 different messages that do things like introduce the Mazes, tell you if you’re hot or cold, keep score and congratulate you when you finish.
+&lt;img src=&quot;https://i.imgur.com/6trL12Z.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The Canvas&lt;/strong&gt;&lt;br /&gt;
+When I created the first text element Unity also created the Canvas. The Canvas is where all UI components live, including all text. It shows where the text will display in the camera view. To display the text in a traditional game the render mode on the canvas needed to be set to Screenspace-Overlay wich uses the view of the main camera. For a VR game, Screenspace-Camera is the correct setting. This will place the canvas in the view of the VR camera.&lt;br /&gt;
+With all my messages on the canvas it looked like a big jumble.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/HWy2lKS.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+I would need to use triggers and scripting to show each message only when a specific event occurs.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-triggers&quot;&gt;&lt;strong&gt;The Triggers&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;The Need&lt;/strong&gt;&lt;br /&gt;
+I needed triggers for almost every element of the game; showing messages, playing sounds &amp;amp; music, keeping score and interacting with the NPCs.&lt;br /&gt;
+&lt;strong&gt;Trigger Objects&lt;/strong&gt;&lt;br /&gt;
+Each trigger needed a trigger object with a mesh collider that is checked trigger. For showing messages, playing sounds and music I used an empty game object. This created an invisible object that the player can pass through unknowingly but will trigger an event. For keeping score the trigger objects are the collectables and for interacting with the NPCs, I added a capsule collider.&lt;br /&gt;
+&lt;strong&gt;The Code&lt;/strong&gt;&lt;br /&gt;
+I am still pretty new at C# but I was able to use examples I found online and after some debugging I had several working scripts.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Activate:&lt;/em&gt; This script is attached to an empty game object and is used to activate a specific game object on trigger.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Activate : MonoBehaviour {
+
+	public GameObject triggeredObject;
+
+	void Start () {
+		triggeredObject.SetActive (false); //Turns object off on start of scene
+	}
+
+	void OnTriggerEnter (Collider player) {
+			triggeredObject.SetActive (true); //Turns object on when collider is entered
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Collect &amp;amp; Count:&lt;/em&gt; This script is attached to the player and is used to pick up collectables and keep score.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class CollectCount : MonoBehaviour {
+
+	public Text blueCount; //Set the text object in inspector
+	public Text redCount;
+	public Text yellowCount;
+	public GameObject bluePickUp; //Set the pick up objects in inspector
+	public GameObject yellowPickUp;
+	public GameObject redPickUp;
+	public GameObject blueWall; //Set the walls in inspector
+	public GameObject redWall;
+	public GameObject yellowWall;
+	private int blueInt; //counts the collectables when picked up
+	private int redInt;
+	private int yellowInt;
+	public AudioClip collect; //Set the collect sound in inspector
+    public AudioClip destroy; //Set the wall destory sound in inspector
+	private AudioSource source; //Uses the AudioSource component in inspector
+
+	void Start ()
+	{
+		blueInt = 0; //set counts to 0 when game starts
+		redInt = 0;
+		yellowInt = 0;
+		SetBlueCount (); //Initializes count function
+		SetRedCount ();
+		SetYellowCount ();
+		source = GetComponent&amp;lt;AudioSource&amp;gt; (); Calls AudioSource Component int inspector
+
+	}
+
+
+	void OnTriggerEnter(Collider col)
+	{
+		Debug.Log (col.gameObject.name);
+		if (col.gameObject.tag == &quot;Blue Pick Up&quot;) //When game object with tag &quot;Blue Pick Up&quot; is hit by player collider...
+		{
+			col.gameObject.SetActive (false); //set collectable to inactive
+			blueInt = blueInt + 1; //adds 1 to collectable count
+			SetBlueCount (); //Calls count function
+			source.PlayOneShot (collect); //play collect sound once
+		}
+			if (col.gameObject.tag == &quot;Red Pick Up&quot;)
+		{
+			col.gameObject.SetActive (false);
+			redInt = redInt + 1;
+			SetRedCount ();
+			source.PlayOneShot (collect);
+		}
+				if (col.gameObject.tag == &quot;Yellow Pick Up&quot;)
+		{
+			col.gameObject.SetActive (false);
+			yellowInt = yellowInt + 1;
+			SetYellowCount ();
+			source.PlayOneShot (collect);
+		}
+	}
+
+
+	void SetBlueCount ()
+	{
+		blueCount.text = &quot;Blue Count: &quot; + blueInt.ToString (); //counts collectables and converts to string to be displayed
+		if (blueInt &amp;gt;= 10) //If count is greater than or equal to 10...
+		{
+			blueWall.SetActive(false); //set wall in inactive
+            source.PlayOneShot(destroy); //play destroy sound once
+		}
+	}
+	void SetRedCount ()
+	{
+		redCount.text = &quot;Red Count: &quot; + redInt.ToString ();
+		if (redInt &amp;gt;= 10)
+		{
+			redWall.SetActive(false);
+            source.PlayOneShot(destroy);
+        }
+	}
+	void SetYellowCount ()
+	{
+		yellowCount.text = &quot;Yellow Count: &quot; + yellowInt.ToString ();
+		if (yellowInt &amp;gt;= 10)
+		{
+			yellowWall.SetActive(false);
+            source.PlayOneShot(destroy);
+        }
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Play Sound, Start Music, Stop Music:&lt;/em&gt; These scrips game me some trouble and in the future I hope to combine them. They are attached to any trigger object that is used to play a sound, start or stop music.
+&lt;em&gt;Play Sound:&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class playSound : MonoBehaviour {
+
+	public AudioClip sound; //Set sound in inspector
+	private AudioSource source; //uses audioSource component
+
+	void Start () {
+		source = GetComponent&amp;lt;AudioSource&amp;gt; (); //sets source variable to use AudioSource conmpnent in inspector
+	}
+
+	void OnTriggerEnter (Collider player)
+	{
+		if (player.gameObject.tag == &quot;Player&quot;) { //if player object tagged &quot;Player&quot; hits object collider...
+			source.PlayOneShot (sound); //play sound once
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;Play Music:&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class playMusic: MonoBehaviour {
+
+	private AudioSource m_MyAudioSource; //Uses audio Source in inspector
+
+	void Start()
+	{
+		m_MyAudioSource = GetComponent&amp;lt;AudioSource&amp;gt;();
+	}
+
+	void OnTriggerEnter(Collider other) //when collider is triggered...
+	{
+			m_MyAudioSource.Play(); //play audio set in AudioSource component in inspector
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;Stop Music:&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class stopMusic: MonoBehaviour {
+
+	private AudioSource m_MyAudioSource; //Uses audio Source in inspector
+
+	void Start()
+	{
+		m_MyAudioSource = GetComponent&amp;lt;AudioSource&amp;gt;();
+	}
+
+	void OnTriggerEnter(Collider other) //when collider is triggered...
+	{
+		if (other.gameObject.tag == &quot;Player&quot;)
+		{
+			m_MyAudioSource.Stop(); //stop audio set in AudioSource component in inspector
+		}
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Show Score:&lt;/em&gt; This script is attached to an empty game object and is used to show the score text only when triggered.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class ShowScore : MonoBehaviour
+{
+
+	public GameObject uiObject1; //set text objects in inspector
+	public GameObject uiObject2;
+	public GameObject uiObject3;
+
+	void Start ()
+	{
+		uiObject1.SetActive (false); //on start deactivate text
+		uiObject2.SetActive (false);
+		uiObject3.SetActive (false);
+	}
+	// Update is called once per frame
+	void OnTriggerEnter (Collider player)
+	{
+		if (player.gameObject.tag == &quot;Player&quot;) { //when object tagged player enters object collider...
+			uiObject1.SetActive (true); //show text objects
+			uiObject2.SetActive (true);
+			uiObject3.SetActive (true);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Show UI:&lt;/em&gt; This script is attached to an empty game object and is used to only show text when triggered, it then destroys the empty game object so it cannot be triggered again.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class ShowUI : MonoBehaviour {
+
+	public GameObject uiObject; //text to be triggered. Set in inspector
+	void Start()
+	{
+		uiObject.SetActive(false); //disable text on start
+	}
+
+	void OnTriggerEnter (Collider player)
+	{
+		if (player.gameObject.tag == &quot;Player&quot;) //when object tagged &quot;Player&quot; enters object collider...
+		{
+			uiObject.SetActive(true); //Show text
+			StartCoroutine(&quot;WaitForSec&quot;); //starts &quot;WaitForSec&quot; routine
+		}
+	}
+	IEnumerator WaitForSec()
+	{
+		yield return new WaitForSeconds(5); //wait for 5 seconds
+		Destroy(uiObject); //destroy text object
+		Destroy(gameObject); //destory trigger object
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;the-npcs&quot;&gt;&lt;strong&gt;The NPCs&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;For each maze I wanted a different NPC. Monsters seemed ideal for the first maze and aliens seemed to work well for the second. I found both in the store.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/yKNB9lU.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;img src=&quot;https://i.imgur.com/7wIdRnu.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;strong&gt;The Needs&lt;/strong&gt;&lt;br /&gt;
+I needed all my NPC’s to patrol the maze they are on and if they catch the player, send them back to a specific location. &lt;br /&gt;
+&lt;strong&gt;The Code&lt;/strong&gt;
+Most of the code was included in the prefabs that downloaded from the store but I still needed a couple scripts.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NPC Patrol:&lt;/strong&gt; This script is attached to the NPCs and allows then to patrol a series of points that is set in the inspector.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class npcPatrol : MonoBehaviour {
+
+	public Transform[] points;
+	private int destPoint = 0;
+	private NavMeshAgent agent;
+
+
+	void Start () {
+		agent = GetComponent&amp;lt;NavMeshAgent&amp;gt;();
+
+		// Disabling auto-braking allows for continuous movement
+		// between points (ie, the agent doesn't slow down as it
+		// approaches a destination point).
+		agent.autoBraking = false;
+
+		GotoNextPoint();
+	}
+
+
+	void GotoNextPoint() {
+		// Returns if no points have been set up
+		if (points.Length == 0)
+			return;
+
+		// Set the agent to go to the currently selected destination.
+		agent.destination = points[destPoint].position;
+
+		// Choose the next point in the array as the destination,
+		// cycling to the start if necessary.
+		destPoint = (destPoint + 1) % points.Length;
+	}
+
+
+	void Update () {
+		// Choose the next destination point when the agent gets
+		// close to the current one.
+		if (!agent.pathPending &amp;amp;&amp;amp; agent.remainingDistance &amp;lt; 0.5f)
+			GotoNextPoint();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Caught:&lt;/strong&gt; This script is also attached to the NPCs and uses a trigger command to send the player to a certain position when caught.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Caught : MonoBehaviour {
+
+	public GameObject player; //player object
+	public float x; //x position value
+	public float y; //y position value
+	public float z; //z position value
+	public AudioClip caught; //caught sound
+	private AudioSource source; //audio source
+
+	void Start () {
+		source = GetComponent&amp;lt;AudioSource&amp;gt; (); //Calls the audio source component in the inspector
+	}
+
+	void OnTriggerEnter (Collider player) {
+		if (player.gameObject.tag == &quot;Player&quot;)
+		{
+			player.transform.position = new Vector3(x, y, z); //Changes player position when player enters collider of NPC. Set position in Inspector
+			print(transform.position.x); //shows transformed position in console
+			source.PlayOneShot (caught); //Plays sound once when caught
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;&lt;strong&gt;Conclusion&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;with all elements in place I have a working maze game.&lt;br /&gt;
+&lt;img src=&quot;https://i.imgur.com/aID9RpU.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+Next I would like to add additional maze levels and figure out how to build onto a playable platform.&lt;/p&gt;</content><author><name></name></author><category term="VR" /><category term="Virtual" /><category term="Reality" /><category term="Maze" /><category term="Game" /><summary type="html">VR Maze Challenge: How I Did It VR Maze Challenge is meant to provide unique virtual reality maze experience. Each level presents a unique maze with a different challenge. The prototype consists of two levels, Maze 1 and Maze 2.</summary></entry><entry><title type="html">Smarter Cat Toy: Part 2</title><link href="http://localhost:4000/Smarter-Cat-Toy-Part-2/" rel="alternate" type="text/html" title="Smarter Cat Toy: Part 2" /><published>2017-11-14T02:55:00-07:00</published><updated>2017-11-14T02:55:00-07:00</updated><id>http://localhost:4000/Smarter-Cat-Toy:-Part-2</id><content type="html" xml:base="http://localhost:4000/Smarter-Cat-Toy-Part-2/">&lt;h1 id=&quot;smarter-cat-toy-part-2&quot;&gt;&lt;strong&gt;Smarter Cat Toy: Part 2&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;I own a cat named Ophelia. She is about 4 years old and I’ve had her since she was 12 weeks. She is my fuzzy companion and it is important to me that she is happy.&lt;br /&gt;
+Recently I moved from a house in a neighborhood where she could go outside and play which to a cat is to run, stalk and ultimately kill things, to an apartment in an urban city where she is trapped inside all day, everyday. I can see that she is bored and I want to do everything I can do change that.&lt;br /&gt;
+This led me to my idea for a smarter cat toy. An autonomous little robot that behaved, looked, sounded, felt, and maybe even tasted like real prey.&lt;/p&gt;
+
+&lt;p&gt;I made this video to help explain why I am so passionate about my pets and why I think their happiness is so important.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/234876527&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/234876527&quot;&gt;Pets&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;recap&quot;&gt;&lt;em&gt;Recap&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;In the first post about my &lt;a href=&quot;http://jimmurphy.studio/Smarter-Cat-Toy/&quot;&gt;Smarter Cat Toy&lt;/a&gt; project I talked about using a pressure sensor to manipulate a motor to simulate prey behavior. I also talked about getting a &lt;a href=&quot;http://www.sphero.com&quot;&gt;Sphero&lt;/a&gt; and doing a bit of reverse engineering to see how they worked.&lt;/p&gt;
+
+&lt;p&gt;Well, the &lt;a href=&quot;http://jimmurphy.studio/EeonTex-Pressure-Fabric-and-Servo-Motor/&quot;&gt;pressure sensor&lt;/a&gt; bit proved to be kind of difficult, although possible. I struggled to get the motor to respond the way I wanted.&lt;/p&gt;
+
+&lt;p&gt;The Sphero route proved much more advantageous. I bought two &lt;a href=&quot;http://www.sphero.com/sphero-mini&quot;&gt;Spehro Minis&lt;/a&gt;. Small little remote controlled robots and Ophelia enjoyed playing with them.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/243190211&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/243190211&quot;&gt;Ophelia and Sphero&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;There were two changes to the Sphero Mini I would need to perform in order to have a working prototype of my cat toy.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add a more life-like skin to the Sphero’s current plastic shell.&lt;/li&gt;
+  &lt;li&gt;Re-program the Sphero for autonomous movement and behavior akin to that of prey.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;life-like-skin&quot;&gt;&lt;em&gt;Life-Like Skin&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;The Sphero Mini is currently encased in a hard plastic case that protects the slightly more delicate inner workings.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/6Woa365.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;While Ophelia enjoys chasing the Sphero, she does not know what to do with it when she catches it because she cannot sink her claws or teeth into it.&lt;/p&gt;
+
+&lt;p&gt;The larger &lt;a href=&quot;http://www.sphero.com&quot;&gt;Sphero&lt;/a&gt; has a variety of different skins that can be applied to it. I don’t see a reason why I can’t do the same to the Mini.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/FGcl2e4.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Choosing A Material&lt;/strong&gt;&lt;br /&gt;
+While I want to make the toy as life-like as possible, I also don’t want Ophelia to be able to tear it apart too easily.&lt;/p&gt;
+
+&lt;p&gt;In the four years I have been playing with her I have been able to identify what her favorite toys are and one of them is a leather belt. She loves to chase it and when she catches it, she can really grip it with her claws and chew on it without too much damage to the belt. So, for the prototype I have decided to find some kind of leather to skin the toy with.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;To Do:&lt;/em&gt;&lt;/strong&gt;
+visit &lt;a href=&quot;https://www.reynoldsam.com/denver/&quot;&gt;Reynolds Advanced Materials&lt;/a&gt; shop to see what kind of leathers or leather-like materials are available. I may then use a laser cutter to cut the design needed out of the material I choose.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;re-program-sphero-mini&quot;&gt;&lt;em&gt;Re-Program Sphero Mini&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;There are a couple key features the toy will need, autonomy and prey-like behavior. As it comes, the Sphero Mini is strictly remote control. However, with &lt;a href=&quot;https://edu.sphero.com/dashboard&quot;&gt;Sphero EDU&lt;/a&gt; I can begin to design programs for the Sphero.&lt;/p&gt;
+
+&lt;p&gt;The programs are done via and app. I can use blocks or code directly in Java.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/fYJODaK.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/IqQwPH8.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/Zu5AL69.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Since I don’t know Java very well, I opted to start with the block builder and exploring with very simple programs.&lt;/p&gt;
+
+&lt;p&gt;Here is the first I made:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/RZWEwHS.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This one has the Sphero roll forward at about half speed for 3 seconds, stop, roll at 45 degree angle for 3 seconds, stop then roll at 315 degree angle for 3 seconds. Additionally, on a collision, it is to shift it’s heading 90 degrees.&lt;/p&gt;
+
+&lt;p&gt;The problem was at half speed, the Sphero did not know it had a collision and just continued to try to roll into the wall.&lt;/p&gt;
+
+&lt;p&gt;My second program was meant to test the collision logic.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/u10MKCm.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This program simply had the Sphero roll straight at full speed for 30 seconds. On collision, reverse direction.&lt;/p&gt;
+
+&lt;p&gt;This worked really well. Sphero ran right into the wall and immediately came right back to me.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Learning Sphero EDU&lt;/strong&gt;&lt;br /&gt;
+There are a lot of different ways to program the Sphero and some I need to learn. The app is designed for a younger crowd so I don’t anticipate a steep learning curve. Mainly, I need to learn how to apply the different sensors in the Mini like the accelerometer or gyroscope.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/zHEipha.png&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/10oDz6A.png&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/ucSzqfX.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;These are just three of the many options.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;To Do:&lt;/em&gt;&lt;/strong&gt; Use the videos on the Sphero EDU site to learn how to program the Sphero. I will also need to study how prey behaves then translate that into behavior for the Sphero.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;As I continue to advance my prototype I will add additional features. It is my hope that future models will be able to mimic the sounds of prey and maybe even the taste.&lt;/p&gt;</content><author><name></name></author><category term="pets" /><category term="toys" /><category term="animals" /><category term="sphero" /><category term="java" /><summary type="html">Smarter Cat Toy: Part 2 I own a cat named Ophelia. She is about 4 years old and I’ve had her since she was 12 weeks. She is my fuzzy companion and it is important to me that she is happy. Recently I moved from a house in a neighborhood where she could go outside and play which to a cat is to run, stalk and ultimately kill things, to an apartment in an urban city where she is trapped inside all day, everyday. I can see that she is bored and I want to do everything I can do change that. This led me to my idea for a smarter cat toy. An autonomous little robot that behaved, looked, sounded, felt, and maybe even tasted like real prey.</summary></entry><entry><title type="html">Assignment 8: Alexa, Talk To Me</title><link href="http://localhost:4000/Assignment-8-Alexa,-Talk-To-Me/" rel="alternate" type="text/html" title="Assignment 8: Alexa, Talk To Me" /><published>2017-11-12T00:08:00-07:00</published><updated>2017-11-12T00:08:00-07:00</updated><id>http://localhost:4000/Assignment-8:-Alexa,-Talk-To-Me</id><content type="html" xml:base="http://localhost:4000/Assignment-8-Alexa,-Talk-To-Me/">&lt;h1 id=&quot;assignment-8-alexa-talk-to-me&quot;&gt;&lt;strong&gt;Assignment 8: Alexa, Talk To Me&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;This was one of my favorite assignments. Learning how Alexa works behind the scenes was very interesting. Where this technology really interests me is in becoming a personal assistant to anyone. That is the focus I took in writing my review.&lt;/p&gt;
+
+&lt;h2 id=&quot;vocal-user-interface-the-new-personal-assistant&quot;&gt;&lt;strong&gt;Vocal User Interface: The New Personal Assistant&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;Imagine a future where all aspects of our lives are controlled by a virtual personal assistant (VPA). They wake you up in the morning, they get coffee going, they give you the day’s to-do items, tell you what the commute is like and even drive you to work. Should anything in your day change, you simply tell your VPA what has changed and they will adjust accordingly. They can do your shopping, pick up the kids and even help you do your taxes. This is a future that I am very excited for. As someone who lives somewhat sporadically I would love a VPA to help run and organize my life. We are quite a way from this future though, as voice interface is still a new technology. Even so, voice interface has already started to embed itself into our lives. &lt;a href=&quot;https://www.gartner.com/newsroom/id/3551217&quot;&gt;“Gartner predicts that, by 2019, 20 percent of all user interactions with the smartphone will take place via virtual personal assistants(VPAs).”&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Current State of Voice Interfaces&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;While my interests lie within the realm of a VPA at home it seems that some of the biggest advances in VPAs are within businesses. Luxury retailer, Liberty is already using a VPA in their warehouse. &lt;a href=&quot;http://www.zdnet.com/article/siri-cortana-alexa-and-google-assistant-are-just-the-beginning-voice-is-the-future/&quot;&gt;“Staff are issued with headsets and a microphone. A voice-controlled application from Voiteq interfaces with the firm’s enterprise resource planning system. The voice-controlled app issues commands to a central server about which products should be picked. The system also works on a two-way basis, issuing confirmation about which goods have been selected.”&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It will be through business innovations that the VPA will make big jumps into the home. Major companies are already starting to integrate Amazon’s Alexa into their software. &lt;a href=&quot;http://time.com/4624067/amazon-echo-alexa-ces-2017/&quot;&gt;“Ford, Whirlpool, Lenovo, GE, and Dish are a few of the brands announcing plans to add Amazon’s voice-activated helper to their hardware.”&lt;/a&gt; As these major companies roll out these changes Alexa will begin to be able to do things like monitor the laundry or start your car. As the technologies advance Alexa, and other VPAs will begin to interface with all aspects of our lives.&lt;/p&gt;
+
+&lt;p&gt;Despite major advances the technology that VPAs require, the technology is still in its infancy.
+&lt;a href=&quot;http://time.com/4624067/amazon-echo-alexa-ces-2017/&quot;&gt;“Technologies upon which virtual aides rely, like speech recognition and deep neural networks, have improved dramatically over the last several years. That has translated into big improvements in software like Alexa and Siri, according to Carnegie Mellon’s Black. But they still lack a thorough understanding of speech, which Black expects to be the next area of focus for companies like Amazon.”&lt;/a&gt; While these technologies are leaping forward as companies pour resources into them, many industry professionals think it will be some time before we see fully integrated VPAs. There are a variety of challenges before we get there, not all of them technological.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;The Challenges&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;There are several key challenges to voice interface and virtual personal assistants become integrated into the average person’s day. The first is the ability of the machine to understand speech. Right now, only one command can be given at a time and those commands are limited to the utterances that are programmed in. Take for example these more complex commands,&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.zdnet.com/article/the-future-will-be-voice-operated-but-digital-assistants-need-to-learn-apps/&quot;&gt;“Deliver the items on my weekly shopping list Friday afternoon before six and check for lowest prices on the produce.”&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.zdnet.com/article/the-future-will-be-voice-operated-but-digital-assistants-need-to-learn-apps/&quot;&gt;“Find the photos from last Saturday’s picnic, adjust for white balance and send me only the shots with me and my brother for review then email them to my mother.”&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These commands are ones that any personal assistant might get but they require a more nuanced understanding of language. Another major challenge in the technology is being able to determine which app, or skill in the case of Alexa, to use. Currently, we must tell Alexa which Skill to open but to be able to handle more advanced commands like the ones above Alexa would have to be able to &lt;a href=&quot;http://www.zdnet.com/article/the-future-will-be-voice-operated-but-digital-assistants-need-to-learn-apps/&quot;&gt;access multiple skills and make the determination of which at access. Basically, Alexa and other current VPAs need to learn how to use Apps like a person.&lt;/a&gt; The last major challenge to the future of VPA’s is a business/ethics one. Right now, the three major VPAs are &lt;a href=&quot;http://time.com/4624067/amazon-echo-alexa-ces-2017/&quot;&gt;Amazon, who is leading the way,&lt;/a&gt; Google, and Apple. As they all develop their own systems some industry professionals, like Peter Markey is former CMO of Aviva, think &lt;a href=&quot;http://www.zdnet.com/article/siri-cortana-alexa-and-google-assistant-are-just-the-beginning-voice-is-the-future/&quot;&gt;“There will probably be a VHS or Betamax moment where only certain voice-activated systems survive.”&lt;/a&gt; As these companies compete for our loyalty they could use their VPAs to gather data about us. So, is that VPA there to help us or to help the company? Can we trust our VPA to consider all options and choose the best for us?  Or will it choose from a set of options that help the company? As the technology challenges are overcome, and they will be at some point, these are questions that we will have to answer and figure out. Regardless of how these issues are handled, everyone agrees that VPAs are in the future.&lt;/p&gt;
+
+&lt;p&gt;Articles Reviewed:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.zdnet.com/article/siri-cortana-alexa-and-google-assistant-are-just-the-beginning-voice-is-the-future/&quot;&gt;Siri, Cortana, Alexa and Google Assistant are just the beginning: Voice is the future&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://time.com/4624067/amazon-echo-alexa-ces-2017/&quot;&gt;Amazon Is Already Winning the Next Big Arms Race in Tech&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.zdnet.com/article/the-future-will-be-voice-operated-but-digital-assistants-need-to-learn-apps/&quot;&gt;The future will be voice-operated but digital assistants need to learn apps&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.gartner.com/newsroom/id/3551217&quot;&gt;Gartner Says by 2019, 20 Percent of User Interactions With Smartphones Will Take Place via VPAs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;part-2-create-alexa-skill&quot;&gt;&lt;em&gt;Part 2: Create Alexa Skill&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Part two was tons of fun. In addition to the utterances that I needed for the assignment I had fun making a bunch more from stuff about me to just goofy things.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/WLvcnep.png?1&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;img src=&quot;https://i.imgur.com/on5aw7g.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Everything worked great when I tested it.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/242508832&quot; width=&quot;500&quot; height=&quot;375&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/242508832&quot;&gt;Alexa, Talk To Me&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My favorite part about it all is Alexa saying my name as a question. That’s because in class we were seeing if Alexa would read different punctuation and we were testing it on the code we all used to create our skill. So now Alexa isn’t sure who I am.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
+'JimMurphyIntent': function() {
+        this.response.speak('Jim?');
+        this.emit(':responseReady');
+    },
+   &lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I would be very curious to know how we can modify that code to do different things. There is so much opportunity in learning how to write functions and intents that I can then build into skills.&lt;/p&gt;</content><author><name></name></author><category term="Alexa" /><category term="Amazon" /><category term="Skill" /><category term="Developer" /><category term="Voice" /><category term="Interface" /><summary type="html">Assignment 8: Alexa, Talk To Me This was one of my favorite assignments. Learning how Alexa works behind the scenes was very interesting. Where this technology really interests me is in becoming a personal assistant to anyone. That is the focus I took in writing my review.</summary></entry><entry><title type="html">Creative Coding: Shop Clock</title><link href="http://localhost:4000/Creativ-Coding-Shop-Clock/" rel="alternate" type="text/html" title="Creative Coding: Shop Clock" /><published>2017-11-09T00:08:00-07:00</published><updated>2017-11-09T00:08:00-07:00</updated><id>http://localhost:4000/Creativ-Coding:-Shop-Clock</id><content type="html" xml:base="http://localhost:4000/Creativ-Coding-Shop-Clock/">&lt;h1 id=&quot;creative-coding-shop-clock&quot;&gt;&lt;strong&gt;Creative Coding: Shop Clock&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;The latest assignment in my Critical Making class was to use &lt;a href=&quot;https://processing.org&quot;&gt;Processing&lt;/a&gt; to create a clock for our studio room. We were tasked to be creative and think outside the clock. We just needed to represent time in a visual way. I chose to simulate the sun and moon moving across the sky with each hour. This was difficult for me and in the end I kind of cheated. But the result is the same.&lt;/p&gt;
+
+&lt;h2 id=&quot;clock-v1&quot;&gt;&lt;em&gt;Clock V1&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;The first version was not so much a clock as it was the background for the clock.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/YClHias.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int s = second();
+int m = minute();
+int h = hour();
+
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage(&quot;SunnyAfternoon.jpg&quot;);
+  fullScreen();
+  background(135,206,235);
+
+  println(width);
+  println(height);
+}
+
+void draw() {
+  fill(1,166,17);
+  noStroke();
+  arc(720, 900, 1450, 450, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(150,150,200,200);
+
+  stroke(0);
+  line(300,300,350,350);
+  line(350,350,400,300);
+
+  line(500,500,550,550);
+  line(550,550,600,500);
+
+  line(800,100,850,150);
+  line(850,150,900,100);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;clock-v11&quot;&gt;&lt;em&gt;Clock V1.1&lt;/em&gt;&lt;/h1&gt;
+&lt;p&gt;This was a superior background with the grass and birds in a better position. I also divided height and width up so that the program would work on different screen sizes.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/C2oR6Ub.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+float m = minute();
+float h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+float x1 = (map(hour(),7,19,7,width));
+float y1 = (map(hour(),7,19,7,height));
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage(&quot;SunnyAfternoon.jpg&quot;);
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/12;
+
+
+  println(width);
+  println(height);
+}
+
+void draw() {
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*6+10), y+h1*25, x+(w*13+10), y+h1*12, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x1,y1+12,150,150);
+
+  stroke(0);
+  line(300,300,350,350);
+  line(350,350,400,300);
+
+  line(500,500,550,550);
+  line(550,550,600,500);
+
+  line(800,100,850,150);
+  line(850,150,900,100);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;clock-v12&quot;&gt;&lt;em&gt;Clock V1.2&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;It was slow going trying to get the ellipse that makes up the sun and moon to be in the correct shape and position. I also began to attempt to map hours to position but was quite a ways off.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/t6ViU5k.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;float m = minute();
+float h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+float x1 = (map(hour(),7,19,7,w));
+float y1 = (map(hour(),7,19,7,h));
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage(&quot;SunnyAfternoon.jpg&quot;);
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/12;
+
+
+  println(width);
+  println(height);
+}
+
+void draw() {
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*6+10), y+h1*25, x+(w*13+10), y+h1*12, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x1,y1+12,w,h*5);
+
+  stroke(0);
+  line(300,300,350,350);
+  line(350,350,400,300);
+
+  line(500,500,550,550);
+  line(550,550,600,500);
+
+  line(800,100,850,150);
+  line(850,150,900,100);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;clock-v13&quot;&gt;&lt;em&gt;Clock V1.3&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Finally, it’s a clock! I decided to opt for a 24 hour clock, something a little different. I still needed add a 0 before the hours and minutes when they are less than 10 so it follows the proper format 00:00. I divided height and width up in 24 segments. This gave me the partitions I needed to position everything. That ellipse though. Someday it’ll be in the right area…Someday.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/gGvRtlY.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int m = minute();
+int h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage(&quot;SunnyAfternoon.jpg&quot;);
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+}
+
+void draw() {
+
+  //Grass, &amp;amp; sun/moon
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*12, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x+w*4,y+h1*4,w*4,h*10);
+
+  String om = &quot;&quot;;
+  if(m&amp;lt;10) om = &quot;0&quot;;
+  else om = &quot;&quot;;
+
+  //Clock
+  String t = h+&quot;:&quot;+om+m;
+  textSize(250);
+
+  text(t,x+w*5,y+h1*8,x+w*15,y+h1*15);
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;clock-v14&quot;&gt;&lt;em&gt;Clock V1.4&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;In this version I added a couple additional elements. A new string with some logic that put a 0 in front of minutes if they were less than 10. I changed the size of the arc and added a shadow. I started experimenting with the position of the clock and shadow. I got the ellipse in the right spot but it is hardly a sun or moon shape. That bleeping ellipse.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/0fSOriE.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int m = minute();
+int h = hour();
+
+float x;
+float y;
+float h1;
+float w;
+
+
+void setup() {
+  //size(1280,800);
+  //pixelDensity(2);
+  //photo = loadImage(&quot;SunnyAfternoon.jpg&quot;);
+  fullScreen();
+  background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+}
+
+void draw() {
+
+  //Grass, &amp;amp; sun/moon
+  fill(1,166,17);
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+  fill(249,250,87);
+  ellipse(x+w*4,y+h1*4,w*4,h*10);
+
+  String om = &quot;&quot;;
+  if(m&amp;lt;10) om = &quot;0&quot;;
+  else om = &quot;&quot;;
+
+  //Clock
+  String t = h+&quot;:&quot;+om+m;
+  textSize(250);
+  fill(255,255,255);
+  text(t,x+w*6,y+h1*8,x+w*15,y+h1*15);
+
+//Shadow
+ textSize(250);
+ fill(0);
+ text(t,x+w*10,y+h1*17.5,x+w*15,y+h1*17.5);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;clock-v15&quot;&gt;&lt;em&gt;Clock V1.5&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;I decided to center the ellipse, text, and shadow as if it was noon or midnight. I began to experiment with if logic, if poorly at first in an attempt to change the color for night time.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/COOGm5m.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int m = minute();
+int h = hour();
+int s = second();
+
+float x;
+float y;
+float h1;
+float w;
+
+
+void setup() {
+  fullScreen();
+  if (h&amp;gt;17 &amp;amp;&amp;amp; h&amp;lt;7) background (48,24,96); //Make background night sky color
+
+  else background(135,206,235);
+  //background(135,206,235);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+println (width);
+println (height);
+}
+
+
+
+void draw() {
+
+  //Grass, &amp;amp; sun/moon
+
+  if (h&amp;gt;17 &amp;amp;&amp;amp; h&amp;lt;7) fill (0,75,17); //change arc color for night.
+  else fill(1,166,17);
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+  //if (h&amp;gt;6 &amp;amp;&amp;amp; h&amp;lt;11) fill
+  if (h&amp;gt;17 &amp;amp;&amp;amp; h&amp;lt;7) fill (255,255,255); //turns sun to moon.
+  else fill (249,250,87);
+  ellipse(x+w*12,y+h1*4,w*4,h*16); //need to add if so move sun to left side before noon and right after noon
+
+ String om = &quot;&quot;;
+ if(m&amp;lt;10) om = &quot;0&quot;;
+ else om = &quot;&quot;;
+
+  //Clock
+  String t = h + &quot;:&quot; + om + m;
+  textSize(250);
+  if (h&amp;gt;17 &amp;amp;&amp;amp; h&amp;lt;7) fill (192,192,192); //Changes Clock from white to silver for night
+  else fill(255,255,255);
+  text(t,x+w*7.5,y+h1*8,x+w*15,y+h1*15);
+
+//Shadow
+
+ textSize(250);
+ if (h&amp;gt;17 &amp;amp;&amp;amp; h&amp;lt;7) fill(255,255,255); //changes shadow from black to white
+ else fill(0);
+ text(t,x+w*7.5,y+h1*17.5,x+w*15,y+h1*17.5);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;clock-v16&quot;&gt;&lt;em&gt;Clock V1.6&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Whoa, it’s a sphere! All I had to do was set the ellipse’s height and width to constants. Duh. And the text is perfectly centered after learning about the textAlign command. The if logic is also not working, making it night time.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/cx6Xn4A.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;float x;
+float y;
+float h1;
+float w;
+float st;
+
+
+void setup() {
+  fullScreen();
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+
+println (width);
+println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {    //Make background night sky color  
+  background (48,24,96);
+  }
+  else {
+    background(135,206,235);
+  }
+
+
+  //Grass, &amp;amp; sun/moon
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {      //change arc color for night.
+    fill (0,75,17);
+  }       
+  else {
+    fill(1,166,17);
+  }
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {
+    fill (255,255,255);     //turns sun to moon.
+  }
+  else {
+    fill (249,250,87);
+  }
+
+  ellipse((x+w*1),(y+h1*12),250,250); //need to add if so move sun to left side before noon and right after noon
+  st = st + (w*2);
+ String om = &quot;&quot;;
+ if(m&amp;lt;10) {
+   om = &quot;0&quot;;
+ }
+ else {
+   om = &quot;&quot;;
+ }
+
+  //Clock
+  String t = h + &quot;:&quot; + om + m;
+  textSize(250);
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {
+  fill (192,192,192);
+} //Changes Clock from white to silver for night
+  else {
+    fill(255,255,255);
+  }
+  textAlign(CENTER,CENTER);
+  text(t, x+(w*12), y+(h1*12));
+
+//Shadow
+ textSize(250);
+ textAlign(CENTER,CENTER);
+ fill(0);
+ text(t, x+w*12, y+h1*20);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;clock-v17&quot;&gt;&lt;em&gt;Clock V1.7&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Version 1.7 had a lot of different attempts. With the help of a classmate, I was able to get the ellipse to rotate around the screen from the middle in the correct direction an mapped to seconds. But for the life of me I could not figure out how to set the intervals the ellipse moved, nor could I figure out how to reset to the left ‘horizon’ every 12 hours. I spent hours trying to figure this out but eventually I opted to try a different route. Specifically, I decided to use If logic to move the ellipse depending on the hour. It didn’t exactly work out at first. I did get a 0 in front of hours though.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/o6YfcX2.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+float x;
+float y;
+float h1; //height
+float w;
+//float x1;
+//float y1;
+
+
+void setup() {
+  fullScreen();
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+
+
+  println (width);
+  println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {    //Make background night sky color  
+    background (48, 24, 96);
+  } else {
+    background(135, 206, 235);
+  }
+
+
+  //Grass, &amp;amp; sun/moon
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {      //change arc color for night.
+    fill (0, 75, 17);
+  } else {
+    fill(1, 166, 17);
+  }
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+
+
+  //Sun/Moon &amp;amp; rotation
+  //float x1;
+  //float y1;
+  //float x1 = map(second(), 15, 45, PI, 0)+PI;
+  //float y1 = map(second(), 15, 45, PI, 0)+PI;
+
+  //x1 = cos(s)*(w*12)+width/2-PI;
+  //y1 = sin(s)*(h1*12)+(h1*12)-PI;
+
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {
+    fill (255, 255, 255);     //turns sun to moon.
+  } else {
+    fill (249, 250, 87);
+  }
+  if ((h&amp;gt;6) || (h&amp;lt;12)) {
+    ellipse (x+w*6, y+h1*6, 250, 250);
+  }
+  if ((h&amp;gt;19) || (h&amp;lt;24)) {
+    ellipse (x+w*6, y+h1*6, 250, 250);
+  }
+  //if ((h&amp;gt;11) || (h&amp;lt;13)) {
+  //  ellipse (x+w*12, y+h1*4, 250, 250);
+ // }
+  //if ((h&amp;gt;=0) || (h&amp;lt;4)) {
+ //   ellipse (x+w*12, y+h1*4, 250, 250);
+ // }
+  if ((h&amp;gt;15) || (h&amp;lt;120)) {
+    ellipse (x+w*18, y+h1*6, 250, 250);
+  }
+  if ((h&amp;gt;3) || (h&amp;lt;7)) {
+    ellipse (x+w*18, y+h1*6, 250, 250);
+  } else {
+    ellipse (x+w*12, y+h1*4, 250, 250);
+  }
+
+
+  // Adds a 0 to minutes &amp;amp; hours when less than 10.
+  String om = &quot;&quot;;
+  if (m&amp;lt;10) {
+    om = &quot;0&quot;;
+  } else {
+    om = &quot;&quot;;
+  }
+
+  String oh = &quot;&quot;;
+  if (h&amp;lt;10) {
+    oh = &quot;0&quot;;
+  } else {
+    oh = &quot;&quot;;
+  }
+
+  //Clock
+  String t = oh + h + &quot;:&quot; + om + m;
+  textSize(250);
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {
+    fill (192, 192, 192);
+  } //Changes Clock from white to silver for night
+  else {
+    fill(255, 255, 255);
+  }
+  textAlign(CENTER, CENTER);
+  text(t, x+(w*12), y+(h1*12));
+
+  //Shadow
+  textSize(250);
+  textAlign(CENTER, CENTER);
+  fill(0);
+  text(t, x+w*12, y+h1*20);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;–&lt;/p&gt;
+
+&lt;h2 id=&quot;clock-v18&quot;&gt;&lt;em&gt;Clock V1.8&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;In the previous version I was just drawing a new ellipse. In this version I used If and Translate to move the ellipse. I did it for just three parts of the day and night. It all worked but was too simple. I wanted the sun and moon to move every hour.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/6ijLPWy.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+float x;
+float y;
+float h1; //height
+float w;
+//float x1;
+//float y1;
+
+
+void setup() {
+  fullScreen();
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+  println (width);
+  println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {    //Make background night sky color  
+    background (48, 24, 96);
+  } else {
+    background(135, 206, 235);
+  }
+  // Adds a 0 to minutes &amp;amp; hours when less than 10.
+  String om = &quot;&quot;;
+  if (m&amp;lt;10) {
+    om = &quot;0&quot;;
+  } else {
+    om = &quot;&quot;;
+  }
+  String oh = &quot;&quot;;
+  if (h&amp;lt;10) {
+    oh = &quot;0&quot;;
+  } else {
+    oh = &quot;&quot;;
+  }
+
+  //Clock
+  String t = oh + h + &quot;:&quot; + om + m;
+  textSize(250);
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {    //Changes Clock from white to silver for night
+    fill (192, 192, 192);
+  }
+  else {
+    fill(255, 255, 255);
+  }
+  textAlign(CENTER, CENTER);
+  text(t, x+(w*12), y+(h1*12));
+
+//Grass
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {      //change arc color for night.
+    fill (0, 75, 17);
+  } else {
+    fill(1, 166, 17);
+  }
+  noStroke();
+  arc(x+(w*12+10), y+h1*25, x+(w*25), y+h1*18, PI, 2*PI);
+
+  //Shadow
+  textSize(250);
+  textAlign(CENTER, CENTER);
+    if ((h&amp;gt;6) &amp;amp;&amp;amp; (h&amp;lt;12) || (h&amp;gt;19 &amp;amp;&amp;amp; h&amp;lt;24)) {
+    translate (x+w*8, y+0);
+  }
+  if ((h&amp;gt;3) &amp;amp;&amp;amp; (h&amp;lt;7) || (h&amp;gt;15) &amp;amp;&amp;amp; (h&amp;lt;20)) {
+    translate (x-w*8, y+0);
+  }
+  fill(0);
+  text(t, x+w*12, y+h1*20);
+
+
+  //Sun/Moon &amp;amp; rotation
+  //float x1;
+  //float y1;
+  //float x1 = map(second(), 15, 45, TWO_PI, 0)+PI;
+  //float y1 = map(second(), 15, 45, TWO_PI, 0)+PI;
+
+  //x1 = cos(s)*(w*12)+width/2-PI;
+  //y1 = sin(s)*(h1*12)+(h1*12)-PI;
+
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {
+    fill (255, 255, 255);     //turns sun to moon.
+  } else {
+    fill (249, 250, 87);
+  }
+  // ellipse (x+w*12, y+h1*4, 250, 250);
+  // ellipse (x+w*20, y+h1*8, 250, 250);
+  if ((h&amp;gt;11) || (h&amp;lt;16) &amp;amp;&amp;amp; (h&amp;gt;=0 || h&amp;lt;4)) {
+    translate (x+w*8, y-h1*4);
+  }
+  if ((h&amp;gt;3) || (h&amp;lt;7) &amp;amp;&amp;amp; (h&amp;gt;15) || (h&amp;lt;20)) {
+    translate (CENTER, y+0);
+  }
+
+  ellipse (x+w*4, y+h1*8, 250, 250);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;clock-v19final-version&quot;&gt;&lt;em&gt;Clock V1.9:Final Version&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Lots of additions in the final version. First and foremost, I added an If and Translate for every hour so the sun and moon moved every hour. I increased the size of the ellipse and text and I have the clock some color, mapped to seconds so the user had an idea of how far they were into the minute.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/Eds0pb9.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Color change:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/242024702&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/242024702&quot;&gt;Clock Color Changes&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is the code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+float x;
+float y;
+float h1; //height
+float w;
+int xPos=200;
+int yPos=200;
+int xPos1=200;
+int yPos1=200;
+int storedMinute;
+int minute;
+
+
+
+void setup() {
+  fullScreen();
+  frameRate(30);
+
+  x = 0;
+  y = 0;
+  h1 = height/24;
+  w = width/24;
+
+
+  println (width);
+  println (height);
+}
+
+
+
+void draw() {
+
+  int m = minute();
+  int h = hour();
+  int s = second();
+  minute = minute();
+
+
+
+
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {    //Make background night sky color  
+    background (48, 24, 96);
+  } else {
+    background(135, 206, 235);
+  }
+  // Adds a 0 to minutes &amp;amp; hours when less than 10.
+  String om = &quot;&quot;;
+  if (m&amp;lt;10) {
+    om = &quot;0&quot;;
+  } else {
+    om = &quot;&quot;;
+  }
+  String oh = &quot;&quot;;
+  if (h&amp;lt;10) {
+    oh = &quot;0&quot;;
+  } else {
+    oh = &quot;&quot;;
+  }
+
+  //Clock
+  float val = map(second(), 0, 60, 0, 127.5);
+  float val1 = map(second(), 0, 60, 127.5, 255);
+  String t = oh + h + &quot;:&quot; + om + m;
+  textSize(300);
+  textAlign(CENTER, CENTER);
+  if (storedMinute != minute()) {
+    fill(0);
+  }
+  if ((h&amp;gt;7) || (h&amp;lt;19)) {
+    fill(0, val1, 0);
+  }
+  fill(0, val, 0);
+
+  text(t, x+(w*12), y+(h1*12));
+
+  //Grass
+  if ((h&amp;gt;7) || (h&amp;lt;19)) {
+    fill(1, 170, 17);
+  }                        //change arc color for night.
+  fill (0, 75, 17);
+
+
+
+  noStroke();
+  arc(x+(w*12+100), y+h1*25, x+(w*40), y+h1*18, PI, 2*PI);
+
+
+  //Shadow
+  textSize(300);
+  textAlign(CENTER, CENTER);
+  fill(0, 0, 0, 50);
+  pushMatrix();
+  if ((h==8) || (h==20)) {
+    translate (x+w*.9, y+0);
+  }
+  if ((h==9) || (h==21)) {
+    translate (x-w*1.9, y+0);
+  }
+  if ((h==10) || (h==22)) {
+    translate (x-w*3.9, y+0);
+  }
+  if ((h==11) || (h==23)) {
+    translate (x-w*5.9, y+0);
+  }
+  if ((h==12) || (h==0)) {
+    translate (x-w*7.9, y+0);
+  }
+  if ((h==13) || (h==1)) {
+    translate (x-w*9.9, y+0);
+  }
+  if ((h==14) || (h==2)) {
+    translate (x-w*11.9, y+0);
+  }
+  if ((h==15) || (h==3)) {
+    translate (x-w*13.9, y+0);
+  }
+  if ((h==16) || (h==4)) {
+    translate (x-w*15.9, y+0);
+  }
+  if ((h==17) || (h==5)) {
+    translate (x-w*17.9, y+0);
+  }
+  if ((h==18) || (h==6)) {
+    translate (x-w*19.9, y+0);
+  }
+  text(t, x+w*19.9, y+h1*20);
+  popMatrix();
+
+  // Sun/Moon
+  if ((h&amp;gt;17) || (h&amp;lt;7)) {
+    fill (255, 255, 255);     //turns sun to moon.
+  } else {
+    fill (249, 250, 87);
+  }
+
+  noStroke();
+  pushMatrix();
+  if ((h==8) || (h==20)) {
+    translate (x+w*3, y-h1*2);
+  }
+  if ((h==9) || (h==21)) {
+    translate (x+w*5, y-h1*4);
+  }
+  if ((h==10) || (h==22)) {
+    translate (x+w*7, y-h1*6);
+  }
+  if ((h==11) || (h==23)) {
+    translate (x+w*9, y-h1*8);
+  }
+  if ((h==12) || (h==0)) {
+    translate (x+w*12, y-h1*9);
+  }
+  if ((h==13) || (h==1)) {
+    translate (x+w*15, y-h1*8);
+  }
+  if ((h==14) || (h==2)) {
+    translate (x+w*17, y-h1*6);
+  }
+  if ((h==15) || (h==3)) {
+    translate (x+w*19, y-h1*4);
+  }
+  if ((h==16) || (h==4)) {
+    translate (x+w*21, y-h1*2);
+  }
+  if ((h==17) || (h==5)) {
+    translate (x+w*22, y-h1*1);
+  }
+  if ((h==18) || (h==6)) {
+    translate (x+w*23, y+0);
+  }
+  ellipse (x, y+h1*12, 350, 350);
+  popMatrix();
+
+  storedMinute = minute;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;&lt;em&gt;Summary&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;As I mentioned, this assignment was difficult. The amount of trigonometry required made my brain steam a bit. Drawing some things out was very helpful.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/XeYpWAU.jpg?2&quot; alt=&quot;Imgur&quot; /&gt;
+&lt;img src=&quot;https://i.imgur.com/70iReuz.jpg?2&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;With some help from my professor, I learned how to use sin &amp;amp; cos, how to use radians, and how to map time to radians. Being able to directly apply the math to something visual helps me learn it much faster than how it was abstractly taught in school.&lt;/p&gt;
+
+&lt;p&gt;Some additions to the clock, I would like to use a greater color range in the clock fill and add some more elements to the background. But for now I am very happy with a clock that works and does what I want.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://github.com/wasgunnabut/ShopClock&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</content><author><name></name></author><category term="Shop" /><category term="Clock" /><category term="Creative" /><category term="Coding" /><category term="Processing" /><summary type="html">Creative Coding: Shop Clock The latest assignment in my Critical Making class was to use Processing to create a clock for our studio room. We were tasked to be creative and think outside the clock. We just needed to represent time in a visual way. I chose to simulate the sun and moon moving across the sky with each hour. This was difficult for me and in the end I kind of cheated. But the result is the same.</summary></entry><entry><title type="html">Totally Fab: Rick &amp;amp; Morty Art</title><link href="http://localhost:4000/Totally-Fab-Rick-&-Morty-Art/" rel="alternate" type="text/html" title="Totally Fab: Rick &amp; Morty Art" /><published>2017-11-03T01:08:00-06:00</published><updated>2017-11-03T01:08:00-06:00</updated><id>http://localhost:4000/Totally-Fab:-Rick-&amp;-Morty-Art</id><content type="html" xml:base="http://localhost:4000/Totally-Fab-Rick-&amp;-Morty-Art/">&lt;h1 id=&quot;totally-fab-rick--morty-art&quot;&gt;&lt;strong&gt;Totally Fab: Rick &amp;amp; Morty Art&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;h1 id=&quot;my-inspiration&quot;&gt;&lt;strong&gt;My Inspiration&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;If you have never seen &lt;a href=&quot;http://www.adultswim.com/videos/rick-and-morty/&quot;&gt;Rick &amp;amp; Morty&lt;/a&gt; and you like adult, animated comedies I highly recommend this show for you. In a nutshell, it is the adventures of Morty, a 14 year old boy who is not the brightest bulb, and Rick, his super genius grandfather. Through their adventures they deal with some fairly existential issues. In Season 1, Episode 8 “Rixty Minutes” Morty’s sister, Summer, has something of an existential crisis and what Morty says to her has always resonated with me.&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/E_qvy82U4RE&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;em&gt;Nobody exists on purpose.&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;Nobody belongs anywhere.&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;Everyone is going to die.&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;&lt;em&gt;Come watch TV.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This quote has resonated with me. It reminds me to not sweat the things I cannot control or will never know. It keeps me grounded in what I can control and helps to keep me sane when things seem overwhelming.&lt;/p&gt;
+
+&lt;p&gt;I have wanted to create some art out of it for a while but it is not until this class that I had the knowledge or skills to make it reality.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;the-process&quot;&gt;&lt;em&gt;The Process&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;I wanted to create an 17x11 wood piece. The quote and Morty engraved against a black night sky with stars. Until now, I had not idea how to engrave and painting was the only way I knew to get the background.&lt;/p&gt;
+
+&lt;p&gt;Now, however, I have access to a laser cutter and a vinyl cutter. With these two tools and a bit of paint, I was able to bring it to life.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Step 1: Design&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Before any cutting laser or otherwise can take place I needed to complete my design. I found a great pic of Morty to trace…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/Aqb5G5Z.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Used File&amp;gt;Place to place the image into Illustrator, positioned correctly, locked that layer and created a new layer for tracing. A little time with the pen tool and some shapes and boom…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/USk6Kiz.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now to color him. I used another image of Morty to create some new color swatches then used the live paint tool to turn my traced Morty into a live paint group. A few seconds later I had a nicely colored Morty.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/oGMACuw.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Next I created the text. It took a while before I landed on a font and color. I had no idea what would look good so it was a series of guess &amp;amp; check. Eventually I landed on Savoye LET Plain:1.0, a nice curvy font. I found a nice green that matched the Rick &amp;amp; Morty title green and…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/WOPwFQo.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Next step was to create the stars. Each star had to be a small circle that the vinyl cutter could cut out. I needed them to be random and everywhere. To do this I created a new scatter brush and set the settings to random. I created a black rectangle and started to brush. The result was perfect.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/WT7SHXM.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The large blank spot is where Morty will be. But it all together and the final design looked pretty good.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/MYlc968.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;vinyl-cutting&quot;&gt;&lt;em&gt;Vinyl Cutting&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;This was the simplest part of the project. I needed to cut out each star, the text and Morty himself. We have the Roland GS-24 so I used the Illustrator plugin &lt;a href=&quot;http://startup.rolanddg.com&quot;&gt;Roland Cut Studio&lt;/a&gt; so send the lines over to the Vinyl Cutter.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/o0Z7ql2.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The entire process did not take long and when it was done I had to slowly and meticulously remove each star out of the design with a razor blade. Eventually, I had all the cuts removed and was all done with this portion.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/241285130&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/241285130&quot;&gt;Vinyl Cut: Round 1&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;laser-cutting&quot;&gt;&lt;em&gt;Laser Cutting&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;The next step was to start the laser cutting. This was the coolest, and surprisingly the easiest, part of the project. I went to &lt;a href=&quot;https://boulderlibrary.org/bldg61/&quot;&gt;BLDG61&lt;/a&gt; at the &lt;a href=&quot;https://boulderlibrary.org&quot;&gt;Boulder Public Library&lt;/a&gt;. The staff there is incredibly helpful and knowledgable and they were an invaluable help to me in this project.&lt;/p&gt;
+
+&lt;p&gt;The laser cutter uses Illustrator strokes to know where to cut. A stroke of .082 will cut all the way through. Any other stroke will engrave. The file sent to the laser cutter needs to be just strokes as any fill could be misinterpreted as a bunch of little strokes. Here is the file I gave to the printer. The strokes for the text was set to 1 and Morty was set to 5. The person at BLDG61 suggested I make the artboard a little bigger then create a rectangle around the border to cut out the perfect 17X11 size. That stroke was set to the .082 to cut all the way through.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/hDg3Tdl.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following process was super fun to watch and the final output was perfect. BLDG61 had a wonderful piece of birch for me to use for a paltry $2.50. We loaded it into the cutter and pushed go.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/241284265&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/241284265&quot;&gt;Laser Cutting Rick &amp;amp; Morty Art&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;painting&quot;&gt;&lt;em&gt;Painting&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;I have never been super artsy but with a little help from friends and the internet I was ready to dive into the world of paint. I bought only the basics, acrylic paint in black, white, red, blue and yellow, some brushes and a pallet.&lt;/p&gt;
+
+&lt;p&gt;It took a lot of practice and googling to get the right colors for Morty and the text and overall, it came out a shade or two darker than I and intended but all in all, not bad for my first foray into painting.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/cp6v1dL.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Next I needed to paint the background the different primary colors &amp;amp; white for the stars.&lt;br /&gt;
+I drew a grid in light pencil on the wood and began to fill in each small square with red, blue, white, or yellow. It took a while but eventually, I had it all ready to apply the vinyl.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/M3b90I1.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;applying-the-vinyl&quot;&gt;&lt;em&gt;Applying the Vinyl&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;This…did not go super well. In my frustration, I forgot to take pictures but the letters were so delicate that they tore and warped in the process of applying them to the wood.&lt;/p&gt;
+
+&lt;p&gt;On the bright side, the starts looked great. And I believe I have a simple solution to this problem. Instead of cutting out the letters individually, I will just create a cutout around all the text and then paint the rest in with black. Here is the new file I will use with Roland Cut Studio.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/Tk4LegQ.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;update-111217&quot;&gt;*Update 11/12/17**&lt;/h2&gt;
+&lt;p&gt;The new vinyl cut worked great but did require quite a bit of painting.&lt;/p&gt;
+
+&lt;p&gt;After some advice from a friend, I also decided to repaint the letters white. It took a while to repaint the letters and paint all the black aroudn those letters.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/32IPAnD.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;But in the end, it turned out pretty well!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/8LUdZGV.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I already have a couple people asking me for something similar so I’m very excited for that.&lt;/p&gt;</content><author><name></name></author><category term="Vinyl" /><category term="Cutting" /><category term="Laser" /><category term="Rick" /><category term="Morty" /><category term="Art" /><summary type="html">Totally Fab: Rick &amp;amp; Morty Art</summary></entry><entry><title type="html">Finding Form: Parametric Maze</title><link href="http://localhost:4000/Finding-Form-Parametric-Maze/" rel="alternate" type="text/html" title="Finding Form: Parametric Maze" /><published>2017-10-25T01:08:00-06:00</published><updated>2017-10-25T01:08:00-06:00</updated><id>http://localhost:4000/Finding%20Form:%20Parametric%20Maze</id><content type="html" xml:base="http://localhost:4000/Finding-Form-Parametric-Maze/">&lt;h1 id=&quot;finding-form-parametric-maze&quot;&gt;&lt;strong&gt;Finding Form: Parametric Maze&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;For this assignment I struggled for a while on what to make. The power offered in parametric programs like &lt;a href=&quot;https://www.autodesk.com/products/fusion-360/overview&quot;&gt;Fusion 360&lt;/a&gt; or &lt;a href=&quot;https://www.rhino3d.com&quot;&gt;Rhino5&lt;/a&gt; and &lt;a href=&quot;http://www.grasshopper3d.com&quot;&gt;Grasshopper&lt;/a&gt; is incredible and to be honest, I was a bit daunted by it. After some google image searching and scouring for tutorials on YouTube I landed on making a maze like design.&lt;/p&gt;
+
+&lt;p&gt;The tutorial I found (video below) had no sound and no explanation of what they were doing at all, it was purely visual so there was a lot of pausing and backing up to catch every step. Additionally, they were using a different version of Grasshopper and used a command that I did not have. This required some work arounds.&lt;/p&gt;
+
+&lt;p&gt;Despite these limitations, the tutorial was very helpful and I learned a lot, especially around the workflow in Grasshopper.&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/H44jwH3h6TQ?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;midpoint-command&quot;&gt;&lt;em&gt;MidPoint Command&lt;/em&gt;&lt;/h1&gt;
+&lt;p&gt;I did not capture the actual construction of the maze as it took me a very long time so I will just go over the small part I had to work around.&lt;/p&gt;
+
+&lt;p&gt;This is the command I did not have. You input a curve and it exports that curve’s midpoint.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/fqxPD7p.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After some searching, I found a forum that offered a work-around.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/y4FUgYw.png?1&quot; alt=&quot;Workaournd&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Basically, I used the Evaluate Curve command and used a panel to feed .5 to the t value on the Evaluate Curve which tells it to look at the  middle of the curve and report back that point. This worked perfectly.&lt;/p&gt;
+
+&lt;p&gt;Here is a zoomed out image of the final Grasshopper file.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/HKOyo1y.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;final-output&quot;&gt;&lt;em&gt;Final Output&lt;/em&gt;&lt;/h1&gt;
+&lt;p&gt;The final output in Rhino turned out very well and I was able to modify the sliders enough to get three different versions.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/239897378&quot; width=&quot;500&quot; height=&quot;276&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/239897378&quot;&gt;Finding Form - Parametric Maze&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;next-steps&quot;&gt;&lt;em&gt;Next Steps&lt;/em&gt;&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add supports&lt;/li&gt;
+  &lt;li&gt;Print design&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="3D" /><category term="Parametric" /><category term="Rhino5" /><category term="Grasshopper" /><category term="Printing" /><summary type="html">Finding Form: Parametric Maze For this assignment I struggled for a while on what to make. The power offered in parametric programs like Fusion 360 or Rhino5 and Grasshopper is incredible and to be honest, I was a bit daunted by it. After some google image searching and scouring for tutorials on YouTube I landed on making a maze like design.</summary></entry><entry><title type="html">Bits to Atoms: Soap Dish</title><link href="http://localhost:4000/Bits-to-Atoms-Soap-Dish/" rel="alternate" type="text/html" title="Bits to Atoms: Soap Dish" /><published>2017-10-16T01:08:00-06:00</published><updated>2017-10-16T01:08:00-06:00</updated><id>http://localhost:4000/Bits-to-Atoms:-Soap-Dish</id><content type="html" xml:base="http://localhost:4000/Bits-to-Atoms-Soap-Dish/">&lt;h1 id=&quot;bits-to-atoms-soap-dish&quot;&gt;&lt;strong&gt;Bits to Atoms: Soap Dish&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;Our first 3D printing assignment in Critical Making. We could create anything we wanted as long as it was not larger than 4”x4”x4”.&lt;/p&gt;
+
+&lt;p&gt;I am almost out of hand soap in my bathroom and would like to switch to bar soap (it’s cheaper) so I need a soap dish. Perfect thing to 3D print.&lt;/p&gt;
+
+&lt;p&gt;I wanted to design it from scratch in Rhino so that I could learn to use Rhino and learn I did. As you will see, it will take a couple attempts to get it right.&lt;/p&gt;
+
+&lt;h2 id=&quot;version-1&quot;&gt;&lt;em&gt;Version 1&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;So for my first attempt I started with a blank Rhino file using the template for a small object in mm. It took a few tries and some googling to get there.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238502750&quot; width=&quot;500&quot; height=&quot;283&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238502750&quot;&gt;Soap Dish-FIrst Attempt&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The file looked good in &lt;a href=&quot;http://www.meshlab.net&quot;&gt;MeshLab&lt;/a&gt; and in &lt;a href=&quot;https://ultimaker.com/en/products/cura-software&quot;&gt;Cura&lt;/a&gt;. I exported into .gcode and initiated the 14hr &amp;amp; 41 minute print.&lt;/p&gt;
+
+&lt;p&gt;Upon my return something looked off. There was a block of material on the top that I didn’t think should exist. I snatched it and brought it home.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238504743&quot; width=&quot;500&quot; height=&quot;889&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238504743&quot;&gt;Soap Dish-Final Output&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I started to peel the support material off and the dissolve the rest.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238505820&quot; width=&quot;500&quot; height=&quot;889&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238505820&quot;&gt;Removing Support Material&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This was the end result later that night…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/TWrym4r.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/N5cTOwd.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It was not exactly what I envisioned. Something in my design was off. But, maybe I could salvage this one? There was a bunch of material inside that was falling apart. If I could take that out…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/bf7Z72E.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That…did not work.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/hSvbEAe.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It ended up tearing the top of the dish right off. I would need to redesign but I needed to figure out what I did wrong first. I think it has something to do with the holes and the extrusion of the upper walls.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;version-2&quot;&gt;&lt;em&gt;Version 2&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;This time around I made a couple different moves in the design of my model.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I extruded the curves, rather than the surface.&lt;/li&gt;
+  &lt;li&gt;I merged the extruded surfaces with the rest of the model.&lt;/li&gt;
+  &lt;li&gt;I shortened the holes to just enough to be through the top.&lt;/li&gt;
+  &lt;li&gt;Gave the surfaces thickness.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238537396&quot; width=&quot;500&quot; height=&quot;285&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238537396&quot;&gt;Soap Dish-V2&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I took this redesign to class with me and realized it would still not work. As you can see at the very end of the video, when I put the model in Cura, it still created this strange solid on the top instead of the upper walls with a fillet to the top surface. It took a lot of experimentation, including what turned out to be an unnecessary redesign again.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;version-3&quot;&gt;&lt;em&gt;Version 3&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;I did not make a video for this attempt as it would be very very long. Hours of messing with the model and a complete redesign where I used the Boolean functions to separate
+a face from a solid then move that face down. This did not make a difference.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/5nX3hno.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see from the Cura layer view there was still a rectangular solid on the top of
+the model where the upper walls should be.&lt;/p&gt;
+
+&lt;p&gt;I was out of ideas. I decided to just start deleting elements then seeing if that would work. This was where I found my solution, and as luck would have it, the first thing I tried deleting was the solution. It was the filleted sides &amp;amp; holes.&lt;/p&gt;
+
+&lt;p&gt;As soon as they were deleted the model seemed to work in Cura.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/MQaLLTa.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The mysterious solid appeared to be gone and the walls clearly visible.
+The next step will be to print.&lt;/p&gt;
+
+&lt;h3 id=&quot;i-will-update-after-printing-of-v3&quot;&gt;&lt;strong&gt;&lt;em&gt;I will update after printing of V3&lt;/em&gt;&lt;/strong&gt;&lt;/h3&gt;</content><author><name></name></author><category term="3D" /><category term="Print" /><category term="Cura" /><category term="Rhino" /><category term="Meshlab" /><summary type="html">Bits to Atoms: Soap Dish Our first 3D printing assignment in Critical Making. We could create anything we wanted as long as it was not larger than 4”x4”x4”.</summary></entry><entry><title type="html">EeonTex Pressure Fabric and Servo Motor</title><link href="http://localhost:4000/EeonTex-Pressure-Fabric-and-Servo-Motor/" rel="alternate" type="text/html" title="EeonTex Pressure Fabric and Servo Motor" /><published>2017-10-12T01:08:00-06:00</published><updated>2017-10-12T01:08:00-06:00</updated><id>http://localhost:4000/EeonTex-Pressure-Fabric-and-Servo-Motor</id><content type="html" xml:base="http://localhost:4000/EeonTex-Pressure-Fabric-and-Servo-Motor/">&lt;h1 id=&quot;eeontex-pressure-fabric-and-servo-motor&quot;&gt;&lt;strong&gt;EeonTex Pressure Fabric and Servo Motor&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;Learning how to use the EeonTex Pressure Fabric was a significant challenge for me. I am relatively new to the world of electronics and this fabric is a very new piece of technology so there is very little documentation or tutorials online. I was able to use a variety of documentation for standard pressure sensors to cobble together a working circuit and code.&lt;/p&gt;
+
+&lt;p&gt;My ultimate goal would be to use the fabric to control the behavior of a servo motor. The purpose is to find the best way to create behavior for my &lt;a href=&quot;http://jimmurphy.studio/Smarter-Cat-Toy/&quot;&gt;Smart Cat Toy&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;lighting-an-led&quot;&gt;&lt;em&gt;Lighting an LED&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;As I mentioned, this was a big struggle for me. The fabric is not like any other sensor and there was not a lot of examples using the fabric online.&lt;/p&gt;
+
+&lt;p&gt;My first success came when I was able to simply light up an LED by simply completing the circuit with the fabric. The harder I pressed the brighter the LED.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238166863&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238166863&quot;&gt;LightingOneLED&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Watching this work I realized that the fabric just acts as a resistor. The harder I squeeze, the less resistance and the more current.&lt;/p&gt;
+
+&lt;p&gt;I was still stumped on the next step. How do I go from a simple circuit that requires no code to controlling the behavior of a servo motor with different pressures.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;analogreadserial&quot;&gt;&lt;em&gt;AnalogReadSerial&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;I consulted my professor and he suggested that I try to dial in the different values in the Serial Monitor so that I would know what values to use when programming for the motor. He recommended I just use the AnalogReadSerial sketch that comes in the Examples in the &lt;a href=&quot;https://www.arduino.cc/en/Main/Software&quot;&gt;Arduino IDE&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/PFKuGYl.png?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Using this I should be able to see the analog values, 0-1023, that corresponds to the pressure applied to the fabric.&lt;/p&gt;
+
+&lt;p&gt;Here is the circuit I set up for this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/3nGaE6s.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I wasn’t sure how to interpret the readings as they seemed to be up and down. At first I tried just full contact or no contact, trying to see which was 1023 and which was 0.&lt;/p&gt;
+
+&lt;p&gt;Then I tried putting the fabric between the two pennies to see what pressure correlated to which analog value on the serial monitor. The results were difficult to dial in.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238167920&quot; width=&quot;500&quot; height=&quot;207&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238167920&quot;&gt;Analog Serial Read EeonTex Fabric&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Success…sort of. It is clear when there is full contact (1023) and no contact (0). Then I placed the fabric between the pennies to test the different pressures and different values. The fabric is very sensitive and with just my fingers and a couple pennies I could not be delicate enough to get distinct readings but good enough to move on.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;lighting-two-leds&quot;&gt;&lt;em&gt;Lighting Two LEDs&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;While the readings from the serial monitor were a bit erratic, I was able to discern two distinct readings; greater than 1000 and less than 1000. The new problem was the code.&lt;/p&gt;
+
+&lt;p&gt;As there was no code written specifically for the fabric, I had to start with code that was written for a more standard pressure sensor &lt;a href=&quot;https://www.sparkfun.com/products/11207&quot;&gt;like this&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After a lot of googling I found a piece of code that got me started.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;http://www.instructables.com&quot;&gt;Instructables.com&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;They have been an amazing resource for me in this project. In this instance I found an instrucable labeled &lt;a href=&quot;http://www.instructables.com/id/LED-Pressure-Game/&quot;&gt;LED Pressure Game Arduino&lt;/a&gt;. Not only did it have step by step instructions for the circuit with a nice diagram with the code ready to copy and paste but it broke down the code piece by piece explaining what it did. This allowed me to modify their code to suit my needs.&lt;/p&gt;
+
+&lt;p&gt;I examined their code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const int yellow1 = 10;
+const int yellow2 = 9;
+const int green1 = 6;
+const int green2 = 5;
+const int blue = 3;
+const int FSR = 0; // FSR connected to analog pin 0
+int level = 0; // variable for the level of force applied to the FSR
+void setup() // run once to setup
+{
+pinMode (red, OUTPUT); // LED set as output
+pinMode (yellow1, OUTPUT);
+pinMode (yellow2, OUTPUT);
+pinMode (green1, OUTPUT);
+pinMode (green2, OUTPUT);
+pinMode (blue, OUTPUT);
+}
+void loop() // repeated routine
+{
+int level = analogRead(FSR);
+//next, light up the LEDS according to pressure
+if (level &amp;lt;200) {
+analogWrite (red, level);
+}
+if (level &amp;gt;200) {
+analogWrite (yellow1, level);
+}
+if (level &amp;gt;400) {
+analogWrite (yellow2, level);
+}
+if (level &amp;gt;600 ) {
+analogWrite (green1, level);
+}
+if (level &amp;gt;700) {
+analogWrite (green2, level);
+}
+if (level &amp;gt;800) {
+analogWrite (blue, level);
+}
+//Next tell it to turn off all lights if level = 0
+if(level == 0) {
+digitalWrite (red, LOW);
+digitalWrite (yellow1, LOW);
+digitalWrite (yellow2 ,LOW);
+digitalWrite (green1, LOW);
+digitalWrite (green2, LOW);
+digitalWrite (blue, LOW);
+}
+//tell it to flash LEDS if pressure is greater than 800
+if (level &amp;gt; 800) {
+digitalWrite (red, HIGH);
+digitalWrite (yellow1, HIGH);
+digitalWrite (yellow2 ,HIGH);
+digitalWrite (green1, HIGH);
+digitalWrite (green2, HIGH);
+digitalWrite (blue, HIGH);
+delay(100);
+digitalWrite (red, LOW);
+digitalWrite (yellow1, LOW);
+digitalWrite (yellow2 ,LOW);
+digitalWrite (green1, LOW);
+digitalWrite (green2, LOW);
+digitalWrite (blue, LOW);
+delay(100);
+}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;It was just a matter of whittling it down to just what I needed and modifying some of the variables. When I was done, my code ended up looking like this;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const int green = 13;
+const int white = 12;
+const int Fabric = 0;
+int level = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode (green, OUTPUT);
+  pinMode (white, OUTPUT);
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int level = analogRead(Fabric);
+  Serial.println(level);
+  delay(1000);
+
+if (level &amp;gt;1000)
+  {
+    analogWrite (green, level);
+    digitalWrite (white, LOW);
+  }
+if (level &amp;lt;1000)
+  {
+    analogWrite (white, level);
+    digitalWrite (green, LOW);
+  }
+
+  if(level == 0)
+  {
+    digitalWrite (green, LOW);
+    digitalWrite (white, LOW);
+  }
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This did the trick.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/wasgunnabut/ArduinoCode/blob/master/PressureCode/PressureCode1.ino&quot;&gt;Github Link to code&lt;/a&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238168268&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238168268&quot;&gt;Green &amp;amp; White LEDs by Pressure&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now I was ready to start experimenting with the servo motor.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;using-the-servo-motor&quot;&gt;&lt;em&gt;Using the Servo Motor&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;So, based on my code above and the information and code I found on &lt;a href=&quot;https://www.arduino.cc/en/reference/servo&quot;&gt;Arduino’s site&lt;/a&gt;, and another great &lt;a href=&quot;http://www.instructables.com/id/Arduino-Servo-Motors/&quot;&gt;Instructables page&lt;/a&gt; respectively, I cobbled together this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;Servo.h&amp;gt;;
+int servoPin = 12;
+Servo Servo1;
+const int Fabric = 0;
+int level = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  Servo1.attach(servoPin);
+  Serial.begin(2000000);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int level = analogRead(Fabric);
+  Serial.println(level);
+  delay(1000);
+
+if (level &amp;gt;1000)
+  {
+    Servo1.write(90);
+  }
+if (level &amp;lt;1000)
+  {
+    Servo1.write(180);
+  }
+
+  if(level == 0)
+  {
+    Servo1.write(0);
+  }
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/wasgunnabut/ArduinoCode/blob/master/PressureServo/PressureServo.ino&quot;&gt;Github Link to code&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;So I hooked up the motor to my existing pressure circuit but realized I did not need the bread board so to reduce noise, everything went directly into the Uno.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/C8dALCz.jpg?1&quot; alt=&quot;Imgur&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;plugged everything into the computer and held my breath.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/238169004&quot; width=&quot;500&quot; height=&quot;203&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;https://vimeo.com/238169004&quot;&gt;Servo Motor with EeonTex Fabric&lt;/a&gt; from &lt;a href=&quot;https://vimeo.com/wasgunnabut324&quot;&gt;Jim Murphy&lt;/a&gt; on &lt;a href=&quot;https://vimeo.com&quot;&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So…I think it seems to be working? As of now I do not know why the serial monitor seems to stop working after a few cycles.&lt;/p&gt;
+
+&lt;p&gt;One suggestion I found online recommended increasing the baud rate, which is why mine is set to two million rather than the standard 9600. This helped get a few more cycles but it stills stopped working.&lt;/p&gt;
+
+&lt;p&gt;Another suggested the power required by the servo was overloading the board. I tried loading the program to the board and running it off a 9V battery but it did not yield different results.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;next-steps&quot;&gt;&lt;em&gt;Next Steps&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;So for now I’m pretty stumped. I don’t know why the serial monitor stops, nor am I certain how to get more than two levels of pressure and how to make them stable enough with the fabric. However, I do have some places to start for each problem.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Serial Monitor&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Better Equipment: While unlikely, it is possible that I have a faulty servo motor. To rectify this problem, I purchased a new one to ensure proper functionality.&lt;/li&gt;
+  &lt;li&gt;Ask My Prof: When all else fails…&lt;/li&gt;
+  &lt;li&gt;Maybe something wrong with my code?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Stable &amp;amp; More Pressure Levels&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Create my own button out of the fabric.&lt;/li&gt;
+  &lt;li&gt;Once again, an amazing &lt;a href=&quot;http://www.instructables.com/id/Flexible-Fabric-Pressure-Sensor/&quot;&gt;Instructable Page&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Try this with a different kind of pressure sensor.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.sparkfun.com/products/11207&quot;&gt;This one.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt; &amp;lt;/br&amp;gt;
+ &lt;strong&gt;I will continue to update this post as I explore each option and any new options.&lt;/strong&gt;&lt;/p&gt;</content><author><name></name></author><category term="Arduino" /><category term="EeonTex" /><category term="Pressure" /><category term="Fabric" /><category term="Servo" /><category term="Motor" /><summary type="html">EeonTex Pressure Fabric and Servo Motor Learning how to use the EeonTex Pressure Fabric was a significant challenge for me. I am relatively new to the world of electronics and this fabric is a very new piece of technology so there is very little documentation or tutorials online. I was able to use a variety of documentation for standard pressure sensors to cobble together a working circuit and code.</summary></entry></feed>
